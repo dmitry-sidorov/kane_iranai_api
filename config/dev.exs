@@ -2,8 +2,8 @@ import Config
 
 # Configure your database
 config :kane_iranai_api, KaneIranaiApi.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "kane_iranai_api",
+  password: "kane_iranai_api",
   hostname: "localhost",
   database: "kane_iranai_api_dev",
   stacktrace: true,
