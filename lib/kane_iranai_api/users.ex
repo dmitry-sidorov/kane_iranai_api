@@ -38,6 +38,22 @@ defmodule KaneIranaiApi.Users do
   def get_user!(id), do: Repo.get!(User, id)
 
   @doc """
+  Gets a single user.
+
+  Returns nil, if user doesn't exist
+
+  ## Examples
+
+      iex> get_user_by_email(test@email.com)
+      %User{}
+
+      iex> get_user_by_email(not_exists@email.com)
+      nil
+
+  """
+  def get_user_by_email(email), do: Repo.get_by(User, email: email)
+
+  @doc """
   Creates a user.
 
   ## Examples

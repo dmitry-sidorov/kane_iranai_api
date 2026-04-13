@@ -36,6 +36,10 @@ config :logger, :default_formatter,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+config :kane_iranai_api, KaneIranaiApiWeb.Auth.Guardian,
+    issuer: "kane_iranai_api",
+    secret_key: "3f8xSK18QR7n_0UM-BuSKgH404Sldgy-a0bQt_01h7ViAlgNB8bx0djD9m_Nr8q3"
+
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
