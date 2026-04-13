@@ -1,5 +1,6 @@
 defmodule KaneIranaiApiWeb.Router do
   use KaneIranaiApiWeb, :router
+  use PhoenixSwagger
 
   pipeline :api do
     plug :accepts, ["json"]
@@ -13,6 +14,19 @@ defmodule KaneIranaiApiWeb.Router do
   scope "/api", KaneIranaiApiWeb do
     pipe_through :api
     get "/" , DefaultController, :index
+  end
+
+  scope "/api/swagger" do
+    forward "/", PhoenixSwagger.Plug.SwaggerUI, otp_app: :kane_iranai_api, swagger_file: "swagger.json"
+  end
+
+  def swagger_info do
+    %{
+      info: %{
+        version: "#{Mix.Project.config()[:version]}",
+        title: "Kane Iranai API"
+      }
+    }
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

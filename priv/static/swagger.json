@@ -1,0 +1,10 @@
+{
+  "swagger": "2.0",
+  "paths": {},
+  "definitions": {},
+  "host": "localhost:4000",
+  "info": {
+    "title": "Kane Iranai API",
+    "version": "0.1.0"
+  }
+}

@@ -43,6 +43,14 @@ config :kane_iranai_api, KaneIranaiApiWeb.Auth.Guardian,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+config :kane_iranai_api, :phoenix_swagger,
+  swagger_files: %{
+    "priv/static/swagger.json" => [
+      router: KaneIranaiApiWeb.Router,     # phoenix routes will be converted to swagger paths
+      endpoint: KaneIranaiApiWeb.Endpoint  # (optional) endpoint config used to set host, port and https schemes.
+    ]
+  }
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
