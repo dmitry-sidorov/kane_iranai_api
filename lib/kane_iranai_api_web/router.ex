@@ -5,6 +5,11 @@ defmodule KaneIranaiApiWeb.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/", KaneIranaiApiWeb do
+    pipe_through :api
+    get "/" , RedirectController, :permanent_redirect
+  end
+
   scope "/api", KaneIranaiApiWeb do
     pipe_through :api
     get "/" , DefaultController, :index
