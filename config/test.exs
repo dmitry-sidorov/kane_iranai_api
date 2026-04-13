@@ -6,8 +6,8 @@ import Config
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
 config :kane_iranai_api, KaneIranaiApi.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "kane_iranai_api",
+  password: "kane_iranai_api",
   hostname: "localhost",
   database: "kane_iranai_api_test#{System.get_env("MIX_TEST_PARTITION")}",
   pool: Ecto.Adapters.SQL.Sandbox,
