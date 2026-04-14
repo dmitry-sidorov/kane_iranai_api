@@ -25,4 +25,12 @@ defmodule KaneIranaiApiWeb.UserJSON do
       last_name: user.last_name
     }
   end
+
+  def user_token(%{user: user, token: token}) do
+    %{
+      id: user.id,
+      email: user.email,
+      token: token
+    }
+  end
 end

@@ -12,10 +12,11 @@ defmodule KaneIranaiApiWeb.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    with {:ok, %User{} = user} <- Users.create_user(user_params) do
+    with {:ok, %User{} = user} <- Users.create_user(user_params),
+          {:ok, token, _claims} <- Guardian.encode_and_sign(user, :access) do
       conn
       |> put_status(:created)
-      |> render(:show, user: user)
+      |> render(:user_token, %{user: user, token: token})
     end
   end
 

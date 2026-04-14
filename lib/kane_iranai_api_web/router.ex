@@ -14,6 +14,7 @@ defmodule KaneIranaiApiWeb.Router do
   scope "/api", KaneIranaiApiWeb do
     pipe_through :api
     get "/" , DefaultController, :index
+    post "/users/create", UserController, :create
   end
 
   scope "/api/swagger" do
