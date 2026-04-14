@@ -12,7 +12,7 @@ defmodule KaneIranaiApiWeb.Auth.Guardian do
   end
 
   def resource_from_claims(%{"sub" => id}) do
-    case User.get_user!(id) do
+    case Users.get_user!(id) do
       nil -> {:error, :not_found}
       resource -> {:ok, resource}
     end

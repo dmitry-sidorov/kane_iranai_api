@@ -15,6 +15,10 @@ defmodule KaneIranaiApiWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :auth do
+    plug KaneIranaiApiWeb.Auth.Pipeline
+  end
+
   scope "/", KaneIranaiApiWeb do
     pipe_through :api
     get "/" , RedirectController, :permanent_redirect
@@ -25,6 +29,11 @@ defmodule KaneIranaiApiWeb.Router do
     get "/" , DefaultController, :index
     post "/users/create", UserController, :create
     post "/users/sign_in", UserController, :sign_in
+  end
+
+  scope "/api", KaneIranaiApiWeb do
+    pipe_through [:api, :auth]
+    get "/users/by_id/:id", UserController, :show
   end
 
   scope "/api/swagger" do
