@@ -1,6 +1,15 @@
 defmodule KaneIranaiApiWeb.Router do
   use KaneIranaiApiWeb, :router
   use PhoenixSwagger
+  use Plug.ErrorHandler
+
+  def handle_errors(conn, %{reason: %Phoenix.Router.NoRouteError{message: message}}) do
+    conn |> json(%{errors: message}) |> halt()
+  end
+
+  def handle_errors(conn, %{reason: %{message: message}}) do
+    conn |> json(%{errors: message}) |> halt()
+  end
 
   pipeline :api do
     plug :accepts, ["json"]
@@ -15,6 +24,7 @@ defmodule KaneIranaiApiWeb.Router do
     pipe_through :api
     get "/" , DefaultController, :index
     post "/users/create", UserController, :create
+    post "/users/sign_in", UserController, :sign_in
   end
 
   scope "/api/swagger" do

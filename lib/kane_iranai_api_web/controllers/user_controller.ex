@@ -3,6 +3,7 @@ defmodule KaneIranaiApiWeb.UserController do
 
   alias KaneIranaiApi.Users
   alias KaneIranaiApi.Users.User
+  alias KaneIranaiApiWeb.Auth.{ErrorResponse, Guardian}
 
   action_fallback KaneIranaiApiWeb.FallbackController
 
@@ -13,10 +14,17 @@ defmodule KaneIranaiApiWeb.UserController do
 
   def create(conn, %{"user" => user_params}) do
     with {:ok, %User{} = user} <- Users.create_user(user_params),
-          {:ok, token, _claims} <- Guardian.encode_and_sign(user, :access) do
+          {:ok, token, _claims} <- Guardian.encode_and_sign(user) do
       conn
       |> put_status(:created)
       |> render(:user_token, %{user: user, token: token})
+    end
+  end
+
+  def sign_in(conn, %{"email" => email, "password" => password}) do
+    case Guardian.authenticate(email, password) do
+      {:ok, user, token} -> conn |> put_status(:ok) |> render(:user_token, %{user: user, token: token})
+      {:error, :unathorized} -> raise ErrorResponse.Unathorized, message: "Email or password incorrect!"
     end
   end
 
