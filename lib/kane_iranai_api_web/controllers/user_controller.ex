@@ -23,14 +23,18 @@ defmodule KaneIranaiApiWeb.UserController do
 
   def sign_in(conn, %{"email" => email, "password" => password}) do
     case Guardian.authenticate(email, password) do
-      {:ok, user, token} -> conn |> put_status(:ok) |> render(:user_token, %{user: user, token: token})
+      {:ok, user, token} ->
+        conn
+        |> Plug.Conn.put_session(:user_id, user.id)
+        |> put_status(:ok)
+        |> render(:user_token, %{user: user, token: token})
       {:error, :unathorized} -> raise ErrorResponse.Unathorized, message: "Email or password incorrect!"
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    user = Users.get_user!(id)
-    render(conn, :show, user: user)
+  def show(conn, %{"id" => _id}) do
+    # user = Users.get_user!(id)
+    render(conn, :show, user: conn.assigns.user)
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do

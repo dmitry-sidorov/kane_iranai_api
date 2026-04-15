@@ -13,10 +13,12 @@ defmodule KaneIranaiApiWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
   end
 
   pipeline :auth do
     plug KaneIranaiApiWeb.Auth.Pipeline
+    plug KaneIranaiApiWeb.Auth.SetUser
   end
 
   scope "/", KaneIranaiApiWeb do
