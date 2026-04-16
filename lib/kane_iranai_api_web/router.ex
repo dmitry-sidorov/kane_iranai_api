@@ -36,6 +36,8 @@ defmodule KaneIranaiApiWeb.Router do
   scope "/api", KaneIranaiApiWeb do
     pipe_through [:api, :auth]
     get "/users/by_id/:id", UserController, :show
+    put "/users/update", UserController, :update
+    delete "/users/delete", UserController, :delete
   end
 
   scope "/api/swagger" do

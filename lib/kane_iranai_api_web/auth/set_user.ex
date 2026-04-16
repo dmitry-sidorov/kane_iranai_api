@@ -17,12 +17,10 @@ defmodule KaneIranaiApiWeb.Auth.SetUser do
         user = Users.get_user!(user_id)
         assign(conn, :user, user)
       rescue
-        e ->
-          IO.puts(e)
-          assign(conn, :user, nil)
+        _e -> raise ErrorResponse.Unathorized
       end
     else
       conn
     end
-  end 
+  end
 end

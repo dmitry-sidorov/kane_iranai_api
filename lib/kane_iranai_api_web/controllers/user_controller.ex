@@ -6,6 +6,19 @@ defmodule KaneIranaiApiWeb.UserController do
   alias KaneIranaiApiWeb.Auth.{ErrorResponse, Guardian}
 
   action_fallback KaneIranaiApiWeb.FallbackController
+  plug :is_authorized_user when action in [:show, :update, :delete]
+
+  defp is_authorized_user(conn, _opts) do
+    IO.puts("is_authorized_user")
+    %{params: %{"user" => user_params}} = conn
+
+    user = Users.get_user!(user_params["id"])
+
+    cond do
+      conn.assigns.user.id == user.id -> conn
+      true -> raise ErrorResponse.Forbidden
+    end
+  end
 
   def index(conn, _params) do
     users = Users.list_users()
@@ -32,21 +45,22 @@ defmodule KaneIranaiApiWeb.UserController do
     end
   end
 
-  def show(conn, %{"id" => _id}) do
-    # user = Users.get_user!(id)
-    render(conn, :show, user: conn.assigns.user)
+  def show(conn, %{"id" => id}) do
+    user = Users.get_user!(id)
+    render(conn, :show, user: user)
   end
 
-  def update(conn, %{"id" => id, "user" => user_params}) do
-    user = Users.get_user!(id)
+  def update(conn, %{"user" => user_params}) do
+    user = Users.get_user!(user_params["id"])
 
     with {:ok, %User{} = user} <- Users.update_user(user, user_params) do
       render(conn, :show, user: user)
     end
   end
 
-  def delete(conn, %{"id" => id}) do
-    user = Users.get_user!(id)
+  def delete(conn, %{"user" => user_params}) do
+    IO.puts("delete")
+    user = Users.get_user!(user_params["id"])
 
     with {:ok, %User{}} <- Users.delete_user(user) do
       send_resp(conn, :no_content, "")
