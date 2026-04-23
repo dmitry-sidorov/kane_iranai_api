@@ -45,6 +45,16 @@ defmodule KaneIranaiApiWeb.UserController do
     end
   end
 
+  def sign_out(conn, %{}) do
+    user = conn.assigns[:user]
+    token = Guardian.Plug.current_token(conn)
+    Guardian.revoke(token)
+    conn
+    |> Plug.Conn.clear_session()
+    |> put_status(:ok)
+    |> render("user_token.json", %{user: user, token: nil})
+  end
+
   def show(conn, %{"id" => id}) do
     user = Users.get_user!(id)
     render(conn, :show, user: user)
