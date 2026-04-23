@@ -43,6 +43,11 @@ config :kane_iranai_api, KaneIranaiApiWeb.Auth.Guardian,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+config :guardian, Guardian.DB,
+    repo: KaneIranaiApi.Repo,
+    schema_name: "guardian_tokens",
+    sweep_interval: 60 #60 min expiration
+
 config :kane_iranai_api, :phoenix_swagger,
   swagger_files: %{
     "priv/static/swagger.json" => [

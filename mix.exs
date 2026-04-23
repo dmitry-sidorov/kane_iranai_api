@@ -54,6 +54,7 @@ defmodule KaneIranaiApi.MixProject do
       {:dns_cluster, "~> 0.2.0"},
       {:bandit, "~> 1.5"},
       {:guardian, "~> 2.4"},
+      {:guardian_db, "~> 3.0"},
       {:bcrypt_elixir, "~> 3.3"},
       {:phoenix_swagger, "~> 0.8"},
       {:poison, "~> 6.0"},

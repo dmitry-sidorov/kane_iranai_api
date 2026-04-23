@@ -10,9 +10,9 @@ defmodule KaneIranaiApiWeb.UserController do
 
   defp is_authorized_user(conn, _opts) do
     IO.puts("is_authorized_user")
-    %{params: %{"user" => user_params}} = conn
+    %{params: %{"id" => id}} = conn
 
-    user = Users.get_user!(user_params["id"])
+    user = Users.get_user!(id)
 
     cond do
       conn.assigns.user.id == user.id -> conn
