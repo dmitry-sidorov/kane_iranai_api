@@ -26,15 +26,18 @@ defmodule KaneIranaiApiWeb.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    with {:ok, %User{} = user} <- Users.create_user(user_params),
-          {:ok, token, _claims} <- Guardian.encode_and_sign(user) do
-      conn
-      |> put_status(:created)
-      |> render(:user_token, %{user: user, token: token})
+    user_params |> dbg()
+    case Users.create_user(user_params) do
+      {:ok, %User{} = user} -> authorize_user(conn, user.email, user_params["hash_password"])
+      error -> error
     end
   end
 
   def sign_in(conn, %{"email" => email, "password" => password}) do
+    authorize_user(conn, email, password)
+  end
+
+  defp authorize_user(conn, email, password) do
     case Guardian.authenticate(email, password) do
       {:ok, user, token} ->
         conn
@@ -57,18 +60,13 @@ defmodule KaneIranaiApiWeb.UserController do
 
 
   def refresh_session(conn, %{}) do
-    old_token = Guardian.Plug.current_token(conn)
+    current_token = Guardian.Plug.current_token(conn)
+    {:ok, user, token} = Guardian.authenticate(current_token)
 
-    with {:ok, claims} <- Guardian.decode_and_verify(old_token),
-          {:ok, user} <- Guardian.resource_from_claims(claims) do
-            {:ok, _old, {new_token, _new_claims}} = Guardian.refresh(old_token)
-            conn
-            |> Plug.Conn.put_session(:user_id, user.id)
-            |> put_status(:ok)
-            |> render("user_token.json", %{user: user, token: new_token})
-    else
-      {:error, _reason} -> raise ErrorResponse.NotFound
-    end
+    conn
+    |> Plug.Conn.put_session(:user_id, user.id)
+    |> put_status(:ok)
+    |> render("user_token.json", %{user: user, token: token})
   end
 
   def show(conn, %{"id" => id}) do

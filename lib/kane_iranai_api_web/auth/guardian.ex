@@ -1,6 +1,7 @@
 defmodule KaneIranaiApiWeb.Auth.Guardian do
   use Guardian, otp_app: :kane_iranai_api
   alias KaneIranaiApi.Users
+  alias KaneIranaiApiWeb.Auth.ErrorResponse
 
   def subject_for_token(%{id: id}, _claims) do
     sub = to_string(id)
@@ -29,16 +30,34 @@ defmodule KaneIranaiApiWeb.Auth.Guardian do
     end
   end
 
+  def authenticate(token) do
+    with {:ok, claims} <- decode_and_verify(token),
+          {:ok, user} <- resource_from_claims(claims),
+          {:ok, _old, {new_token, _new_claims}} <- refresh(token) do
+            {:ok, user, new_token}
+    else
+      {:error, _reason} -> raise ErrorResponse.NotFound
+    end
+  end
+
   defp validate_password(user, password) do
     case Bcrypt.verify_pass(password, user.hash_password) do
-      true -> create_token(user)
+      true -> create_token(user, :access)
       false -> {:error, :unathorized}
     end
   end
 
-  defp create_token(user) do
-    {:ok, token, _claims} = encode_and_sign(user)
+  defp create_token(user, type) do
+    {:ok, token, _claims} = encode_and_sign(user, %{}, token_options(type))
     {:ok, user, token}
+  end
+
+  defp token_options(type) do
+    case type do
+      :access -> [token_type: "access", ttl: {2, :hour}]
+      :reset -> [token_type: "reset", ttl: {15, :minute}]
+      :admin -> [token_type: "admin", ttl: {90, :day}]
+    end
   end
 
   def after_encode_and_sign(resource, claims, token, _options) do
