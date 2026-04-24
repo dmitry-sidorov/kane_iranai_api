@@ -55,6 +55,27 @@ defmodule KaneIranaiApiWeb.UserController do
     |> render("user_token.json", %{user: user, token: nil})
   end
 
+
+  def refresh_session(conn, %{}) do
+    old_token = Guardian.Plug.current_token(conn)
+
+    case Guardian.decode_and_verify(old_token) do
+      {:ok, claims} ->
+        case Guardian.resource_from_claims(claims) do
+          {:ok, user} ->
+            {:ok, _old, {new_token, _new_claims}} = Guardian.refresh(old_token)
+            conn
+            |> Plug.Conn.put_session(:user_id, user.id)
+            |> put_status(:ok)
+            |> render("user_token.json", %{user: user, token: new_token})
+
+        {:error, _reason} -> raise ErrorResponse.NotFound
+        end
+
+      {:error, _reason} -> raise ErrorResponse.NotFound
+    end
+  end
+
   def show(conn, %{"id" => id}) do
     user = Users.get_user!(id)
     render(conn, :show, user: user)

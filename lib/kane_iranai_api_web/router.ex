@@ -37,6 +37,7 @@ defmodule KaneIranaiApiWeb.Router do
     pipe_through [:api, :auth]
     get "/users/by_id/:id", UserController, :show
     get "/users/sign_out", UserController, :sign_out
+    get "/users/refresh_session", UserController, :refresh_session
     put "/users/update", UserController, :update
     delete "/users/delete", UserController, :delete
   end
