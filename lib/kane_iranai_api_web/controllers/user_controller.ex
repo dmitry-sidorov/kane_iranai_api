@@ -1,5 +1,6 @@
 defmodule KaneIranaiApiWeb.UserController do
   use KaneIranaiApiWeb, :controller
+  import KaneIranaiApiWeb.Auth.AuthorizedPlug
 
   alias KaneIranaiApi.Users
   alias KaneIranaiApi.Users.User
@@ -7,18 +8,6 @@ defmodule KaneIranaiApiWeb.UserController do
 
   action_fallback KaneIranaiApiWeb.FallbackController
   plug :is_authorized_user when action in [:show, :update, :delete]
-
-  defp is_authorized_user(conn, _opts) do
-    IO.puts("is_authorized_user")
-    %{params: %{"id" => id}} = conn
-
-    user = Users.get_user!(id)
-
-    cond do
-      conn.assigns.user.id == user.id -> conn
-      true -> raise ErrorResponse.Forbidden
-    end
-  end
 
   def index(conn, _params) do
     users = Users.list_users()
