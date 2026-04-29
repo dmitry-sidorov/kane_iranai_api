@@ -63,11 +63,18 @@ defmodule KaneIranaiApiWeb.UserController do
     render(conn, :show, user: user)
   end
 
-  def update(conn, %{"user" => user_params}) do
-    user = Users.get_user!(user_params["id"])
+  def current_user(conn, %{}) do
+    conn
+    |> put_status(:ok)
+    |> render(:show, user: conn.assigns.user)
+  end
 
-    with {:ok, %User{} = user} <- Users.update_user(user, user_params) do
-      render(conn, :show, user: user)
+  def update(conn, %{"current_password" => current_password, "user" => user_params}) do
+    case Guardian.validate_password(conn.assigns.user, current_password) do
+      true ->
+        {:ok, %User{} = user} = Users.update_user(conn.assigns.user, user_params)
+        render(conn, :show, user: user)
+      false -> raise ErrorResponse.Unathorized, message: "Password incorrect"
     end
   end
 

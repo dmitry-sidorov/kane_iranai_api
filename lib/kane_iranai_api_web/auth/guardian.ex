@@ -26,7 +26,7 @@ defmodule KaneIranaiApiWeb.Auth.Guardian do
   def authenticate(email, password) do
     case Users.get_user_by_email(email) do
       nil -> {:error, :unathorized}
-      user -> validate_password(user, password)
+      user -> create_token(user, password, :access)
     end
   end
 
@@ -40,16 +40,15 @@ defmodule KaneIranaiApiWeb.Auth.Guardian do
     end
   end
 
-  defp validate_password(user, password) do
-    case Bcrypt.verify_pass(password, user.hash_password) do
-      true -> create_token(user, :access)
-      false -> {:error, :unathorized}
-    end
+  def validate_password(user, raw_password) do
+    Bcrypt.verify_pass(raw_password, user.hash_password)
   end
 
-  defp create_token(user, type) do
-    {:ok, token, _claims} = encode_and_sign(user, %{}, token_options(type))
-    {:ok, user, token}
+  defp create_token(user, password, type) do
+    case validate_password(user, password) do
+      true -> with {:ok, token, _claims} <- encode_and_sign(user, %{}, token_options(type)), do: {:ok, user, token}
+      false -> {:error, :unathorized}
+    end
   end
 
   defp token_options(type) do
