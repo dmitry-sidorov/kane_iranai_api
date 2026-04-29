@@ -69,6 +69,7 @@ defmodule KaneIranaiApiWeb.UserController do
     |> render(:show, user: conn.assigns.user)
   end
 
+  # TODO: fix update endpoint
   def update(conn, %{"current_password" => current_password, "user" => user_params}) do
     case Guardian.validate_password(conn.assigns.user, current_password) do
       true ->
