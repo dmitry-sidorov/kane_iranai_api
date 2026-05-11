@@ -69,6 +69,7 @@ defmodule KaneIranaiApi.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
+      seed: ["run priv/repo/seeds.exs"],
       setup: ["deps.get", "ecto.setup"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
