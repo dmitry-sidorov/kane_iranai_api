@@ -58,6 +58,7 @@ defmodule KaneIranaiApi.MixProject do
       {:bcrypt_elixir, "~> 3.3"},
       {:phoenix_swagger, "~> 0.8"},
       {:poison, "~> 6.0"},
+      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
     ]
   end
 
