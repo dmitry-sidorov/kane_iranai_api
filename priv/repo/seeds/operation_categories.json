@@ -1,0 +1,16 @@
+[
+  { "title": "Rent", "purpose": "primary" },
+  { "title": "Groceries", "purpose": "secondary" },
+  { "title": "Restaurant", "purpose": "secondary" },
+  { "title": "Car", "purpose": "secondary" },
+  { "title": "House maintenance", "purpose": "primary" },
+  { "title": "Health", "purpose": "primary" },
+  { "title": "Entertainment", "purpose": "secondary" },
+  { "title": "Education", "purpose": "primary" },
+  { "title": "Pets", "purpose": "primary" },
+  { "title": "Clothes", "purpose": "secondary" },
+  { "title": "Other", "purpose": "secondary" },
+  { "title": "Household goods ", "purpose": "secondary" },
+  { "title": "Sports", "purpose": "primary" },
+  { "title": "Charity", "purpose": "secondary" }
+]
