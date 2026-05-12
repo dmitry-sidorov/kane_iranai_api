@@ -2,6 +2,9 @@ defmodule KaneIranaiApi.OperationCategories.OperationCategory do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias KaneIranaiApi.Users.User
+  alias KaneIranaiApi.OperationCategoriesAssets.OperationCategoryAsset
+
   @operation_category_type_enum [:public, :private]
   @operation_category_purpose_enum [:primary, :secondary]
 
@@ -11,6 +14,7 @@ defmodule KaneIranaiApi.OperationCategories.OperationCategory do
     field :title, :string
     field :purpose, Ecto.Enum, values: @operation_category_purpose_enum
     field :type, Ecto.Enum, values: @operation_category_type_enum
+    has_many :users, User, join_through: OperationCategoryAsset
 
     timestamps(type: :utc_datetime)
   end

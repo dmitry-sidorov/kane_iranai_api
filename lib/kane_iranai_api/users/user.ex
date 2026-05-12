@@ -2,6 +2,9 @@ defmodule KaneIranaiApi.Users.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias KaneIranaiApi.OperationCategories.OperationCategory
+  alias KaneIranaiApi.OperationCategoriesAssets.OperationCategoryAsset
+
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "users" do
@@ -10,6 +13,7 @@ defmodule KaneIranaiApi.Users.User do
     field :username, :string
     field :first_name, :string
     field :last_name, :string
+    has_many :operation_categories, OperationCategory, join_through: OperationCategoryAsset
 
     timestamps(type: :utc_datetime)
   end
