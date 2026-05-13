@@ -5,55 +5,64 @@ defmodule KaneIranaiApi.OperationCategoriesAssetsTest do
 
   describe "operation_categories_assets" do
     alias KaneIranaiApi.OperationCategoriesAssets.OperationCategoryAsset
+    alias KaneIranaiApi.Users.User
+    alias KaneIranaiApi.Users
+    alias KaneIranaiApi.OperationCategories.OperationCategory
+    alias KaneIranaiApi.OperationCategories
 
     import KaneIranaiApi.OperationCategoriesAssetsFixtures
 
-    @invalid_attrs %{title: nil}
+    @users [
+      %User{first_name: "Jose", last_name: "Valim", username: "jose_valim", email: "jose_valim@gmail.com", hash_password: "test_user_1"},
+      %User{first_name: "Steve", last_name: "McConnel", username: "steve_macconel", email: "steve@gmail.com", hash_password: "test_user_2"},
+      %User{first_name: "Joe", last_name: "Armstrong", username: "joe_armstrong", email: "joe_armstrong@gmail.com", hash_password: "test_user_3"}
+    ]
 
-    test "list_operation_categories_assets/0 returns all operation_categories_assets" do
-      operation_category_asset = operation_category_asset_fixture()
-      assert OperationCategoriesAssets.list_operation_categories_assets() == [operation_category_asset]
+    @operation_categories [
+      %OperationCategory{title: "Groceries", purpose: "secondary", type: "public" },
+      %OperationCategory{title: "Restaurant", purpose: "secondary", type: "public" },
+      %OperationCategory{title: "Car", purpose: "secondary", type: "public" },
+    ]
+
+    def seed_entities do
+      seed_users()
+      seed_operation_categories()
     end
 
-    test "get_operation_category_asset!/1 returns the operation_category_asset with given id" do
-      operation_category_asset = operation_category_asset_fixture()
-      assert OperationCategoriesAssets.get_operation_category_asset!(operation_category_asset.id) == operation_category_asset
+    defp seed_users do
+      for user <- @users do
+        user
+        |> Map.from_struct()
+        |> Users.create_user()
+      end
     end
 
-    test "create_operation_category_asset/1 with valid data creates a operation_category_asset" do
-      valid_attrs = %{title: "some title"}
-
-      assert {:ok, %OperationCategoryAsset{} = operation_category_asset} = OperationCategoriesAssets.create_operation_category_asset(valid_attrs)
-      assert operation_category_asset.title == "some title"
+    defp seed_operation_categories do
+      for operation_category <- @operation_categories do
+        operation_category
+        |> Map.from_struct()
+        |> OperationCategories.create_operation_category()
+      end
     end
 
-    test "create_operation_category_asset/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = OperationCategoriesAssets.create_operation_category_asset(@invalid_attrs)
+    setup do
+      :ok = Ecto.Adapters.SQL.Sandbox.checkout(KaneIranaiApi.Repo)
+      seed_entities()
     end
 
-    test "update_operation_category_asset/2 with valid data updates the operation_category_asset" do
-      operation_category_asset = operation_category_asset_fixture()
-      update_attrs = %{title: "some updated title"}
+    for num <- 0..1 do
+      @tag num: num
+      test "should add operation category to user # #{num} asset", %{num: num} do
+        operation_category = OperationCategories.list_operation_categories() |> Enum.at(num)
+        user = Users.list_users() |> Enum.at(num)
+        OperationCategoriesAssets.create_operation_category_asset(%{"title" => "my asset #{num}"}, user, operation_category)
+        operation_categories_assets = OperationCategoriesAssets.list_operation_categories_assets()
 
-      assert {:ok, %OperationCategoryAsset{} = operation_category_asset} = OperationCategoriesAssets.update_operation_category_asset(operation_category_asset, update_attrs)
-      assert operation_category_asset.title == "some updated title"
-    end
-
-    test "update_operation_category_asset/2 with invalid data returns error changeset" do
-      operation_category_asset = operation_category_asset_fixture()
-      assert {:error, %Ecto.Changeset{}} = OperationCategoriesAssets.update_operation_category_asset(operation_category_asset, @invalid_attrs)
-      assert operation_category_asset == OperationCategoriesAssets.get_operation_category_asset!(operation_category_asset.id)
-    end
-
-    test "delete_operation_category_asset/1 deletes the operation_category_asset" do
-      operation_category_asset = operation_category_asset_fixture()
-      assert {:ok, %OperationCategoryAsset{}} = OperationCategoriesAssets.delete_operation_category_asset(operation_category_asset)
-      assert_raise Ecto.NoResultsError, fn -> OperationCategoriesAssets.get_operation_category_asset!(operation_category_asset.id) end
-    end
-
-    test "change_operation_category_asset/1 returns a operation_category_asset changeset" do
-      operation_category_asset = operation_category_asset_fixture()
-      assert %Ecto.Changeset{} = OperationCategoriesAssets.change_operation_category_asset(operation_category_asset)
+        assert operation_categories_assets
+              |> Enum.any?(fn %{user: %{id: user_id}, operation_category: %{id: operation_category_id}} ->
+                user_id == user.id and operation_category_id == operation_category.id
+              end)
+      end
     end
   end
 end

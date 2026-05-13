@@ -14,7 +14,7 @@ defmodule KaneIranaiApi.OperationCategories.OperationCategory do
     field :title, :string
     field :purpose, Ecto.Enum, values: @operation_category_purpose_enum
     field :type, Ecto.Enum, values: @operation_category_type_enum
-    has_many :users, User, join_through: OperationCategoryAsset
+    many_to_many :users, User, join_through: OperationCategoryAsset
 
     timestamps(type: :utc_datetime)
   end

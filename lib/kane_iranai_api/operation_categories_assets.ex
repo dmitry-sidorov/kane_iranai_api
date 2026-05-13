@@ -7,6 +7,8 @@ defmodule KaneIranaiApi.OperationCategoriesAssets do
   alias KaneIranaiApi.Repo
 
   alias KaneIranaiApi.OperationCategoriesAssets.OperationCategoryAsset
+  alias KaneIranaiApi.Users.User
+  alias KaneIranaiApi.OperationCategories.OperationCategory
 
   @doc """
   Returns the list of operation_categories_assets.
@@ -18,7 +20,9 @@ defmodule KaneIranaiApi.OperationCategoriesAssets do
 
   """
   def list_operation_categories_assets do
-    Repo.all(OperationCategoryAsset)
+    OperationCategoryAsset
+    |> Repo.all()
+    |> Repo.preload([:user, :operation_category])
   end
 
   @doc """
@@ -49,10 +53,15 @@ defmodule KaneIranaiApi.OperationCategoriesAssets do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_operation_category_asset(attrs) do
+  def create_operation_category_asset(attrs, %User{} = user, %OperationCategory{} = operation_category) do
     %OperationCategoryAsset{}
     |> OperationCategoryAsset.changeset(attrs)
-    |> Repo.insert()
+    |> Repo.preload([:users, :operation_categories])
+    |> Ecto.Changeset.change()
+    |> Ecto.Changeset.put_assoc(:users, [user])
+    |> Repo.update()
+    |> Ecto.Changeset.put_assoc(:operation_categories, [operation_category])
+    |> Repo.update()
   end
 
   @doc """

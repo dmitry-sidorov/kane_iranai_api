@@ -13,7 +13,7 @@ defmodule KaneIranaiApi.Users.User do
     field :username, :string
     field :first_name, :string
     field :last_name, :string
-    has_many :operation_categories, OperationCategory, join_through: OperationCategoryAsset
+    many_to_many :operation_categories, OperationCategory, join_through: OperationCategoryAsset
 
     timestamps(type: :utc_datetime)
   end
