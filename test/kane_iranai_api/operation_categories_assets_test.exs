@@ -48,7 +48,7 @@ defmodule KaneIranaiApi.OperationCategoriesAssetsTest do
       seed_entities()
     end
 
-    for num <- 0..1 do
+    for num <- 0..2 do
       @tag num: num
       test "should add operation category to user # #{num} asset", %{num: num} do
         operation_category = OperationCategories.list_operation_categories() |> Enum.at(num)
