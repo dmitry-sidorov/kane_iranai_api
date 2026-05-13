@@ -10,8 +10,6 @@ defmodule KaneIranaiApi.OperationCategoriesAssetsTest do
     alias KaneIranaiApi.OperationCategories.OperationCategory
     alias KaneIranaiApi.OperationCategories
 
-    import KaneIranaiApi.OperationCategoriesAssetsFixtures
-
     @users [
       %User{first_name: "Jose", last_name: "Valim", username: "jose_valim", email: "jose_valim@gmail.com", hash_password: "test_user_1"},
       %User{first_name: "Steve", last_name: "McConnel", username: "steve_macconel", email: "steve@gmail.com", hash_password: "test_user_2"},

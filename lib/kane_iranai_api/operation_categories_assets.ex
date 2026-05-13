@@ -42,26 +42,23 @@ defmodule KaneIranaiApi.OperationCategoriesAssets do
   def get_operation_category_asset!(id), do: Repo.get!(OperationCategoryAsset, id)
 
   @doc """
-  Creates a operation_category_asset.
+  Creates an operation_category_asset and associates it with the given user and operation category.
 
   ## Examples
 
-      iex> create_operation_category_asset(%{field: value})
+      iex> create_operation_category_asset(%{title: "Cash"}, user, operation_category)
       {:ok, %OperationCategoryAsset{}}
 
-      iex> create_operation_category_asset(%{field: bad_value})
+      iex> create_operation_category_asset(%{title: nil}, user, operation_category)
       {:error, %Ecto.Changeset{}}
 
   """
   def create_operation_category_asset(attrs, %User{} = user, %OperationCategory{} = operation_category) do
     %OperationCategoryAsset{}
     |> OperationCategoryAsset.changeset(attrs)
-    |> Repo.preload([:users, :operation_categories])
-    |> Ecto.Changeset.change()
-    |> Ecto.Changeset.put_assoc(:users, [user])
-    |> Repo.update()
-    |> Ecto.Changeset.put_assoc(:operation_categories, [operation_category])
-    |> Repo.update()
+    |> Ecto.Changeset.put_assoc(:user, user)
+    |> Ecto.Changeset.put_assoc(:operation_category, operation_category)
+    |> Repo.insert()
   end
 
   @doc """
