@@ -4,6 +4,7 @@ defmodule KaneIranaiApi.OperationCategoriesAssets do
   """
 
   import Ecto.Query, warn: false
+  alias KaneIranaiApi.OperationCategories
   alias KaneIranaiApi.Repo
 
   alias KaneIranaiApi.OperationCategoriesAssets.OperationCategoryAsset
@@ -59,6 +60,31 @@ defmodule KaneIranaiApi.OperationCategoriesAssets do
     |> Ecto.Changeset.put_assoc(:user, user)
     |> Ecto.Changeset.put_assoc(:operation_category, operation_category)
     |> Repo.insert()
+  end
+
+  @doc """
+  Creates public_operation_category_assets and associates it with the given user and public operation categories.
+
+  ## Examples
+
+      iex> create_operation_category_asset(user)
+      {:ok, [%OperationCategoryAsset{}]}
+
+      iex> create_operation_category_asset(user)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_public_operation_categories_assets(%User{} = user) do
+    public_operation_categories = OperationCategories.list_operation_categories()
+      |> Enum.filter(fn (operation_category) -> operation_category.type == "public" end)
+
+    result = public_operation_categories |> Enum.reduce(fn (operation_category, result) ->
+      {:ok, created_category_asset} = create_operation_category_asset(%{title: nil}, user, operation_category)
+
+      [created_category_asset | result]
+    end, [])
+
+    {:ok, Enum.reverse(result)}
   end
 
   @doc """
