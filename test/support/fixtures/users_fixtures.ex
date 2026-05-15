@@ -1,4 +1,6 @@
 defmodule KaneIranaiApi.UsersFixtures do
+  alias KaneIranaiApi.Users.User
+
   @moduledoc """
   This module defines test helpers for creating
   entities via the `KaneIranaiApi.Users` context.
@@ -25,5 +27,13 @@ defmodule KaneIranaiApi.UsersFixtures do
       |> KaneIranaiApi.Users.create_user()
 
     user
+  end
+
+  def get_mock_users do
+    [
+      %User{first_name: "Jose", last_name: "Valim", username: "jose_valim", email: "jose_valim@gmail.com", hash_password: "test_user_1"},
+      %User{first_name: "Steve", last_name: "McConnel", username: "steve_macconel", email: "steve@gmail.com", hash_password: "test_user_2"},
+      %User{first_name: "Joe", last_name: "Armstrong", username: "joe_armstrong", email: "joe_armstrong@gmail.com", hash_password: "test_user_3"}
+    ]
   end
 end

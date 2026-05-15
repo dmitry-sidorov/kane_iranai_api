@@ -2,25 +2,12 @@ defmodule KaneIranaiApi.OperationCategoriesAssetsTest do
   use KaneIranaiApi.DataCase
 
   alias KaneIranaiApi.OperationCategoriesAssets
+  import KaneIranaiApi.UsersFixtures
+  import KaneIranaiApi.OperationCategoriesFixtures
 
   describe "operation_categories_assets" do
-    alias KaneIranaiApi.OperationCategoriesAssets.OperationCategoryAsset
-    alias KaneIranaiApi.Users.User
     alias KaneIranaiApi.Users
-    alias KaneIranaiApi.OperationCategories.OperationCategory
     alias KaneIranaiApi.OperationCategories
-
-    @users [
-      %User{first_name: "Jose", last_name: "Valim", username: "jose_valim", email: "jose_valim@gmail.com", hash_password: "test_user_1"},
-      %User{first_name: "Steve", last_name: "McConnel", username: "steve_macconel", email: "steve@gmail.com", hash_password: "test_user_2"},
-      %User{first_name: "Joe", last_name: "Armstrong", username: "joe_armstrong", email: "joe_armstrong@gmail.com", hash_password: "test_user_3"}
-    ]
-
-    @operation_categories [
-      %OperationCategory{title: "Groceries", purpose: "secondary", type: "public" },
-      %OperationCategory{title: "Restaurant", purpose: "secondary", type: "public" },
-      %OperationCategory{title: "Car", purpose: "secondary", type: "public" },
-    ]
 
     def seed_entities do
       seed_users()
@@ -28,7 +15,7 @@ defmodule KaneIranaiApi.OperationCategoriesAssetsTest do
     end
 
     defp seed_users do
-      for user <- @users do
+      for user <- get_mock_users() do
         user
         |> Map.from_struct()
         |> Users.create_user()
@@ -36,7 +23,7 @@ defmodule KaneIranaiApi.OperationCategoriesAssetsTest do
     end
 
     defp seed_operation_categories do
-      for operation_category <- @operation_categories do
+      for operation_category <- get_mock_operation_categories() do
         operation_category
         |> Map.from_struct()
         |> OperationCategories.create_operation_category()
