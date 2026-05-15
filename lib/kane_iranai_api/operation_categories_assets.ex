@@ -84,15 +84,23 @@ defmodule KaneIranaiApi.OperationCategoriesAssets do
 
   ## Examples
 
-      iex> delete_operation_category_asset(operation_category_asset)
+      iex> delete_operation_category_asset(operation_category_asset, user)
       {:ok, %OperationCategoryAsset{}}
 
-      iex> delete_operation_category_asset(operation_category_asset)
+      iex> delete_operation_category_asset(operation_category_asset,user)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_operation_category_asset(%OperationCategoryAsset{} = operation_category_asset) do
-    Repo.delete(operation_category_asset)
+  def delete_operation_category_asset(%OperationCategoryAsset{} = operation_category_asset, %User{} = user) do
+    {:ok, operation_category_asset} = Repo.delete(operation_category_asset)
+
+    %OperationCategoryAsset{operation_category: operation_category} = operation_category_asset
+
+    if user.id == operation_category_asset.user.id and operation_category.type == :private  do
+      Repo.delete(operation_category)
+    end
+
+    {:ok, operation_category_asset}
   end
 
   @doc """
