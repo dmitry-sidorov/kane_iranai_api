@@ -132,17 +132,4 @@ defmodule KaneIranaiApi.UserOperationCategories do
 
     {:ok, user_operation_category}
   end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking user_operation_category changes.
-
-  ## Examples
-
-      iex> change_user_operation_category(user_operation_category)
-      %Ecto.Changeset{data: %UserOperationCategory{}}
-
-  """
-  def change_user_operation_category(%UserOperationCategory{} = user_operation_category, attrs \\ %{}) do
-    UserOperationCategory.changeset(user_operation_category, attrs)
-  end
 end
