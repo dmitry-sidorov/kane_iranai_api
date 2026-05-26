@@ -15,7 +15,7 @@ defmodule KaneIranaiApi.UserOperationCategories.UserOperationCategory do
   end
 
   @doc false
-  def changeset(user_operation_category, attrs) do
+  def changeset(user_operation_category, attrs \\ %{}) do
     user_operation_category
     |> cast(attrs, [])
   end

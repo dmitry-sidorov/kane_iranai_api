@@ -4,6 +4,8 @@ defmodule KaneIranaiApiWeb.UserController do
 
   alias KaneIranaiApi.Users
   alias KaneIranaiApi.Users.User
+  alias KaneIranaiApi.OperationCategories
+  alias KaneIranaiApi.UserOperationCategories
   alias KaneIranaiApiWeb.Auth.{ErrorResponse, Guardian}
 
   action_fallback KaneIranaiApiWeb.FallbackController
@@ -17,7 +19,15 @@ defmodule KaneIranaiApiWeb.UserController do
   def create(conn, %{"user" => user_params}) do
     user_params |> dbg()
     case Users.create_user(user_params) do
-      {:ok, %User{} = user} -> authorize_user(conn, user.email, user_params["hash_password"])
+      {:ok, %User{} = user} ->
+        # UserOperationCategories.create_public_user_operation_categories(user)
+        public_categories = OperationCategories.list_operation_categories(:public)
+
+        for category <- public_categories do
+          UserOperationCategories.create_user_operation_category(user, category)
+        end
+
+        authorize_user(conn, user.email, user_params["hash_password"])
       error -> error
     end
   end

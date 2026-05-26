@@ -54,14 +54,15 @@ defmodule KaneIranaiApi.UserOperationCategories do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_user_operation_category(attrs, %User{} = user, %OperationCategory{} = operation_category) do
+  def create_user_operation_category(%User{} = user, %OperationCategory{} = operation_category) do
     %UserOperationCategory{}
-    |> UserOperationCategory.changeset(attrs)
+    |> UserOperationCategory.changeset()
     |> Ecto.Changeset.put_assoc(:user, user)
     |> Ecto.Changeset.put_assoc(:operation_category, operation_category)
     |> Repo.insert()
   end
 
+  @spec create_public_user_operation_categories(any()) :: none()
   @doc """
   Creates public user_operation_categories and associates them with the given user and public operation categories.
 
@@ -77,13 +78,13 @@ defmodule KaneIranaiApi.UserOperationCategories do
   def create_public_user_operation_categories(%User{} = user) do
     public_operation_categories =
       OperationCategories.list_operation_categories()
-      |> Enum.filter(fn operation_category -> operation_category.type == "public" end)
+      |> Enum.filter(fn operation_category -> operation_category.type == :public end)
 
     result =
       public_operation_categories
       |> Enum.reduce(fn operation_category, result ->
         {:ok, created_user_operation_category} =
-          create_user_operation_category(%{title: nil}, user, operation_category)
+          create_user_operation_category(user, operation_category)
 
         [created_user_operation_category | result]
       end, [])
@@ -91,23 +92,6 @@ defmodule KaneIranaiApi.UserOperationCategories do
     {:ok, Enum.reverse(result)}
   end
 
-  @doc """
-  Updates a user_operation_category.
-
-  ## Examples
-
-      iex> update_user_operation_category(user_operation_category, %{field: new_value})
-      {:ok, %UserOperationCategory{}}
-
-      iex> update_user_operation_category(user_operation_category, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_user_operation_category(%UserOperationCategory{} = user_operation_category, attrs) do
-    user_operation_category
-    |> UserOperationCategory.changeset(attrs)
-    |> Repo.update()
-  end
 
   @doc """
   Deletes a user_operation_category.

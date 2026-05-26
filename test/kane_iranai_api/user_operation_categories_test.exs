@@ -48,7 +48,7 @@ defmodule KaneIranaiApi.UserOperationCategoriesTest do
       test "should add operation category to user # #{num}", %{num: num} do
         operation_category = OperationCategories.list_operation_categories() |> Enum.at(num)
         user = Users.list_users() |> Enum.at(num)
-        UserOperationCategories.create_user_operation_category(%{}, user, operation_category)
+        UserOperationCategories.create_user_operation_category(user, operation_category)
         user_operation_categories = UserOperationCategories.list_user_operation_categories()
 
         assert user_operation_categories
@@ -62,7 +62,7 @@ defmodule KaneIranaiApi.UserOperationCategoriesTest do
       for num <- 0..2 do
         operation_category = OperationCategories.list_operation_categories() |> Enum.at(num)
         user = Users.list_users() |> Enum.at(num)
-        UserOperationCategories.create_user_operation_category(%{}, user, operation_category)
+        UserOperationCategories.create_user_operation_category(user, operation_category)
       end
 
       user_operation_categories = UserOperationCategories.list_user_operation_categories()
@@ -87,7 +87,7 @@ defmodule KaneIranaiApi.UserOperationCategoriesTest do
       for num <- 0..2 do
         operation_category = OperationCategories.list_operation_categories() |> Enum.at(num + 3)
         user = Users.list_users() |> Enum.at(num)
-        UserOperationCategories.create_user_operation_category(%{}, user, operation_category)
+        UserOperationCategories.create_user_operation_category(user, operation_category)
       end
 
       user_operation_categories = UserOperationCategories.list_user_operation_categories()
