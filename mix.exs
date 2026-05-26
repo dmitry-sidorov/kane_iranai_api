@@ -59,7 +59,8 @@ defmodule KaneIranaiApi.MixProject do
       {:phoenix_swagger, "~> 0.8"},
       {:poison, "~> 6.0"},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
-      {:ecto_enum_migration, "~> 0.4.0"}
+      {:ecto_enum_migration, "~> 0.4.0"},
+      {:stream_data, "~> 1.0", only: :test}
     ]
   end
 

@@ -21,14 +21,11 @@ defmodule KaneIranaiApi.UsersTest do
     end
 
     test "create_user/1 with valid data creates a user" do
-      valid_attrs = %{username: "some username", email: "some email", hash_password: "some hash_password", first_name: "some first_name", last_name: "some last_name"}
+      assert Users.list_users() |> Enum.count() == 0
+      user = user_fixture()
 
-      assert {:ok, %User{} = user} = Users.create_user(valid_attrs)
-      assert user.username == "some username"
-      assert user.email == "some email"
-      assert user.hash_password == "some hash_password"
-      assert user.first_name == "some first_name"
-      assert user.last_name == "some last_name"
+      created_user = Users.get_user!(user.id)
+      assert created_user == user
     end
 
     test "create_user/1 with invalid data returns error changeset" do
@@ -37,14 +34,15 @@ defmodule KaneIranaiApi.UsersTest do
 
     test "update_user/2 with valid data updates the user" do
       user = user_fixture()
-      update_attrs = %{username: "some updated username", email: "some updated email", hash_password: "some updated hash_password", first_name: "some updated first_name", last_name: "some updated last_name"}
+      # TODO: Add StreamData generator for user_attrs
+      update_attrs = %{username: "some updated username", email: "some@test.com", hash_password: "some updated hash_password", first_name: "some updated first_name", last_name: "some updated last_name"}
 
       assert {:ok, %User{} = user} = Users.update_user(user, update_attrs)
-      assert user.username == "some updated username"
-      assert user.email == "some updated email"
-      assert user.hash_password == "some updated hash_password"
-      assert user.first_name == "some updated first_name"
-      assert user.last_name == "some updated last_name"
+      assert user.username == update_attrs.username
+      assert user.email == update_attrs.email
+      assert Bcrypt.verify_pass(update_attrs.hash_password, user.hash_password)
+      assert user.first_name == update_attrs.first_name
+      assert user.last_name == update_attrs.last_name
     end
 
     test "update_user/2 with invalid data returns error changeset" do

@@ -1,5 +1,6 @@
 defmodule KaneIranaiApi.UsersFixtures do
   alias KaneIranaiApi.Users.User
+  require ExUnitProperties
 
   @moduledoc """
   This module defines test helpers for creating
@@ -11,6 +12,25 @@ defmodule KaneIranaiApi.UsersFixtures do
   """
   def unique_user_email, do: "some email#{System.unique_integer([:positive])}"
 
+  def unique_email do
+    domains = [
+      "gmail.com",
+      "hotmail.com",
+      "yahoo.com",
+    ]
+
+    email_generator =
+      ExUnitProperties.gen all name <- StreamData.string(:alphanumeric),
+                              name != "",
+                              domain <- StreamData.member_of(domains) do
+        name <> "@" <> domain
+      end
+
+    [email] = Enum.take(StreamData.resize(email_generator, 20), 1)
+
+    email
+  end
+
   @doc """
   Generate a user.
   """
@@ -18,7 +38,7 @@ defmodule KaneIranaiApi.UsersFixtures do
     {:ok, user} =
       attrs
       |> Enum.into(%{
-        email: unique_user_email(),
+        email: unique_email(),
         first_name: "some first_name",
         hash_password: "some hash_password",
         last_name: "some last_name",
