@@ -3,7 +3,7 @@ defmodule KaneIranaiApi.OperationCategories.OperationCategory do
   import Ecto.Changeset
 
   alias KaneIranaiApi.Users.User
-  alias KaneIranaiApi.OperationCategoriesAssets.OperationCategoryAsset
+  alias KaneIranaiApi.UserOperationCategories.UserOperationCategory
 
   @operation_category_type_enum [:public, :private]
   @operation_category_purpose_enum [:primary, :secondary]
@@ -14,7 +14,7 @@ defmodule KaneIranaiApi.OperationCategories.OperationCategory do
     field :title, :string
     field :purpose, Ecto.Enum, values: @operation_category_purpose_enum
     field :type, Ecto.Enum, values: @operation_category_type_enum
-    many_to_many :users, User, join_through: OperationCategoryAsset
+    many_to_many :users, User, join_through: UserOperationCategory
 
     timestamps(type: :utc_datetime)
   end

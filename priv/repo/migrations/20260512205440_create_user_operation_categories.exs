@@ -1,8 +1,8 @@
-defmodule KaneIranaiApi.Repo.Migrations.CreateOperationCategoriesAssets do
+defmodule KaneIranaiApi.Repo.Migrations.CreateUserOperationCategories do
   use Ecto.Migration
 
   def change do
-    create table(:operation_categories_assets, primary_key: false) do
+    create table(:user_operation_categories, primary_key: false) do
       add :id, :binary_id, primary_key: true
       add :title, :string
       add :user_id, references(:users, on_delete: :nothing, type: :binary_id)
@@ -11,7 +11,7 @@ defmodule KaneIranaiApi.Repo.Migrations.CreateOperationCategoriesAssets do
       timestamps(type: :utc_datetime)
     end
 
-    create index(:operation_categories_assets, [:user_id])
-    create index(:operation_categories_assets, [:operation_category_id])
+    create index(:user_operation_categories, [:user_id])
+    create index(:user_operation_categories, [:operation_category_id])
   end
 end

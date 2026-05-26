@@ -1,4 +1,4 @@
-defmodule KaneIranaiApi.OperationCategoriesAssets.OperationCategoryAsset do
+defmodule KaneIranaiApi.UserOperationCategories.UserOperationCategory do
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -7,7 +7,7 @@ defmodule KaneIranaiApi.OperationCategoriesAssets.OperationCategoryAsset do
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
-  schema "operation_categories_assets" do
+  schema "user_operation_categories" do
     field :title, :string
     belongs_to :user, User
     belongs_to :operation_category, OperationCategory
@@ -16,8 +16,8 @@ defmodule KaneIranaiApi.OperationCategoriesAssets.OperationCategoryAsset do
   end
 
   @doc false
-  def changeset(operation_category_asset, attrs) do
-    operation_category_asset
+  def changeset(user_operation_category, attrs) do
+    user_operation_category
     |> cast(attrs, [:title])
     |> validate_required([:title])
   end

@@ -1,13 +1,13 @@
-defmodule KaneIranaiApi.OperationCategoriesAssetsTest do
+defmodule KaneIranaiApi.UserOperationCategoriesTest do
   use KaneIranaiApi.DataCase
 
-  alias KaneIranaiApi.OperationCategoriesAssets
+  alias KaneIranaiApi.UserOperationCategories
   alias KaneIranaiApi.Users
   alias KaneIranaiApi.OperationCategories
   import KaneIranaiApi.UsersFixtures
   import KaneIranaiApi.OperationCategoriesFixtures
 
-  describe "operation_categories_assets" do
+  describe "user_operation_categories" do
     def seed_entities do
       seed_users()
       seed_operation_categories()
@@ -45,64 +45,64 @@ defmodule KaneIranaiApi.OperationCategoriesAssetsTest do
 
     for num <- 0..2 do
       @tag num: num
-      test "should add operation category to user # #{num} asset", %{num: num} do
+      test "should add operation category to user # #{num}", %{num: num} do
         operation_category = OperationCategories.list_operation_categories() |> Enum.at(num)
         user = Users.list_users() |> Enum.at(num)
-        OperationCategoriesAssets.create_operation_category_asset(%{"title" => "my asset #{num}"}, user, operation_category)
-        operation_categories_assets = OperationCategoriesAssets.list_operation_categories_assets()
+        UserOperationCategories.create_user_operation_category(%{"title" => "my category #{num}"}, user, operation_category)
+        user_operation_categories = UserOperationCategories.list_user_operation_categories()
 
-        assert operation_categories_assets
-              |> Enum.any?(fn %{user: %{id: user_id}, operation_category: %{id: operation_category_id}} ->
-                user_id == user.id and operation_category_id == operation_category.id
-              end)
+        assert user_operation_categories
+               |> Enum.any?(fn %{user: %{id: user_id}, operation_category: %{id: operation_category_id}} ->
+                 user_id == user.id and operation_category_id == operation_category.id
+               end)
       end
     end
 
-    test "should delete user's common operation categories asset without deleting common categories" do
+    test "should delete user's common operation categories without deleting common categories" do
       for num <- 0..2 do
         operation_category = OperationCategories.list_operation_categories() |> Enum.at(num)
         user = Users.list_users() |> Enum.at(num)
-        OperationCategoriesAssets.create_operation_category_asset(%{"title" => "my asset #{num}"}, user, operation_category)
+        UserOperationCategories.create_user_operation_category(%{"title" => "my category #{num}"}, user, operation_category)
       end
 
-      operation_categories_assets = OperationCategoriesAssets.list_operation_categories_assets()
+      user_operation_categories = UserOperationCategories.list_user_operation_categories()
       operation_categories = OperationCategories.list_operation_categories()
 
-      assert operation_categories_assets |> Enum.count() == 3
+      assert user_operation_categories |> Enum.count() == 3
       assert operation_categories |> Enum.count() == 3
 
       for num <- 0..2 do
-        operation_category_asset = operation_categories_assets |> Enum.at(num)
+        user_operation_category = user_operation_categories |> Enum.at(num)
         user = Users.list_users() |> Enum.at(num)
-        OperationCategoriesAssets.delete_operation_category_asset(operation_category_asset, user)
+        UserOperationCategories.delete_user_operation_category(user_operation_category, user)
       end
 
-      assert OperationCategoriesAssets.list_operation_categories_assets() |> Enum.count() == 0
+      assert UserOperationCategories.list_user_operation_categories() |> Enum.count() == 0
       assert OperationCategories.list_operation_categories() |> Enum.count() == 3
     end
 
-    test "should delete user's common operation categories asset with user's custom categories" do
+    test "should delete user's operation categories with user's custom categories" do
       seed_private_operation_categories()
 
       for num <- 0..2 do
         operation_category = OperationCategories.list_operation_categories() |> Enum.at(num + 3)
         user = Users.list_users() |> Enum.at(num)
-        OperationCategoriesAssets.create_operation_category_asset(%{"title" => "my asset #{num}"}, user, operation_category)
+        UserOperationCategories.create_user_operation_category(%{"title" => "my category #{num}"}, user, operation_category)
       end
 
-      operation_categories_assets = OperationCategoriesAssets.list_operation_categories_assets()
+      user_operation_categories = UserOperationCategories.list_user_operation_categories()
       operation_categories = OperationCategories.list_operation_categories()
 
-      assert operation_categories_assets |> Enum.count() == 3
+      assert user_operation_categories |> Enum.count() == 3
       assert operation_categories |> Enum.count() == 6
 
       for num <- 0..2 do
-        operation_category_asset = operation_categories_assets |> Enum.at(num)
+        user_operation_category = user_operation_categories |> Enum.at(num)
         user = Users.list_users() |> Enum.at(num)
-        OperationCategoriesAssets.delete_operation_category_asset(operation_category_asset, user)
+        UserOperationCategories.delete_user_operation_category(user_operation_category, user)
       end
 
-      assert OperationCategoriesAssets.list_operation_categories_assets() |> Enum.count() == 0
+      assert UserOperationCategories.list_user_operation_categories() |> Enum.count() == 0
       assert OperationCategories.list_operation_categories() |> Enum.count() == 3
     end
   end

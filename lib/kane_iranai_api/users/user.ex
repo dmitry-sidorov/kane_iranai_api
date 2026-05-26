@@ -3,7 +3,7 @@ defmodule KaneIranaiApi.Users.User do
   import Ecto.Changeset
 
   alias KaneIranaiApi.OperationCategories.OperationCategory
-  alias KaneIranaiApi.OperationCategoriesAssets.OperationCategoryAsset
+  alias KaneIranaiApi.UserOperationCategories.UserOperationCategory
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
@@ -13,7 +13,7 @@ defmodule KaneIranaiApi.Users.User do
     field :username, :string
     field :first_name, :string
     field :last_name, :string
-    many_to_many :operation_categories, OperationCategory, join_through: OperationCategoryAsset
+    many_to_many :operation_categories, OperationCategory, join_through: UserOperationCategory
 
     timestamps(type: :utc_datetime)
   end
