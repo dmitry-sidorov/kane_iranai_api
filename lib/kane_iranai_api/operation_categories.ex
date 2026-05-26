@@ -21,6 +21,19 @@ defmodule KaneIranaiApi.OperationCategories do
     Repo.all(OperationCategory)
   end
 
+  def list_operation_categories(:public = type) do
+    list_operation_categories_filtered_by_type(type)
+  end
+
+  def list_operation_categories(:private = type) do
+    list_operation_categories_filtered_by_type(type)
+  end
+
+  defp list_operation_categories_filtered_by_type(type) do
+    Repo.all(OperationCategory)
+    |> Enum.filter(fn category -> category.type == type end)
+  end
+
   @doc """
   Gets a single operation_category.
 
