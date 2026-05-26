@@ -4,7 +4,6 @@ defmodule KaneIranaiApi.UserOperationCategories do
   """
 
   import Ecto.Query, warn: false
-  alias KaneIranaiApi.OperationCategories
   alias KaneIranaiApi.Repo
 
   alias KaneIranaiApi.UserOperationCategories.UserOperationCategory
@@ -60,36 +59,6 @@ defmodule KaneIranaiApi.UserOperationCategories do
     |> Ecto.Changeset.put_assoc(:user, user)
     |> Ecto.Changeset.put_assoc(:operation_category, operation_category)
     |> Repo.insert()
-  end
-
-  @spec create_public_user_operation_categories(any()) :: none()
-  @doc """
-  Creates public user_operation_categories and associates them with the given user and public operation categories.
-
-  ## Examples
-
-      iex> create_public_user_operation_categories(user)
-      {:ok, [%UserOperationCategory{}]}
-
-      iex> create_public_user_operation_categories(user)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def create_public_user_operation_categories(%User{} = user) do
-    public_operation_categories =
-      OperationCategories.list_operation_categories()
-      |> Enum.filter(fn operation_category -> operation_category.type == :public end)
-
-    result =
-      public_operation_categories
-      |> Enum.reduce(fn operation_category, result ->
-        {:ok, created_user_operation_category} =
-          create_user_operation_category(user, operation_category)
-
-        [created_user_operation_category | result]
-      end, [])
-
-    {:ok, Enum.reverse(result)}
   end
 
 

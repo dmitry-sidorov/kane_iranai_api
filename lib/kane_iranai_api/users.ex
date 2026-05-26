@@ -7,6 +7,8 @@ defmodule KaneIranaiApi.Users do
   alias KaneIranaiApi.Repo
 
   alias KaneIranaiApi.Users.User
+  alias KaneIranaiApi.OperationCategories
+  alias KaneIranaiApi.UserOperationCategories
 
   @doc """
   Returns the list of users.
@@ -69,6 +71,18 @@ defmodule KaneIranaiApi.Users do
     %User{}
     |> User.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def create_user(attrs, :with_categories) do
+    Repo.transact(fn ->
+      {:ok, user} = create_user(attrs)
+
+      for category <- OperationCategories.list_operation_categories(:public) do
+        UserOperationCategories.create_user_operation_category(user, category)
+      end
+
+      {:ok, user}
+    end)
   end
 
   @doc """
