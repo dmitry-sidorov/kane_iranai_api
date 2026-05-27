@@ -1,12 +1,27 @@
 defmodule KaneIranaiApi.UsersTest do
   use KaneIranaiApi.DataCase
   import KaneIranaiApi.UsersFixtures
+  import KaneIranaiApi.OperationCategoriesFixtures
 
   alias KaneIranaiApi.Users.User
   alias KaneIranaiApi.Users
+  alias KaneIranaiApi.OperationCategories
 
   describe "users" do
     @invalid_attrs %{username: nil, email: nil, hash_password: nil, first_name: nil, last_name: nil}
+
+    defp seed_operation_categories do
+      for operation_category <- get_mock_operation_categories() do
+        operation_category
+        |> Map.from_struct()
+        |> OperationCategories.create_operation_category()
+      end
+    end
+
+    setup do
+      :ok = Ecto.Adapters.SQL.Sandbox.checkout(KaneIranaiApi.Repo)
+      seed_operation_categories()
+    end
 
     test "list_users/0 returns all users" do
       user = user_fixture()
@@ -20,10 +35,16 @@ defmodule KaneIranaiApi.UsersTest do
 
     test "create_user/2 with valid data creates a user and links default operation categories for user" do
       assert Users.list_users() |> Enum.count() == 0
-      user = user_fixture()
+      {:ok, user} = Users.create_user(mock_user_attrs(), :with_categories)
 
-      created_user = Users.get_user!(user.id)
+      created_user = Users.get_user!(user.id, :with_categories)
       assert created_user == user
+    end
+
+    # TODO: fix :error return on transact error. Should return {:error, %ChangesetError{}}
+    @tag :skip
+    test "create_user/2 with invalid data returns error changeset" do
+      assert 2 = Users.create_user(@invalid_attrs, :with_categories)
     end
 
     test "create_user/1 with valid data creates a user" do

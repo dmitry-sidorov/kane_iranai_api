@@ -40,6 +40,22 @@ defmodule KaneIranaiApi.Users do
   def get_user!(id), do: Repo.get!(User, id)
 
   @doc """
+  Gets a single user with loaded operation categories assoc.
+
+  Raises `Ecto.NoResultsError` if the User does not exist.
+
+  ## Examples
+
+      iex> get_user!(123)
+      %User{}
+
+      iex> get_user!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_user!(id, :with_categories), do: Repo.get!(User, id) |> Repo.preload([:operation_categories])
+
+  @doc """
   Gets a single user.
 
   Returns nil, if user doesn't exist
@@ -81,7 +97,7 @@ defmodule KaneIranaiApi.Users do
         UserOperationCategories.create_user_operation_category(user, category)
       end
 
-      {:ok, user}
+      {:ok, get_user!(user.id, :with_categories)}
     end)
   end
 
