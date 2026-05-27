@@ -1,13 +1,11 @@
 defmodule KaneIranaiApi.UsersTest do
   use KaneIranaiApi.DataCase
+  import KaneIranaiApi.UsersFixtures
 
+  alias KaneIranaiApi.Users.User
   alias KaneIranaiApi.Users
 
   describe "users" do
-    alias KaneIranaiApi.Users.User
-
-    import KaneIranaiApi.UsersFixtures
-
     @invalid_attrs %{username: nil, email: nil, hash_password: nil, first_name: nil, last_name: nil}
 
     test "list_users/0 returns all users" do
@@ -18,6 +16,14 @@ defmodule KaneIranaiApi.UsersTest do
     test "get_user!/1 returns the user with given id" do
       user = user_fixture()
       assert Users.get_user!(user.id) == user
+    end
+
+    test "create_user/2 with valid data creates a user and links default operation categories for user" do
+      assert Users.list_users() |> Enum.count() == 0
+      user = user_fixture()
+
+      created_user = Users.get_user!(user.id)
+      assert created_user == user
     end
 
     test "create_user/1 with valid data creates a user" do
@@ -34,8 +40,7 @@ defmodule KaneIranaiApi.UsersTest do
 
     test "update_user/2 with valid data updates the user" do
       user = user_fixture()
-      # TODO: Add StreamData generator for user_attrs
-      update_attrs = %{username: "some updated username", email: "some@test.com", hash_password: "some updated hash_password", first_name: "some updated first_name", last_name: "some updated last_name"}
+      update_attrs = mock_user_attrs()
 
       assert {:ok, %User{} = user} = Users.update_user(user, update_attrs)
       assert user.username == update_attrs.username
