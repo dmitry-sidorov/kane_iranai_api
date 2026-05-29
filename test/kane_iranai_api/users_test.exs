@@ -10,14 +10,6 @@ defmodule KaneIranaiApi.UsersTest do
   describe "users" do
     @invalid_attrs %{username: nil, email: nil, hash_password: nil, first_name: nil, last_name: nil}
 
-    defp seed_operation_categories do
-      for operation_category <- get_mock_operation_categories() do
-        operation_category
-        |> Map.from_struct()
-        |> OperationCategories.create_operation_category()
-      end
-    end
-
     setup do
       :ok = Ecto.Adapters.SQL.Sandbox.checkout(KaneIranaiApi.Repo)
       seed_operation_categories()
@@ -86,6 +78,16 @@ defmodule KaneIranaiApi.UsersTest do
     test "change_user/1 returns a user changeset" do
       user = user_fixture()
       assert %Ecto.Changeset{} = Users.change_user(user)
+    end
+
+    test "get_user!/1 should return operation categories for given user" do
+      seed_users_with_categories()
+
+      for num <- 0..2 do
+        user = Users.list_users() |> Enum.at(num)
+        user_with_categories = Users.get_user!(user.id)
+        assert user_with_categories.operation_categories == OperationCategories.list_operation_categories()
+      end
     end
   end
 end

@@ -30,8 +30,7 @@ defmodule KaneIranaiApi.OperationCategories do
   end
 
   defp list_operation_categories_filtered_by_type(type) do
-    Repo.all(OperationCategory)
-    |> Enum.filter(fn category -> category.type == type end)
+    Repo.all_by(OperationCategory, type: type)
   end
 
   @doc """

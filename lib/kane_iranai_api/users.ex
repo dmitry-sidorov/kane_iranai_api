@@ -20,7 +20,9 @@ defmodule KaneIranaiApi.Users do
 
   """
   def list_users do
-    Repo.all(User)
+    User
+    |> Repo.all()
+    |> Repo.preload([:operation_categories])
   end
 
   @doc """
@@ -37,7 +39,12 @@ defmodule KaneIranaiApi.Users do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user!(id), do: Repo.get!(User, id)
+  def get_user!(id) do
+    User
+    |> Repo.get!(id)
+    |> Repo.preload([:operation_categories])
+  end
+
 
   @doc """
   Gets a single user with loaded operation categories assoc.
@@ -132,7 +139,9 @@ defmodule KaneIranaiApi.Users do
 
   """
   def delete_user(%User{} = user) do
-    Repo.delete(user)
+    user.id
+    |> get_user!()
+    |> Repo.delete()
   end
 
   @doc """

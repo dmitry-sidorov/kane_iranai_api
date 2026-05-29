@@ -1,4 +1,5 @@
 defmodule KaneIranaiApi.OperationCategoriesFixtures do
+  alias KaneIranaiApi.OperationCategories
   alias KaneIranaiApi.OperationCategories.OperationCategory
 
   @moduledoc """
@@ -27,5 +28,22 @@ defmodule KaneIranaiApi.OperationCategoriesFixtures do
       %OperationCategory{title: "Restaurant", purpose: "secondary", type: "public" },
       %OperationCategory{title: "Car", purpose: "secondary", type: "public" },
     ]
+  end
+
+  def seed_operation_categories do
+    for operation_category <- get_mock_operation_categories() do
+      operation_category
+      |> Map.from_struct()
+      |> OperationCategories.create_operation_category()
+    end
+  end
+
+  def seed_private_operation_categories do
+    for operation_category <- get_mock_operation_categories() do
+      operation_category
+      |> Map.from_struct()
+      |> Map.put(:type, "private")
+      |> OperationCategories.create_operation_category()
+    end
   end
 end

@@ -1,4 +1,5 @@
 defmodule KaneIranaiApi.UsersFixtures do
+  alias KaneIranaiApi.Users
   alias KaneIranaiApi.Users.User
   require ExUnitProperties
 
@@ -58,12 +59,28 @@ defmodule KaneIranaiApi.UsersFixtures do
     {:ok, user} =
       attrs
       |> Enum.into(mock_user_attrs())
-      |> KaneIranaiApi.Users.create_user()
+      |> KaneIranaiApi.Users.create_user(:with_categories)
 
     user
   end
 
   def get_mock_users do
     Enum.map(1..3, fn _ -> struct(User, mock_user_attrs()) end)
+  end
+
+  def seed_users do
+    for user <- get_mock_users() do
+      user
+      |> Map.from_struct()
+      |> Users.create_user(:with_categories)
+    end
+  end
+
+  def seed_users_with_categories do
+    for user <- get_mock_users() do
+      user
+      |> Map.from_struct()
+      |> Users.create_user(:with_categories)
+    end
   end
 end

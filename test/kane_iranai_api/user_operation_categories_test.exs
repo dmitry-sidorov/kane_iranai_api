@@ -13,39 +13,14 @@ defmodule KaneIranaiApi.UserOperationCategoriesTest do
       seed_operation_categories()
     end
 
-    defp seed_users do
-      for user <- get_mock_users() do
-        user
-        |> Map.from_struct()
-        |> Users.create_user()
-      end
-    end
-
-    defp seed_operation_categories do
-      for operation_category <- get_mock_operation_categories() do
-        operation_category
-        |> Map.from_struct()
-        |> OperationCategories.create_operation_category()
-      end
-    end
-
-    defp seed_private_operation_categories do
-      for operation_category <- get_mock_operation_categories() do
-        operation_category
-        |> Map.from_struct()
-        |> Map.put(:type, "private")
-        |> OperationCategories.create_operation_category()
-      end
-    end
-
     setup do
       :ok = Ecto.Adapters.SQL.Sandbox.checkout(KaneIranaiApi.Repo)
-      seed_entities()
     end
 
-    for num <- 0..2 do
-      @tag num: num
-      test "should add operation category to user # #{num}", %{num: num} do
+    test "should add operation category to user" do
+      seed_entities()
+
+      for num <- 0..2 do
         operation_category = OperationCategories.list_operation_categories() |> Enum.at(num)
         user = Users.list_users() |> Enum.at(num)
         UserOperationCategories.create_user_operation_category(user, operation_category)
@@ -59,6 +34,8 @@ defmodule KaneIranaiApi.UserOperationCategoriesTest do
     end
 
     test "should delete user's common operation categories without deleting common categories" do
+      seed_entities()
+
       for num <- 0..2 do
         operation_category = OperationCategories.list_operation_categories() |> Enum.at(num)
         user = Users.list_users() |> Enum.at(num)
@@ -82,6 +59,7 @@ defmodule KaneIranaiApi.UserOperationCategoriesTest do
     end
 
     test "should delete user's operation categories with user's custom categories" do
+      seed_entities()
       seed_private_operation_categories()
 
       for num <- 0..2 do
@@ -104,6 +82,17 @@ defmodule KaneIranaiApi.UserOperationCategoriesTest do
 
       assert UserOperationCategories.list_user_operation_categories() |> Enum.count() == 0
       assert OperationCategories.list_operation_categories() |> Enum.count() == 3
+    end
+
+    test "should return operation categories for given user" do
+      seed_operation_categories()
+      seed_users_with_categories()
+
+      for num <- 0..2 do
+        user = Users.list_users() |> Enum.at(num)
+        user_with_categories = Users.get_user!(user.id)
+        assert user_with_categories.operation_categories == OperationCategories.list_operation_categories()
+      end
     end
   end
 end
