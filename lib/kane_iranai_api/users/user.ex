@@ -4,6 +4,7 @@ defmodule KaneIranaiApi.Users.User do
 
   alias KaneIranaiApi.OperationCategories.OperationCategory
   alias KaneIranaiApi.UserOperationCategories.UserOperationCategory
+  alias KaneIranaiApi.DebitAccounts.DebitAccount
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
@@ -14,6 +15,7 @@ defmodule KaneIranaiApi.Users.User do
     field :first_name, :string
     field :last_name, :string
     many_to_many :operation_categories, OperationCategory, join_through: UserOperationCategory
+    has_many :debit_accounts, DebitAccount
 
     timestamps(type: :utc_datetime)
   end

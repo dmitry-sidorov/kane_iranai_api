@@ -7,6 +7,8 @@ defmodule KaneIranaiApi.DebitAccounts do
   alias KaneIranaiApi.Repo
 
   alias KaneIranaiApi.DebitAccounts.DebitAccount
+  alias KaneIranaiApi.Users.User
+  alias KaneIranaiApi.Currencies.Currency
 
   @doc """
   Returns the list of debit_accounts.
@@ -18,7 +20,9 @@ defmodule KaneIranaiApi.DebitAccounts do
 
   """
   def list_debit_accounts do
-    Repo.all(DebitAccount)
+    DebitAccount
+    |> Repo.all()
+    |> Repo.preload([:user, :currency])
   end
 
   @doc """
@@ -42,15 +46,31 @@ defmodule KaneIranaiApi.DebitAccounts do
 
   ## Examples
 
-      iex> create_debit_account(%{field: value})
+      iex> create_debit_account(user, currency, %{field: value})
       {:ok, %DebitAccount{}}
 
-      iex> create_debit_account(%{field: bad_value})
+      iex> create_debit_account(user, currency, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_debit_account(attrs) do
-    %DebitAccount{}
+  def create_debit_account(%User{} = user, %Currency{} = currency, attrs) do
+    # %DebitAccount{}
+    # |> Repo.preload(:users)
+    # |> Repo.preload(:currencies)
+    # |> Ecto.Changeset.change()
+    # |> Ecto.Changeset.put_assoc(:user, user)
+    # |> Ecto.Changeset.put_assoc(:currency, currency)
+    # |> DebitAccount.changeset(attrs)
+    # |> Repo.insert()
+
+    # %DebitAccount{}
+    # |> Ecto.build_assoc(:user, user)
+    # |> Ecto.Changeset.change()
+    # |> Ecto.build_assoc(:currency, currency)
+    # |> DebitAccount.changeset(attrs)
+    # |> Repo.insert()
+
+    %DebitAccount{user_id: user.id, currency_id: currency.id}
     |> DebitAccount.changeset(attrs)
     |> Repo.insert()
   end
