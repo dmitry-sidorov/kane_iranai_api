@@ -1,7 +1,7 @@
 
 Enum operation_type {
   increase
-  descrease
+  decrease
 }
 
 Enum debit_account_type {
@@ -24,10 +24,10 @@ Enum operation_category_type {
 
 Table users {
   id integer [primary key]
-  email email
+  email string [unique]
   first_name string
   last_name string
-  password string // Not hashed for MVP
+  password string
 }
 
 Table user_operation_category {
