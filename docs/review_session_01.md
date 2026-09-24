@@ -1,4 +1,4 @@
-# Analysis: `docs/spec.md` vs `docs/db_schema.dbml`
+# Analysis: `docs/spec.md` vs `docs/db_schema.dbml` (Session 01 - Claude Sonnet 5, High reasoning)
 
 I cross-referenced every user-flow section in the spec against the DBML and also checked it against what's *actually implemented* in `lib/` and `priv/repo/migrations/` (which has already diverged from the DBML). Findings below, ordered by severity.
 
