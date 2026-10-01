@@ -13,8 +13,9 @@ Enum debit_account_type {
 }
 
 Enum operation_category_purpose {
-  primary
-  secondary
+  mandatory
+  desirable
+  optional
 }
 
 Enum operation_category_type {
@@ -88,7 +89,7 @@ Table budget_plans {
 Table planned_operations {
   id integer [primary key]
   plan_id integer [ref: > budget_plans.id]
-  // operation_id integer [ref: < operations.id]
+  operation_id integer [ref: < operations.id]
   amount float [not null]
   type operation_type
   operation_category_id integer [ref: > operation_categories.id]

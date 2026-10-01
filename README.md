@@ -3,6 +3,7 @@
 To start your Phoenix server:
 
 - Create database container `docker run --name kane_iranai_api_dev -p 5432:5432 -e POSTGRES_USER=kane_iranai_api -e POSTGRES_PASSWORD=kane_iranai_api -d postgres`
+- Start already existing container `docker start kane_iranai_api_dev`
 - Run `mix setup` to install and setup dependencies
 - Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
 

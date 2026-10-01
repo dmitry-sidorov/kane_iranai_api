@@ -6,7 +6,7 @@ defmodule KaneIranaiApi.OperationCategories.OperationCategory do
   alias KaneIranaiApi.UserOperationCategories.UserOperationCategory
 
   @operation_category_type_enum [:public, :private]
-  @operation_category_purpose_enum [:primary, :secondary]
+  @operation_category_purpose_enum [:mandatory, :desirable, :optional]
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id

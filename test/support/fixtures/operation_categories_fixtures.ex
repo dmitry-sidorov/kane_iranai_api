@@ -14,7 +14,7 @@ defmodule KaneIranaiApi.OperationCategoriesFixtures do
     {:ok, operation_category} =
       attrs
       |> Enum.into(%{
-        purpose: :primary,
+        purpose: :mandatory,
         title: "some title"
       })
       |> KaneIranaiApi.OperationCategories.create_operation_category()
@@ -24,9 +24,9 @@ defmodule KaneIranaiApi.OperationCategoriesFixtures do
 
   def get_mock_operation_categories() do
     [
-      %OperationCategory{title: "Groceries", purpose: "secondary", type: "public" },
-      %OperationCategory{title: "Restaurant", purpose: "secondary", type: "public" },
-      %OperationCategory{title: "Car", purpose: "secondary", type: "public" },
+      %OperationCategory{title: "Groceries", purpose: "desirable", type: "public" },
+      %OperationCategory{title: "Restaurant", purpose: "desirable", type: "public" },
+      %OperationCategory{title: "Car", purpose: "desirable", type: "public" },
     ]
   end
 

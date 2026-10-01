@@ -21,11 +21,11 @@ defmodule KaneIranaiApi.OperationCategoriesTest do
     end
 
     test "create_operation_category/1 with valid data creates a operation_category" do
-      valid_attrs = %{title: "some title", purpose: :primary}
+      valid_attrs = %{title: "some title", purpose: :mandatory}
 
       assert {:ok, %OperationCategory{} = operation_category} = OperationCategories.create_operation_category(valid_attrs)
       assert operation_category.title == "some title"
-      assert operation_category.purpose == :primary
+      assert operation_category.purpose == :mandatory
     end
 
     test "create_operation_category/1 with invalid data returns error changeset" do
@@ -34,11 +34,11 @@ defmodule KaneIranaiApi.OperationCategoriesTest do
 
     test "update_operation_category/2 with valid data updates the operation_category" do
       operation_category = operation_category_fixture()
-      update_attrs = %{title: "some updated title", purpose: :secondary}
+      update_attrs = %{title: "some updated title", purpose: :desirable}
 
       assert {:ok, %OperationCategory{} = operation_category} = OperationCategories.update_operation_category(operation_category, update_attrs)
       assert operation_category.title == "some updated title"
-      assert operation_category.purpose == :secondary
+      assert operation_category.purpose == :desirable
     end
 
     test "update_operation_category/2 with invalid data returns error changeset" do
