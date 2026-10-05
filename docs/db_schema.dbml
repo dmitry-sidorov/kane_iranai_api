@@ -24,7 +24,7 @@ Enum operation_category_type {
 }
 
 Table users {
-  id integer [primary key]
+  id string [primary key]
   email string [unique]
   first_name string
   last_name string
@@ -32,66 +32,66 @@ Table users {
 }
 
 Table user_operation_category {
-  id integer [primary key]
-  user_id integer [ref: < users.id]
-  operation_category_id integer [ref: < operation_categories.id]
+  id string [primary key]
+  user_id string [ref: < users.id]
+  operation_category_id string [ref: < operation_categories.id]
 }
 
 Table operation_categories {
-  id integer [primary key]
+  id string [primary key]
   title string [unique, not null]
   purpose operation_category_purpose
   type operation_category_type
 }
 
 Table operations {
-  id integer [primary key]
+  id string [primary key]
   amount float [not null]
   description string
   type operation_type
   processed_at timestamp
-  user_id integer [not null, ref: > users.id]
-  debit_account_id integer [not null, ref: > debit_accounts.id]
-  operation_category_id integer [ref: > operation_categories.id]
-  currency_id integer [not null, ref: > currencies.id]
+  user_id string [not null, ref: > users.id]
+  debit_account_id string [not null, ref: > debit_accounts.id]
+  operation_category_id string [ref: > operation_categories.id]
+  currency_id string [not null, ref: > currencies.id]
 }
 
 Table transfer_operations {
-  id integer [primary key]
+  id string [primary key]
   amount float [not null]
   description string
-  source_account_id integer [ref: - debit_accounts.id]
-  target_account_id integer [ref: - debit_accounts.id]
+  source_account_id string [ref: - debit_accounts.id]
+  target_account_id string [ref: - debit_accounts.id]
 }
 
 Table debit_accounts {
-  id integer [primary key]
-  user_id integer [ref: > users.id]
+  id string [primary key]
+  user_id string [ref: > users.id]
   title string
   type debit_account_type
   amount float [not null]
-  currency_id integer [ref: > currencies.id]
+  currency_id string [ref: > currencies.id]
 }
 
 Table currencies {
-  id integer [primary key]
+  id string [primary key]
   title string [unique, not null]
 }
 
 Table budget_plans {
-  id integer [primary key]
+  id string [primary key]
   date_start naive_datetime [not null]
   period_in_days integer [not null]
   description string
-  user_id integer [not null, ref: > users.id]
+  user_id string [not null, ref: > users.id]
 }
 
 Table planned_operations {
-  id integer [primary key]
-  plan_id integer [ref: > budget_plans.id]
-  operation_id integer [ref: < operations.id]
+  id string [primary key]
+  plan_id string [ref: > budget_plans.id]
+  operation_id string [ref: < operations.id]
   amount float [not null]
   type operation_type
-  operation_category_id integer [ref: > operation_categories.id]
-  currency_id integer [not null, ref: > currencies.id]
+  operation_category_id string [ref: > operation_categories.id]
+  currency_id string [not null, ref: > currencies.id]
 }
