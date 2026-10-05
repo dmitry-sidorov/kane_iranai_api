@@ -2,9 +2,9 @@ defmodule KaneIranaiApi.Users do
   @moduledoc """
   The Users context.
   """
-
-  import Ecto.Query, warn: false
-  alias KaneIranaiApi.Repo
+  use KaneIranaiApi, :repository
+  # import Ecto.Query, warn: false
+  # alias KaneIranaiApi.Repo
 
   alias KaneIranaiApi.Users.User
   alias KaneIranaiApi.OperationCategories
