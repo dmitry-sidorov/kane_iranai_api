@@ -18,6 +18,13 @@ Enum operation_category_purpose {
   optional
 }
 
+Enum planned_operation_status {
+  canceled
+  draft
+  pending // partially resolved
+  resolved
+}
+
 Enum operation_category_type {
   public
   private
@@ -91,7 +98,14 @@ Table planned_operations {
   plan_id string [ref: > budget_plans.id]
   operation_id string [ref: < operations.id]
   amount integer [not null]
+  status planned_operation_status
   type operation_type
   operation_category_id string [ref: > operation_categories.id]
   // currency_id string [not null, ref: > currencies.id] -- get currency from related debit_account
+}
+
+Table operations_links {
+  id string [primary key]
+  operation_id string [ref: - operations.id]
+  planned_operation_id string [ref: - planned_operations.id]
 }
