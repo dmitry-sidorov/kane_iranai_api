@@ -80,7 +80,7 @@ Table currencies {
 
 Table budget_plans {
   id string [primary key]
-  date_start naive_datetime [not null]
+  start_date naive_datetime [not null]
   period_in_days integer [not null]
   description string
   user_id string [not null, ref: > users.id]

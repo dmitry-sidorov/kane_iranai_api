@@ -6,6 +6,7 @@ defmodule KaneIranaiApi.Users.User do
   alias KaneIranaiApi.UserOperationCategories.UserOperationCategory
   alias KaneIranaiApi.DebitAccounts.DebitAccount
   alias KaneIranaiApi.Operations.Operation
+  alias KaneIranaiApi.BudgetPlans.BudgetPlan
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
@@ -18,6 +19,7 @@ defmodule KaneIranaiApi.Users.User do
     many_to_many :operation_categories, OperationCategory, join_through: UserOperationCategory
     has_many :debit_accounts, DebitAccount
     has_many :operations, Operation
+    has_many :budget_plans, BudgetPlan
 
     timestamps(type: :utc_datetime)
   end
