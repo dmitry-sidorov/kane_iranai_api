@@ -63,12 +63,21 @@ Table operations {
   // currency_id string [not null, ref: > currencies.id] -- get currency from related debit_account
 }
 
-Table transfer_operations {
+Table transfers {
   id string [primary key]
   amount integer [not null]
   description string
-  source_account_id string [ref: - debit_accounts.id]
-  target_account_id string [ref: - debit_accounts.id]
+  source_operation_id string [ref: - operations.id]
+  target_operation_id string [ref: - operations.id]
+}
+
+Table planned_transfers {
+  id string [primary key]
+  amount integer [not null]
+  description string
+  source_operation_id string [ref: - operations.id]
+  target_operation_id string [ref: - operations.id]
+  transfer_id string [ref: > operation_categories.id]
 }
 
 Table debit_accounts {
