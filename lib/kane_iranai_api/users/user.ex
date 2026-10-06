@@ -5,6 +5,7 @@ defmodule KaneIranaiApi.Users.User do
   alias KaneIranaiApi.OperationCategories.OperationCategory
   alias KaneIranaiApi.UserOperationCategories.UserOperationCategory
   alias KaneIranaiApi.DebitAccounts.DebitAccount
+  alias KaneIranaiApi.Operations.Operation
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
@@ -16,6 +17,7 @@ defmodule KaneIranaiApi.Users.User do
     field :last_name, :string
     many_to_many :operation_categories, OperationCategory, join_through: UserOperationCategory
     has_many :debit_accounts, DebitAccount
+    has_many :operations, Operation
 
     timestamps(type: :utc_datetime)
   end
@@ -31,9 +33,11 @@ defmodule KaneIranaiApi.Users.User do
     |> put_password_hash()
   end
 
+  @doc false
   defp put_password_hash(%Ecto.Changeset{valid?: true, changes: %{hash_password: hash_password}} = changeset) do
     change(changeset, hash_password: Bcrypt.hash_pwd_salt(hash_password))
   end
 
+  @doc false
   defp put_password_hash(changeset), do: changeset
 end

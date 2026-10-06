@@ -1,9 +1,11 @@
 defmodule KaneIranaiApi.Repo.Migrations.CreateDebitAccounts do
   use Ecto.Migration
   import EctoEnumMigration
+  
+  alias KaneIranaiApi.DebitAccounts.DebitAccount
 
   def change do
-    create_type(:debit_account_type, [:card, :cash, :deposit, :saving, :other])
+    create_type(:debit_account_type, DebitAccount.get_field_enum(:type))
 
     create table(:debit_accounts, primary_key: false) do
       add :id, :binary_id, primary_key: true

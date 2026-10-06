@@ -53,7 +53,7 @@ Table operations {
   user_id string [not null, ref: > users.id]
   debit_account_id string [not null, ref: > debit_accounts.id]
   operation_category_id string [ref: > operation_categories.id]
-  currency_id string [not null, ref: > currencies.id]
+  // currency_id string [not null, ref: > currencies.id] -- get currency from related debit_account
 }
 
 Table transfer_operations {
@@ -93,5 +93,5 @@ Table planned_operations {
   amount integer [not null]
   type operation_type
   operation_category_id string [ref: > operation_categories.id]
-  currency_id string [not null, ref: > currencies.id]
+  // currency_id string [not null, ref: > currencies.id] -- get currency from related debit_account
 }

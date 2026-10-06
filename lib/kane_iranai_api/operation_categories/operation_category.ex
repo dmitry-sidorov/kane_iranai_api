@@ -4,6 +4,7 @@ defmodule KaneIranaiApi.OperationCategories.OperationCategory do
 
   alias KaneIranaiApi.Users.User
   alias KaneIranaiApi.UserOperationCategories.UserOperationCategory
+  alias KaneIranaiApi.Operations.Operation
 
   @operation_category_type_enum [:public, :private]
   @operation_category_purpose_enum [:mandatory, :desirable, :optional]
@@ -15,6 +16,7 @@ defmodule KaneIranaiApi.OperationCategories.OperationCategory do
     field :purpose, Ecto.Enum, values: @operation_category_purpose_enum
     field :type, Ecto.Enum, values: @operation_category_type_enum
     many_to_many :users, User, join_through: UserOperationCategory
+    has_many :operations, Operation
 
     timestamps(type: :utc_datetime)
   end
@@ -26,6 +28,9 @@ defmodule KaneIranaiApi.OperationCategories.OperationCategory do
     |> validate_required([:title, :purpose, :type])
   end
 
+  @doc false
   def get_field_enum(:type), do: @operation_category_type_enum
+
+  @doc false
   def get_field_enum(:purpose), do: @operation_category_purpose_enum
 end
