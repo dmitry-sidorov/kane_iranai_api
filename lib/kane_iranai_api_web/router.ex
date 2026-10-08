@@ -41,6 +41,8 @@ defmodule KaneIranaiApiWeb.Router do
     get "/users/refresh_session", UserController, :refresh_session
     put "/users/update", UserController, :update
     delete "/users/delete", UserController, :delete
+
+    get "/plan", BudgetPlanController, :index
   end
 
   scope "/api/swagger" do
