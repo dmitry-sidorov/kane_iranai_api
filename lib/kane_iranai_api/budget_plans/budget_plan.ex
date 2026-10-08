@@ -3,7 +3,7 @@ defmodule KaneIranaiApi.BudgetPlans.BudgetPlan do
   import Ecto.Changeset
 
   alias KaneIranaiApi.Users.User
-  alias KaneIranaiApi.PlannedCategories.PlannedCategory
+  alias KaneIranaiApi.PlannedOperations.PlannedOperation
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
@@ -12,7 +12,7 @@ defmodule KaneIranaiApi.BudgetPlans.BudgetPlan do
     field :period_in_days, :integer
     field :description, :string
     belongs_to :user, User
-    has_many :planned_categories, PlannedCategory
+    has_many :planned_operations, PlannedOperation
 
     timestamps(type: :utc_datetime)
   end
