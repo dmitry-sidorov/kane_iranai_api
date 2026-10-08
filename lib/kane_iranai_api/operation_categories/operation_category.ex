@@ -5,6 +5,7 @@ defmodule KaneIranaiApi.OperationCategories.OperationCategory do
   alias KaneIranaiApi.Users.User
   alias KaneIranaiApi.UserOperationCategories.UserOperationCategory
   alias KaneIranaiApi.Operations.Operation
+  alias KaneIranaiApi.PlannedOperations.PlannedOperation
 
   @operation_category_type_enum [:public, :private]
   @operation_category_purpose_enum [:mandatory, :desirable, :optional]
@@ -17,6 +18,7 @@ defmodule KaneIranaiApi.OperationCategories.OperationCategory do
     field :type, Ecto.Enum, values: @operation_category_type_enum
     many_to_many :users, User, join_through: UserOperationCategory
     has_many :operations, Operation
+    has_many :planned_operations, PlannedOperation
 
     timestamps(type: :utc_datetime)
   end

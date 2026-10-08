@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "timestamp": 1791304103029,
+  "timestamp": 1791485855027,
   "workspaceRoot": "/home/kvato/projects/kane_iranai_api",
   "registries": {
     "components": {
@@ -268,6 +268,10 @@
             "tableName": "currencies",
             "fields": [
               {
+                "name": "id",
+                "type": "id"
+              },
+              {
                 "name": "title",
                 "type": "string"
               },
@@ -283,20 +287,10 @@
               {
                 "name": "updated_at",
                 "type": "naive_datetime"
-              },
-              {
-                "name": "id",
-                "type": "id"
               }
             ],
             "associations": {},
-            "associationsDetailed": [
-              {
-                "fieldName": "debit_accounts",
-                "targetModule": "KaneIranaiApi.DebitAccounts.DebitAccount",
-                "type": "has_many"
-              }
-            ],
+            "associationsDetailed": [],
             "aliases": {},
             "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/currencies/currency.ex",
             "line": 9
@@ -308,6 +302,10 @@
             "moduleName": "KaneIranaiApi.DebitAccounts.DebitAccount",
             "tableName": "debit_accounts",
             "fields": [
+              {
+                "name": "id",
+                "type": "id"
+              },
               {
                 "name": "title",
                 "type": "string"
@@ -327,34 +325,24 @@
                 "elixirType": "KaneIranaiApi.Users.User"
               },
               {
+                "name": "operations",
+                "type": "list",
+                "elixirType": "KaneIranaiApi.Operations.Operation"
+              },
+              {
                 "name": "inserted_at",
                 "type": "naive_datetime"
               },
               {
                 "name": "updated_at",
                 "type": "naive_datetime"
-              },
-              {
-                "name": "id",
-                "type": "id"
               }
             ],
             "associations": {},
-            "associationsDetailed": [
-              {
-                "fieldName": "currency",
-                "targetModule": "KaneIranaiApi.Currencies.Currency",
-                "type": "belongs_to"
-              },
-              {
-                "fieldName": "user",
-                "targetModule": "KaneIranaiApi.Users.User",
-                "type": "belongs_to"
-              }
-            ],
+            "associationsDetailed": [],
             "aliases": {},
             "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/debit_accounts/debit_account.ex",
-            "line": 9
+            "line": 11
           }
         ],
         [
@@ -364,13 +352,17 @@
             "tableName": "operation_categories",
             "fields": [
               {
+                "name": "id",
+                "type": "id"
+              },
+              {
                 "name": "title",
                 "type": "string"
               },
               {
-                "name": "users",
+                "name": "operations",
                 "type": "list",
-                "elixirType": "KaneIranaiApi.Users.User"
+                "elixirType": "KaneIranaiApi.Operations.Operation"
               },
               {
                 "name": "inserted_at",
@@ -379,23 +371,13 @@
               {
                 "name": "updated_at",
                 "type": "naive_datetime"
-              },
-              {
-                "name": "id",
-                "type": "id"
               }
             ],
             "associations": {},
-            "associationsDetailed": [
-              {
-                "fieldName": "users",
-                "targetModule": "KaneIranaiApi.Users.User",
-                "type": "many_to_many"
-              }
-            ],
+            "associationsDetailed": [],
             "aliases": {},
             "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/operation_categories/operation_category.ex",
-            "line": 13
+            "line": 14
           }
         ],
         [
@@ -404,6 +386,10 @@
             "moduleName": "KaneIranaiApi.UserOperationCategories.UserOperationCategory",
             "tableName": "user_operation_categories",
             "fields": [
+              {
+                "name": "id",
+                "type": "id"
+              },
               {
                 "name": "user",
                 "type": "assoc",
@@ -421,25 +407,10 @@
               {
                 "name": "updated_at",
                 "type": "naive_datetime"
-              },
-              {
-                "name": "id",
-                "type": "id"
               }
             ],
             "associations": {},
-            "associationsDetailed": [
-              {
-                "fieldName": "user",
-                "targetModule": "KaneIranaiApi.Users.User",
-                "type": "belongs_to"
-              },
-              {
-                "fieldName": "operation_category",
-                "targetModule": "KaneIranaiApi.OperationCategories.OperationCategory",
-                "type": "belongs_to"
-              }
-            ],
+            "associationsDetailed": [],
             "aliases": {},
             "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/user_operation_categories/user_operation_category.ex",
             "line": 10
@@ -451,6 +422,10 @@
             "moduleName": "KaneIranaiApi.Users.User",
             "tableName": "users",
             "fields": [
+              {
+                "name": "id",
+                "type": "id"
+              },
               {
                 "name": "email",
                 "type": "string"
@@ -472,14 +447,19 @@
                 "type": "string"
               },
               {
-                "name": "operation_categories",
-                "type": "list",
-                "elixirType": "KaneIranaiApi.OperationCategories.OperationCategory"
-              },
-              {
                 "name": "debit_accounts",
                 "type": "list",
                 "elixirType": "KaneIranaiApi.DebitAccounts.DebitAccount"
+              },
+              {
+                "name": "operations",
+                "type": "list",
+                "elixirType": "KaneIranaiApi.Operations.Operation"
+              },
+              {
+                "name": "budget_plans",
+                "type": "list",
+                "elixirType": "KaneIranaiApi.BudgetPlans.BudgetPlan"
               },
               {
                 "name": "inserted_at",
@@ -488,28 +468,187 @@
               {
                 "name": "updated_at",
                 "type": "naive_datetime"
-              },
-              {
-                "name": "id",
-                "type": "id"
               }
             ],
             "associations": {},
-            "associationsDetailed": [
-              {
-                "fieldName": "operation_categories",
-                "targetModule": "KaneIranaiApi.OperationCategories.OperationCategory",
-                "type": "many_to_many"
-              },
-              {
-                "fieldName": "debit_accounts",
-                "targetModule": "KaneIranaiApi.DebitAccounts.DebitAccount",
-                "type": "has_many"
-              }
-            ],
+            "associationsDetailed": [],
             "aliases": {},
             "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/users/user.ex",
-            "line": 11
+            "line": 13
+          }
+        ],
+        [
+          "KaneIranaiApi.BudgetPlans.BudgetPlan",
+          {
+            "moduleName": "KaneIranaiApi.BudgetPlans.BudgetPlan",
+            "tableName": "budget_plans",
+            "fields": [
+              {
+                "name": "id",
+                "type": "id"
+              },
+              {
+                "name": "start_date",
+                "type": "naive_datetime"
+              },
+              {
+                "name": "period_in_days",
+                "type": "integer"
+              },
+              {
+                "name": "description",
+                "type": "string"
+              },
+              {
+                "name": "user",
+                "type": "assoc",
+                "elixirType": "KaneIranaiApi.Users.User"
+              },
+              {
+                "name": "inserted_at",
+                "type": "naive_datetime"
+              },
+              {
+                "name": "updated_at",
+                "type": "naive_datetime"
+              }
+            ],
+            "associations": {},
+            "associationsDetailed": [],
+            "aliases": {},
+            "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/budget_plans/budget_plan.ex",
+            "line": 9
+          }
+        ],
+        [
+          "KaneIranaiApi.Operations.Operation",
+          {
+            "moduleName": "KaneIranaiApi.Operations.Operation",
+            "tableName": "operations",
+            "fields": [
+              {
+                "name": "id",
+                "type": "id"
+              },
+              {
+                "name": "amount",
+                "type": "integer"
+              },
+              {
+                "name": "description",
+                "type": "string"
+              },
+              {
+                "name": "processed_at",
+                "type": "naive_datetime"
+              },
+              {
+                "name": "user",
+                "type": "assoc",
+                "elixirType": "KaneIranaiApi.Users.User"
+              },
+              {
+                "name": "debit_account",
+                "type": "assoc",
+                "elixirType": "KaneIranaiApi.DebitAccounts.DebitAccount"
+              },
+              {
+                "name": "operation_category",
+                "type": "assoc",
+                "elixirType": "KaneIranaiApi.OperationCategories.OperationCategory"
+              },
+              {
+                "name": "inserted_at",
+                "type": "naive_datetime"
+              },
+              {
+                "name": "updated_at",
+                "type": "naive_datetime"
+              }
+            ],
+            "associations": {},
+            "associationsDetailed": [],
+            "aliases": {},
+            "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/operations/operation.ex",
+            "line": 14
+          }
+        ],
+        [
+          "KaneIranaiApi.OperationsLinks.OperationsLink",
+          {
+            "moduleName": "KaneIranaiApi.OperationsLinks.OperationsLink",
+            "tableName": "operations_links",
+            "fields": [
+              {
+                "name": "id",
+                "type": "id"
+              },
+              {
+                "name": "operation",
+                "type": "assoc",
+                "elixirType": "KaneIranaiApi.Operations.Operation"
+              },
+              {
+                "name": "planned_operation",
+                "type": "assoc",
+                "elixirType": "KaneIranaiApi.PlannedOperations.PlannedOperation"
+              },
+              {
+                "name": "inserted_at",
+                "type": "naive_datetime"
+              },
+              {
+                "name": "updated_at",
+                "type": "naive_datetime"
+              }
+            ],
+            "associations": {},
+            "associationsDetailed": [],
+            "aliases": {},
+            "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/operations_links/operations_link.ex",
+            "line": 10
+          }
+        ],
+        [
+          "KaneIranaiApi.PlannedOperations.PlannedOperation",
+          {
+            "moduleName": "KaneIranaiApi.PlannedOperations.PlannedOperation",
+            "tableName": "planned_operations",
+            "fields": [
+              {
+                "name": "id",
+                "type": "id"
+              },
+              {
+                "name": "amount",
+                "type": "integer"
+              },
+              {
+                "name": "plan_id",
+                "type": "binary_id"
+              },
+              {
+                "name": "operation_id",
+                "type": "binary_id"
+              },
+              {
+                "name": "operation_category_id",
+                "type": "binary_id"
+              },
+              {
+                "name": "inserted_at",
+                "type": "naive_datetime"
+              },
+              {
+                "name": "updated_at",
+                "type": "naive_datetime"
+              }
+            ],
+            "associations": {},
+            "associationsDetailed": [],
+            "aliases": {},
+            "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/planned_operations/planned_operation.ex",
+            "line": 12
           }
         ]
       ],
@@ -521,6 +660,10 @@
               "moduleName": "KaneIranaiApi.Currencies.Currency",
               "tableName": "currencies",
               "fields": [
+                {
+                  "name": "id",
+                  "type": "id"
+                },
                 {
                   "name": "title",
                   "type": "string"
@@ -537,20 +680,10 @@
                 {
                   "name": "updated_at",
                   "type": "naive_datetime"
-                },
-                {
-                  "name": "id",
-                  "type": "id"
                 }
               ],
               "associations": {},
-              "associationsDetailed": [
-                {
-                  "fieldName": "debit_accounts",
-                  "targetModule": "KaneIranaiApi.DebitAccounts.DebitAccount",
-                  "type": "has_many"
-                }
-              ],
+              "associationsDetailed": [],
               "aliases": {},
               "filePath": "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api/currencies/currency.ex",
               "line": 9
@@ -565,6 +698,10 @@
               "tableName": "debit_accounts",
               "fields": [
                 {
+                  "name": "id",
+                  "type": "id"
+                },
+                {
                   "name": "title",
                   "type": "string"
                 },
@@ -589,25 +726,10 @@
                 {
                   "name": "updated_at",
                   "type": "naive_datetime"
-                },
-                {
-                  "name": "id",
-                  "type": "id"
                 }
               ],
               "associations": {},
-              "associationsDetailed": [
-                {
-                  "fieldName": "currency",
-                  "targetModule": "KaneIranaiApi.Currencies.Currency",
-                  "type": "belongs_to"
-                },
-                {
-                  "fieldName": "user",
-                  "targetModule": "KaneIranaiApi.Users.User",
-                  "type": "belongs_to"
-                }
-              ],
+              "associationsDetailed": [],
               "aliases": {},
               "filePath": "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api/debit_accounts/debit_account.ex",
               "line": 9
@@ -622,13 +744,12 @@
               "tableName": "operation_categories",
               "fields": [
                 {
-                  "name": "title",
-                  "type": "string"
+                  "name": "id",
+                  "type": "id"
                 },
                 {
-                  "name": "users",
-                  "type": "list",
-                  "elixirType": "KaneIranaiApi.Users.User"
+                  "name": "title",
+                  "type": "string"
                 },
                 {
                   "name": "inserted_at",
@@ -637,20 +758,10 @@
                 {
                   "name": "updated_at",
                   "type": "naive_datetime"
-                },
-                {
-                  "name": "id",
-                  "type": "id"
                 }
               ],
               "associations": {},
-              "associationsDetailed": [
-                {
-                  "fieldName": "users",
-                  "targetModule": "KaneIranaiApi.Users.User",
-                  "type": "many_to_many"
-                }
-              ],
+              "associationsDetailed": [],
               "aliases": {},
               "filePath": "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api/operation_categories/operation_category.ex",
               "line": 13
@@ -664,6 +775,10 @@
               "moduleName": "KaneIranaiApi.UserOperationCategories.UserOperationCategory",
               "tableName": "user_operation_categories",
               "fields": [
+                {
+                  "name": "id",
+                  "type": "id"
+                },
                 {
                   "name": "user",
                   "type": "assoc",
@@ -681,25 +796,10 @@
                 {
                   "name": "updated_at",
                   "type": "naive_datetime"
-                },
-                {
-                  "name": "id",
-                  "type": "id"
                 }
               ],
               "associations": {},
-              "associationsDetailed": [
-                {
-                  "fieldName": "user",
-                  "targetModule": "KaneIranaiApi.Users.User",
-                  "type": "belongs_to"
-                },
-                {
-                  "fieldName": "operation_category",
-                  "targetModule": "KaneIranaiApi.OperationCategories.OperationCategory",
-                  "type": "belongs_to"
-                }
-              ],
+              "associationsDetailed": [],
               "aliases": {},
               "filePath": "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api/user_operation_categories/user_operation_category.ex",
               "line": 10
@@ -713,6 +813,10 @@
               "moduleName": "KaneIranaiApi.Users.User",
               "tableName": "users",
               "fields": [
+                {
+                  "name": "id",
+                  "type": "id"
+                },
                 {
                   "name": "email",
                   "type": "string"
@@ -734,11 +838,6 @@
                   "type": "string"
                 },
                 {
-                  "name": "operation_categories",
-                  "type": "list",
-                  "elixirType": "KaneIranaiApi.OperationCategories.OperationCategory"
-                },
-                {
                   "name": "debit_accounts",
                   "type": "list",
                   "elixirType": "KaneIranaiApi.DebitAccounts.DebitAccount"
@@ -750,28 +849,58 @@
                 {
                   "name": "updated_at",
                   "type": "naive_datetime"
-                },
-                {
-                  "name": "id",
-                  "type": "id"
                 }
               ],
               "associations": {},
-              "associationsDetailed": [
-                {
-                  "fieldName": "operation_categories",
-                  "targetModule": "KaneIranaiApi.OperationCategories.OperationCategory",
-                  "type": "many_to_many"
-                },
-                {
-                  "fieldName": "debit_accounts",
-                  "targetModule": "KaneIranaiApi.DebitAccounts.DebitAccount",
-                  "type": "has_many"
-                }
-              ],
+              "associationsDetailed": [],
               "aliases": {},
               "filePath": "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api/users/user.ex",
               "line": 11
+            }
+          ]
+        ],
+        [
+          "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/budget_plans/budget_plan.ex",
+          [
+            {
+              "moduleName": "KaneIranaiApi.BudgetPlans.BudgetPlan",
+              "tableName": "budget_plans",
+              "fields": [
+                {
+                  "name": "id",
+                  "type": "id"
+                },
+                {
+                  "name": "start_date",
+                  "type": "naive_datetime"
+                },
+                {
+                  "name": "period_in_days",
+                  "type": "integer"
+                },
+                {
+                  "name": "description",
+                  "type": "string"
+                },
+                {
+                  "name": "user",
+                  "type": "assoc",
+                  "elixirType": "KaneIranaiApi.Users.User"
+                },
+                {
+                  "name": "inserted_at",
+                  "type": "naive_datetime"
+                },
+                {
+                  "name": "updated_at",
+                  "type": "naive_datetime"
+                }
+              ],
+              "associations": {},
+              "associationsDetailed": [],
+              "aliases": {},
+              "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/budget_plans/budget_plan.ex",
+              "line": 9
             }
           ]
         ],
@@ -782,6 +911,10 @@
               "moduleName": "KaneIranaiApi.Currencies.Currency",
               "tableName": "currencies",
               "fields": [
+                {
+                  "name": "id",
+                  "type": "id"
+                },
                 {
                   "name": "title",
                   "type": "string"
@@ -798,20 +931,10 @@
                 {
                   "name": "updated_at",
                   "type": "naive_datetime"
-                },
-                {
-                  "name": "id",
-                  "type": "id"
                 }
               ],
               "associations": {},
-              "associationsDetailed": [
-                {
-                  "fieldName": "debit_accounts",
-                  "targetModule": "KaneIranaiApi.DebitAccounts.DebitAccount",
-                  "type": "has_many"
-                }
-              ],
+              "associationsDetailed": [],
               "aliases": {},
               "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/currencies/currency.ex",
               "line": 9
@@ -825,6 +948,10 @@
               "moduleName": "KaneIranaiApi.DebitAccounts.DebitAccount",
               "tableName": "debit_accounts",
               "fields": [
+                {
+                  "name": "id",
+                  "type": "id"
+                },
                 {
                   "name": "title",
                   "type": "string"
@@ -844,34 +971,24 @@
                   "elixirType": "KaneIranaiApi.Users.User"
                 },
                 {
+                  "name": "operations",
+                  "type": "list",
+                  "elixirType": "KaneIranaiApi.Operations.Operation"
+                },
+                {
                   "name": "inserted_at",
                   "type": "naive_datetime"
                 },
                 {
                   "name": "updated_at",
                   "type": "naive_datetime"
-                },
-                {
-                  "name": "id",
-                  "type": "id"
                 }
               ],
               "associations": {},
-              "associationsDetailed": [
-                {
-                  "fieldName": "currency",
-                  "targetModule": "KaneIranaiApi.Currencies.Currency",
-                  "type": "belongs_to"
-                },
-                {
-                  "fieldName": "user",
-                  "targetModule": "KaneIranaiApi.Users.User",
-                  "type": "belongs_to"
-                }
-              ],
+              "associationsDetailed": [],
               "aliases": {},
               "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/debit_accounts/debit_account.ex",
-              "line": 9
+              "line": 11
             }
           ]
         ],
@@ -883,13 +1000,17 @@
               "tableName": "operation_categories",
               "fields": [
                 {
+                  "name": "id",
+                  "type": "id"
+                },
+                {
                   "name": "title",
                   "type": "string"
                 },
                 {
-                  "name": "users",
+                  "name": "operations",
                   "type": "list",
-                  "elixirType": "KaneIranaiApi.Users.User"
+                  "elixirType": "KaneIranaiApi.Operations.Operation"
                 },
                 {
                   "name": "inserted_at",
@@ -898,23 +1019,150 @@
                 {
                   "name": "updated_at",
                   "type": "naive_datetime"
-                },
-                {
-                  "name": "id",
-                  "type": "id"
                 }
               ],
               "associations": {},
-              "associationsDetailed": [
-                {
-                  "fieldName": "users",
-                  "targetModule": "KaneIranaiApi.Users.User",
-                  "type": "many_to_many"
-                }
-              ],
+              "associationsDetailed": [],
               "aliases": {},
               "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/operation_categories/operation_category.ex",
-              "line": 13
+              "line": 14
+            }
+          ]
+        ],
+        [
+          "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/operations/operation.ex",
+          [
+            {
+              "moduleName": "KaneIranaiApi.Operations.Operation",
+              "tableName": "operations",
+              "fields": [
+                {
+                  "name": "id",
+                  "type": "id"
+                },
+                {
+                  "name": "amount",
+                  "type": "integer"
+                },
+                {
+                  "name": "description",
+                  "type": "string"
+                },
+                {
+                  "name": "processed_at",
+                  "type": "naive_datetime"
+                },
+                {
+                  "name": "user",
+                  "type": "assoc",
+                  "elixirType": "KaneIranaiApi.Users.User"
+                },
+                {
+                  "name": "debit_account",
+                  "type": "assoc",
+                  "elixirType": "KaneIranaiApi.DebitAccounts.DebitAccount"
+                },
+                {
+                  "name": "operation_category",
+                  "type": "assoc",
+                  "elixirType": "KaneIranaiApi.OperationCategories.OperationCategory"
+                },
+                {
+                  "name": "inserted_at",
+                  "type": "naive_datetime"
+                },
+                {
+                  "name": "updated_at",
+                  "type": "naive_datetime"
+                }
+              ],
+              "associations": {},
+              "associationsDetailed": [],
+              "aliases": {},
+              "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/operations/operation.ex",
+              "line": 14
+            }
+          ]
+        ],
+        [
+          "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/operations_links/operations_link.ex",
+          [
+            {
+              "moduleName": "KaneIranaiApi.OperationsLinks.OperationsLink",
+              "tableName": "operations_links",
+              "fields": [
+                {
+                  "name": "id",
+                  "type": "id"
+                },
+                {
+                  "name": "operation",
+                  "type": "assoc",
+                  "elixirType": "KaneIranaiApi.Operations.Operation"
+                },
+                {
+                  "name": "planned_operation",
+                  "type": "assoc",
+                  "elixirType": "KaneIranaiApi.PlannedOperations.PlannedOperation"
+                },
+                {
+                  "name": "inserted_at",
+                  "type": "naive_datetime"
+                },
+                {
+                  "name": "updated_at",
+                  "type": "naive_datetime"
+                }
+              ],
+              "associations": {},
+              "associationsDetailed": [],
+              "aliases": {},
+              "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/operations_links/operations_link.ex",
+              "line": 10
+            }
+          ]
+        ],
+        [
+          "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/planned_operations/planned_operation.ex",
+          [
+            {
+              "moduleName": "KaneIranaiApi.PlannedOperations.PlannedOperation",
+              "tableName": "planned_operations",
+              "fields": [
+                {
+                  "name": "id",
+                  "type": "id"
+                },
+                {
+                  "name": "amount",
+                  "type": "integer"
+                },
+                {
+                  "name": "plan_id",
+                  "type": "binary_id"
+                },
+                {
+                  "name": "operation_id",
+                  "type": "binary_id"
+                },
+                {
+                  "name": "operation_category_id",
+                  "type": "binary_id"
+                },
+                {
+                  "name": "inserted_at",
+                  "type": "naive_datetime"
+                },
+                {
+                  "name": "updated_at",
+                  "type": "naive_datetime"
+                }
+              ],
+              "associations": {},
+              "associationsDetailed": [],
+              "aliases": {},
+              "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/planned_operations/planned_operation.ex",
+              "line": 12
             }
           ]
         ],
@@ -925,6 +1173,10 @@
               "moduleName": "KaneIranaiApi.UserOperationCategories.UserOperationCategory",
               "tableName": "user_operation_categories",
               "fields": [
+                {
+                  "name": "id",
+                  "type": "id"
+                },
                 {
                   "name": "user",
                   "type": "assoc",
@@ -942,25 +1194,10 @@
                 {
                   "name": "updated_at",
                   "type": "naive_datetime"
-                },
-                {
-                  "name": "id",
-                  "type": "id"
                 }
               ],
               "associations": {},
-              "associationsDetailed": [
-                {
-                  "fieldName": "user",
-                  "targetModule": "KaneIranaiApi.Users.User",
-                  "type": "belongs_to"
-                },
-                {
-                  "fieldName": "operation_category",
-                  "targetModule": "KaneIranaiApi.OperationCategories.OperationCategory",
-                  "type": "belongs_to"
-                }
-              ],
+              "associationsDetailed": [],
               "aliases": {},
               "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/user_operation_categories/user_operation_category.ex",
               "line": 10
@@ -974,6 +1211,10 @@
               "moduleName": "KaneIranaiApi.Users.User",
               "tableName": "users",
               "fields": [
+                {
+                  "name": "id",
+                  "type": "id"
+                },
                 {
                   "name": "email",
                   "type": "string"
@@ -995,14 +1236,19 @@
                   "type": "string"
                 },
                 {
-                  "name": "operation_categories",
-                  "type": "list",
-                  "elixirType": "KaneIranaiApi.OperationCategories.OperationCategory"
-                },
-                {
                   "name": "debit_accounts",
                   "type": "list",
                   "elixirType": "KaneIranaiApi.DebitAccounts.DebitAccount"
+                },
+                {
+                  "name": "operations",
+                  "type": "list",
+                  "elixirType": "KaneIranaiApi.Operations.Operation"
+                },
+                {
+                  "name": "budget_plans",
+                  "type": "list",
+                  "elixirType": "KaneIranaiApi.BudgetPlans.BudgetPlan"
                 },
                 {
                   "name": "inserted_at",
@@ -1011,28 +1257,13 @@
                 {
                   "name": "updated_at",
                   "type": "naive_datetime"
-                },
-                {
-                  "name": "id",
-                  "type": "id"
                 }
               ],
               "associations": {},
-              "associationsDetailed": [
-                {
-                  "fieldName": "operation_categories",
-                  "targetModule": "KaneIranaiApi.OperationCategories.OperationCategory",
-                  "type": "many_to_many"
-                },
-                {
-                  "fieldName": "debit_accounts",
-                  "targetModule": "KaneIranaiApi.DebitAccounts.DebitAccount",
-                  "type": "has_many"
-                }
-              ],
+              "associationsDetailed": [],
               "aliases": {},
               "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/users/user.ex",
-              "line": 11
+              "line": 13
             }
           ]
         ]
@@ -1043,11 +1274,15 @@
         "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api/operation_categories/operation_category.ex": "ee6c8920908c78c308369b51ea8967c626c44a03",
         "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api/user_operation_categories/user_operation_category.ex": "e652cc729742e14b328f14291433323d51cffa47",
         "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api/users/user.ex": "540f553af39df1ba208fb1060dd0879c7d0b9447",
+        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/budget_plans/budget_plan.ex": "fabafee7deab36150bcd2bf09c3d7ac557012d81",
         "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/currencies/currency.ex": "088d0f16ca5e4e29a107439a6d1be58f5c34dde5",
-        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/debit_accounts/debit_account.ex": "c4ad07abd96aebb9df74fc4b3c5490b187b2f12e",
-        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/operation_categories/operation_category.ex": "ee6c8920908c78c308369b51ea8967c626c44a03",
+        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/debit_accounts/debit_account.ex": "b7bbfde4e5860e0881696bcbebaa3f56354945c3",
+        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/operation_categories/operation_category.ex": "1800a62983910092b70debd43a06c98e61d9e173",
+        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/operations/operation.ex": "06388a425317bbf7cd48b6461226078a6a1edcd5",
+        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/operations_links/operations_link.ex": "5622c4b6c5f75254af042c7dc5648b007b0f6346",
+        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/planned_operations/planned_operation.ex": "91ef4e34a9c3075bce3a2fd05b0016bcda9e9755",
         "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/user_operation_categories/user_operation_category.ex": "e652cc729742e14b328f14291433323d51cffa47",
-        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/users/user.ex": "540f553af39df1ba208fb1060dd0879c7d0b9447"
+        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/users/user.ex": "9ed14d4619921973ccff2a69a34d2039d75ce80d"
       },
       "workspaceRoot": "/home/kvato/projects/kane_iranai_api"
     },
@@ -1334,11 +1569,7 @@
     "controllers": {
       "rendersByFile": [
         [
-          "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/fallback_controller.ex",
-          []
-        ],
-        [
-          "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/controllers/redirect_controller.ex",
+          "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/controllers/fallback_controller.ex",
           []
         ],
         [
@@ -1346,7 +1577,11 @@
           []
         ],
         [
-          "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/default_controller.ex",
+          "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/controllers/redirect_controller.ex",
+          []
+        ],
+        [
+          "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/controllers/default_controller.ex",
           []
         ],
         [
@@ -1403,6 +1638,14 @@
           ]
         ],
         [
+          "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/fallback_controller.ex",
+          []
+        ],
+        [
+          "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/default_controller.ex",
+          []
+        ],
+        [
           "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/user_controller.ex",
           [
             {
@@ -1454,26 +1697,18 @@
               "line": 76
             }
           ]
-        ],
-        [
-          "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/controllers/fallback_controller.ex",
-          []
-        ],
-        [
-          "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/controllers/default_controller.ex",
-          []
         ]
       ],
       "templateSummaries": [],
       "fileHashes": {
-        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/fallback_controller.ex": "26b5b622768ed9e59f1090e5430293f3dfc4ef63",
-        "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/controllers/redirect_controller.ex": "14f87dc26652cbfd233f8a11e42215bafe343214",
-        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/redirect_controller.ex": "14f87dc26652cbfd233f8a11e42215bafe343214",
-        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/default_controller.ex": "7d2386312d7635f901ddd3b4eb7f3b8f84ad5070",
-        "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/controllers/user_controller.ex": "7c5b48795cf0134c8f51fbae5787889d9d753fe8",
-        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/user_controller.ex": "7c5b48795cf0134c8f51fbae5787889d9d753fe8",
         "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/controllers/fallback_controller.ex": "26b5b622768ed9e59f1090e5430293f3dfc4ef63",
-        "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/controllers/default_controller.ex": "7d2386312d7635f901ddd3b4eb7f3b8f84ad5070"
+        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/redirect_controller.ex": "14f87dc26652cbfd233f8a11e42215bafe343214",
+        "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/controllers/redirect_controller.ex": "14f87dc26652cbfd233f8a11e42215bafe343214",
+        "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/controllers/default_controller.ex": "7d2386312d7635f901ddd3b4eb7f3b8f84ad5070",
+        "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/controllers/user_controller.ex": "7c5b48795cf0134c8f51fbae5787889d9d753fe8",
+        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/fallback_controller.ex": "26b5b622768ed9e59f1090e5430293f3dfc4ef63",
+        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/default_controller.ex": "7d2386312d7635f901ddd3b4eb7f3b8f84ad5070",
+        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/user_controller.ex": "7c5b48795cf0134c8f51fbae5787889d9d753fe8"
       },
       "workspaceRoot": "/home/kvato/projects/kane_iranai_api"
     },

@@ -5,7 +5,7 @@ defmodule KaneIranaiApi.Operations.Operation do
   alias KaneIranaiApi.Users.User
   alias KaneIranaiApi.DebitAccounts.DebitAccount
   alias KaneIranaiApi.OperationCategories.OperationCategory
-  alias KaneIranaiApi.Operations.Operation
+  alias KaneIranaiApi.PlannedOperations.PlannedOperation
   alias KaneIranaiApi.OperationsLinks.OperationsLink
 
   @operation_type_enum [:increase, :decrease]
@@ -19,7 +19,7 @@ defmodule KaneIranaiApi.Operations.Operation do
     belongs_to :user, User
     belongs_to :debit_account, DebitAccount
     belongs_to :operation_category, OperationCategory
-    many_to_many :planned_operations, Operation, join_through: OperationsLink
+    many_to_many :planned_operations, PlannedOperation, join_through: OperationsLink
 
     timestamps(type: :utc_datetime)
   end

@@ -2,7 +2,9 @@ defmodule KaneIranaiApi.PlannedOperations.PlannedOperation do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias KaneIranaiApi.BudgetPlans.BudgetPlan
   alias KaneIranaiApi.Operations.Operation
+  alias KaneIranaiApi.OperationCategories.OperationCategory
   alias KaneIranaiApi.OperationsLinks.OperationsLink
 
   @planned_operation_status_enum [:canceled, :draft, :pending, :resolved]
@@ -13,9 +15,8 @@ defmodule KaneIranaiApi.PlannedOperations.PlannedOperation do
     field :amount, :integer
     field :status, Ecto.Enum, values: @planned_operation_status_enum
     field :type, Ecto.Enum, values: @planned_operation_type_enum
-    field :plan_id, :binary_id
-    field :operation_id, :binary_id
-    field :operation_category_id, :binary_id
+    belongs_to :budget_plan, BudgetPlan
+    belongs_to :operation_category, OperationCategory
     many_to_many :operations, Operation, join_through: OperationsLink
 
     timestamps(type: :utc_datetime)
