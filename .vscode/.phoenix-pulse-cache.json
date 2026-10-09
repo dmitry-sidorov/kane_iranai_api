@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "timestamp": 1791485855027,
+  "timestamp": 1791551815300,
   "workspaceRoot": "/home/kvato/projects/kane_iranai_api",
   "registries": {
     "components": {
@@ -254,9 +254,15 @@
               ]
             }
           ]
+        ],
+        [
+          "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/auth/guardian.ex",
+          []
         ]
       ],
-      "fileHashes": {},
+      "fileHashes": {
+        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/auth/guardian.ex": "31fe74a0c293a5362ab14a039c3299aa9d5e7976"
+      },
       "workspaceRoot": "/home/kvato/projects/kane_iranai_api"
     },
     "schemas": {
@@ -365,6 +371,11 @@
                 "elixirType": "KaneIranaiApi.Operations.Operation"
               },
               {
+                "name": "planned_operations",
+                "type": "list",
+                "elixirType": "KaneIranaiApi.PlannedOperations.PlannedOperation"
+              },
+              {
                 "name": "inserted_at",
                 "type": "naive_datetime"
               },
@@ -377,7 +388,7 @@
             "associationsDetailed": [],
             "aliases": {},
             "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/operation_categories/operation_category.ex",
-            "line": 14
+            "line": 15
           }
         ],
         [
@@ -505,6 +516,11 @@
                 "elixirType": "KaneIranaiApi.Users.User"
               },
               {
+                "name": "planned_operations",
+                "type": "list",
+                "elixirType": "KaneIranaiApi.PlannedOperations.PlannedOperation"
+              },
+              {
                 "name": "inserted_at",
                 "type": "naive_datetime"
               },
@@ -517,7 +533,7 @@
             "associationsDetailed": [],
             "aliases": {},
             "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/budget_plans/budget_plan.ex",
-            "line": 9
+            "line": 10
           }
         ],
         [
@@ -624,16 +640,14 @@
                 "type": "integer"
               },
               {
-                "name": "plan_id",
-                "type": "binary_id"
+                "name": "budget_plan",
+                "type": "assoc",
+                "elixirType": "KaneIranaiApi.BudgetPlans.BudgetPlan"
               },
               {
-                "name": "operation_id",
-                "type": "binary_id"
-              },
-              {
-                "name": "operation_category_id",
-                "type": "binary_id"
+                "name": "operation_category",
+                "type": "assoc",
+                "elixirType": "KaneIranaiApi.OperationCategories.OperationCategory"
               },
               {
                 "name": "inserted_at",
@@ -648,7 +662,7 @@
             "associationsDetailed": [],
             "aliases": {},
             "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/planned_operations/planned_operation.ex",
-            "line": 12
+            "line": 14
           }
         ]
       ],
@@ -888,6 +902,11 @@
                   "elixirType": "KaneIranaiApi.Users.User"
                 },
                 {
+                  "name": "planned_operations",
+                  "type": "list",
+                  "elixirType": "KaneIranaiApi.PlannedOperations.PlannedOperation"
+                },
+                {
                   "name": "inserted_at",
                   "type": "naive_datetime"
                 },
@@ -900,7 +919,7 @@
               "associationsDetailed": [],
               "aliases": {},
               "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/budget_plans/budget_plan.ex",
-              "line": 9
+              "line": 10
             }
           ]
         ],
@@ -1013,6 +1032,11 @@
                   "elixirType": "KaneIranaiApi.Operations.Operation"
                 },
                 {
+                  "name": "planned_operations",
+                  "type": "list",
+                  "elixirType": "KaneIranaiApi.PlannedOperations.PlannedOperation"
+                },
+                {
                   "name": "inserted_at",
                   "type": "naive_datetime"
                 },
@@ -1025,7 +1049,7 @@
               "associationsDetailed": [],
               "aliases": {},
               "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/operation_categories/operation_category.ex",
-              "line": 14
+              "line": 15
             }
           ]
         ],
@@ -1138,16 +1162,14 @@
                   "type": "integer"
                 },
                 {
-                  "name": "plan_id",
-                  "type": "binary_id"
+                  "name": "budget_plan",
+                  "type": "assoc",
+                  "elixirType": "KaneIranaiApi.BudgetPlans.BudgetPlan"
                 },
                 {
-                  "name": "operation_id",
-                  "type": "binary_id"
-                },
-                {
-                  "name": "operation_category_id",
-                  "type": "binary_id"
+                  "name": "operation_category",
+                  "type": "assoc",
+                  "elixirType": "KaneIranaiApi.OperationCategories.OperationCategory"
                 },
                 {
                   "name": "inserted_at",
@@ -1162,7 +1184,7 @@
               "associationsDetailed": [],
               "aliases": {},
               "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/planned_operations/planned_operation.ex",
-              "line": 12
+              "line": 14
             }
           ]
         ],
@@ -1274,314 +1296,397 @@
         "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api/operation_categories/operation_category.ex": "ee6c8920908c78c308369b51ea8967c626c44a03",
         "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api/user_operation_categories/user_operation_category.ex": "e652cc729742e14b328f14291433323d51cffa47",
         "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api/users/user.ex": "540f553af39df1ba208fb1060dd0879c7d0b9447",
-        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/budget_plans/budget_plan.ex": "fabafee7deab36150bcd2bf09c3d7ac557012d81",
+        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/budget_plans/budget_plan.ex": "0be4b8e4eebbfba72d449e9dd0d7a81b12b7ec0e",
         "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/currencies/currency.ex": "088d0f16ca5e4e29a107439a6d1be58f5c34dde5",
         "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/debit_accounts/debit_account.ex": "b7bbfde4e5860e0881696bcbebaa3f56354945c3",
-        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/operation_categories/operation_category.ex": "1800a62983910092b70debd43a06c98e61d9e173",
-        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/operations/operation.ex": "06388a425317bbf7cd48b6461226078a6a1edcd5",
+        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/operation_categories/operation_category.ex": "89cef6ab55d1bcac44432f382d62008d2e395d76",
+        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/operations/operation.ex": "6b563a9c1a197c498d7e04e6389b47863f9136f3",
         "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/operations_links/operations_link.ex": "5622c4b6c5f75254af042c7dc5648b007b0f6346",
-        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/planned_operations/planned_operation.ex": "91ef4e34a9c3075bce3a2fd05b0016bcda9e9755",
+        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/planned_operations/planned_operation.ex": "c3b31911faf59440eb4e54a28a2319301b89778a",
         "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/user_operation_categories/user_operation_category.ex": "e652cc729742e14b328f14291433323d51cffa47",
         "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api/users/user.ex": "9ed14d4619921973ccff2a69a34d2039d75ce80d"
       },
       "workspaceRoot": "/home/kvato/projects/kane_iranai_api"
     },
     "events": {
-      "events": [],
-      "fileHashes": {},
+      "events": [
+        [
+          "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/auth/guardian.ex",
+          []
+        ]
+      ],
+      "fileHashes": {
+        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/auth/guardian.ex": "31fe74a0c293a5362ab14a039c3299aa9d5e7976"
+      },
       "workspaceRoot": "/home/kvato/projects/kane_iranai_api"
     },
     "routes": {
       "routes": [
         {
-          "path": "/api/swagger/",
-          "verb": "FORWARD",
-          "filePath": "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/router.ex",
-          "line": 47,
-          "helperBase": "api_swagger",
-          "params": [],
-          "isResource": false,
-          "forwardTo": "PhoenixSwagger.Plug.SwaggerUI",
-          "scopePath": "/api/swagger"
-        },
-        {
-          "path": "/api/users/delete",
-          "verb": "DELETE",
-          "filePath": "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/router.ex",
-          "line": 43,
-          "helperBase": "api_users_delete",
-          "params": [],
-          "isResource": false,
-          "controller": "UserController",
-          "action": "delete",
-          "scopePath": "/api"
-        },
-        {
-          "path": "/api/users/update",
-          "verb": "PUT",
-          "filePath": "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/router.ex",
-          "line": 42,
-          "helperBase": "api_users_update",
-          "params": [],
-          "isResource": false,
-          "controller": "UserController",
-          "action": "update",
-          "scopePath": "/api"
-        },
-        {
-          "path": "/api/users/refresh_session",
           "verb": "GET",
+          "path": "/",
           "filePath": "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/router.ex",
-          "line": 41,
-          "helperBase": "api_users_refresh_session",
+          "line": 26,
+          "controller": "RedirectController",
+          "action": "permanent_redirect",
+          "helperBase": "root",
           "params": [],
           "isResource": false,
-          "controller": "UserController",
-          "action": "refresh_session",
-          "scopePath": "/api"
+          "pipeline": "api"
         },
         {
-          "path": "/api/users/sign_out",
           "verb": "GET",
+          "path": "/api/",
           "filePath": "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/router.ex",
-          "line": 40,
-          "helperBase": "api_users_sign_out",
+          "line": 31,
+          "controller": "DefaultController",
+          "action": "index",
+          "helperBase": "root",
           "params": [],
           "isResource": false,
-          "controller": "UserController",
-          "action": "sign_out",
+          "pipeline": "api",
           "scopePath": "/api"
         },
         {
-          "path": "/api/users/current_user",
+          "verb": "POST",
+          "path": "/api/users/create",
+          "filePath": "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/router.ex",
+          "line": 32,
+          "controller": "UserController",
+          "action": "create",
+          "helperBase": "user_create",
+          "params": [],
+          "isResource": false,
+          "pipeline": "api",
+          "scopePath": "/api"
+        },
+        {
+          "verb": "POST",
+          "path": "/api/users/sign_in",
+          "filePath": "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/router.ex",
+          "line": 33,
+          "controller": "UserController",
+          "action": "sign_in",
+          "helperBase": "user_sign_in",
+          "params": [],
+          "isResource": false,
+          "pipeline": "api",
+          "scopePath": "/api"
+        },
+        {
           "verb": "GET",
-          "filePath": "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/router.ex",
-          "line": 39,
-          "helperBase": "api_users_current_user",
-          "params": [],
-          "isResource": false,
-          "controller": "UserController",
-          "action": "current_user",
-          "scopePath": "/api"
-        },
-        {
           "path": "/api/users/by_id/:id",
-          "verb": "GET",
           "filePath": "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/router.ex",
           "line": 38,
-          "helperBase": "api_users_by_id",
+          "controller": "UserController",
+          "action": "show",
+          "helperBase": "user_by_id",
           "params": [
             "id"
           ],
           "isResource": false,
-          "controller": "UserController",
-          "action": "show",
           "scopePath": "/api"
         },
         {
-          "path": "/api/users/sign_in",
-          "verb": "POST",
-          "filePath": "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/router.ex",
-          "line": 33,
-          "helperBase": "api_users_sign_in",
-          "params": [],
-          "isResource": false,
-          "controller": "UserController",
-          "action": "sign_in",
-          "scopePath": "/api"
-        },
-        {
-          "path": "/api/users/create",
-          "verb": "POST",
-          "filePath": "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/router.ex",
-          "line": 32,
-          "helperBase": "api_users_create",
-          "params": [],
-          "isResource": false,
-          "controller": "UserController",
-          "action": "create",
-          "scopePath": "/api"
-        },
-        {
-          "path": "/api/",
           "verb": "GET",
+          "path": "/api/users/current_user",
           "filePath": "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/router.ex",
-          "line": 31,
-          "helperBase": "api",
+          "line": 39,
+          "controller": "UserController",
+          "action": "current_user",
+          "helperBase": "user_current_user",
           "params": [],
           "isResource": false,
-          "controller": "DefaultController",
-          "action": "index",
           "scopePath": "/api"
         },
         {
-          "path": "/",
           "verb": "GET",
+          "path": "/api/users/sign_out",
           "filePath": "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/router.ex",
-          "line": 26,
+          "line": 40,
+          "controller": "UserController",
+          "action": "sign_out",
+          "helperBase": "user_sign_out",
+          "params": [],
+          "isResource": false,
+          "scopePath": "/api"
+        },
+        {
+          "verb": "GET",
+          "path": "/api/users/refresh_session",
+          "filePath": "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/router.ex",
+          "line": 41,
+          "controller": "UserController",
+          "action": "refresh_session",
+          "helperBase": "user_refresh_session",
+          "params": [],
+          "isResource": false,
+          "scopePath": "/api"
+        },
+        {
+          "verb": "PUT",
+          "path": "/api/users/update",
+          "filePath": "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/router.ex",
+          "line": 42,
+          "controller": "UserController",
+          "action": "update",
+          "helperBase": "user_update",
+          "params": [],
+          "isResource": false,
+          "scopePath": "/api"
+        },
+        {
+          "verb": "DELETE",
+          "path": "/api/users/delete",
+          "filePath": "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/router.ex",
+          "line": 43,
+          "controller": "UserController",
+          "action": "delete",
+          "helperBase": "user_delete",
+          "params": [],
+          "isResource": false,
+          "scopePath": "/api"
+        },
+        {
+          "verb": "FORWARD",
+          "path": "/api/swagger/",
+          "filePath": "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/router.ex",
+          "line": 47,
+          "forwardTo": "PhoenixSwagger.Plug.SwaggerUI",
           "helperBase": "root",
           "params": [],
           "isResource": false,
-          "controller": "RedirectController",
-          "action": "permanent_redirect",
-          "scopePath": "/"
-        },
-        {
-          "path": "/api/swagger/",
-          "verb": "FORWARD",
-          "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex",
-          "line": 47,
-          "helperBase": "api_swagger",
-          "params": [],
-          "isResource": false,
-          "forwardTo": "PhoenixSwagger.Plug.SwaggerUI",
           "scopePath": "/api/swagger"
         },
         {
-          "path": "/api/users/delete",
-          "verb": "DELETE",
-          "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex",
-          "line": 43,
-          "helperBase": "api_users_delete",
+          "verb": "FORWARD",
+          "path": "/dev/mailbox",
+          "filePath": "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/router.ex",
+          "line": 72,
+          "forwardTo": "Plug.Swoosh.MailboxPreview",
+          "helperBase": "mailbox",
           "params": [],
           "isResource": false,
-          "controller": "UserController",
-          "action": "delete",
-          "scopePath": "/api"
+          "scopePath": "/dev"
         },
         {
-          "path": "/api/users/update",
-          "verb": "PUT",
-          "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex",
-          "line": 42,
-          "helperBase": "api_users_update",
-          "params": [],
-          "isResource": false,
-          "controller": "UserController",
-          "action": "update",
-          "scopePath": "/api"
-        },
-        {
-          "path": "/api/users/refresh_session",
           "verb": "GET",
+          "path": "/",
           "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex",
-          "line": 41,
-          "helperBase": "api_users_refresh_session",
+          "line": 26,
+          "controller": "RedirectController",
+          "action": "permanent_redirect",
+          "helperBase": "root",
           "params": [],
           "isResource": false,
-          "controller": "UserController",
-          "action": "refresh_session",
-          "scopePath": "/api"
+          "pipeline": "api"
         },
         {
-          "path": "/api/users/sign_out",
           "verb": "GET",
+          "path": "/api/",
           "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex",
-          "line": 40,
-          "helperBase": "api_users_sign_out",
+          "line": 31,
+          "controller": "DefaultController",
+          "action": "index",
+          "helperBase": "root",
           "params": [],
           "isResource": false,
-          "controller": "UserController",
-          "action": "sign_out",
+          "pipeline": "api",
           "scopePath": "/api"
         },
         {
-          "path": "/api/users/current_user",
+          "verb": "POST",
+          "path": "/api/users/create",
+          "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex",
+          "line": 32,
+          "controller": "UserController",
+          "action": "create",
+          "helperBase": "user_create",
+          "params": [],
+          "isResource": false,
+          "pipeline": "api",
+          "scopePath": "/api"
+        },
+        {
+          "verb": "POST",
+          "path": "/api/users/sign_in",
+          "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex",
+          "line": 33,
+          "controller": "UserController",
+          "action": "sign_in",
+          "helperBase": "user_sign_in",
+          "params": [],
+          "isResource": false,
+          "pipeline": "api",
+          "scopePath": "/api"
+        },
+        {
           "verb": "GET",
-          "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex",
-          "line": 39,
-          "helperBase": "api_users_current_user",
-          "params": [],
-          "isResource": false,
-          "controller": "UserController",
-          "action": "current_user",
-          "scopePath": "/api"
-        },
-        {
           "path": "/api/users/by_id/:id",
-          "verb": "GET",
           "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex",
           "line": 38,
-          "helperBase": "api_users_by_id",
+          "controller": "UserController",
+          "action": "show",
+          "helperBase": "user_by_id",
           "params": [
             "id"
           ],
           "isResource": false,
-          "controller": "UserController",
-          "action": "show",
           "scopePath": "/api"
         },
         {
-          "path": "/api/users/sign_in",
-          "verb": "POST",
-          "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex",
-          "line": 33,
-          "helperBase": "api_users_sign_in",
-          "params": [],
-          "isResource": false,
-          "controller": "UserController",
-          "action": "sign_in",
-          "scopePath": "/api"
-        },
-        {
-          "path": "/api/users/create",
-          "verb": "POST",
-          "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex",
-          "line": 32,
-          "helperBase": "api_users_create",
-          "params": [],
-          "isResource": false,
-          "controller": "UserController",
-          "action": "create",
-          "scopePath": "/api"
-        },
-        {
-          "path": "/api/",
           "verb": "GET",
+          "path": "/api/users/current_user",
           "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex",
-          "line": 31,
-          "helperBase": "api",
+          "line": 39,
+          "controller": "UserController",
+          "action": "current_user",
+          "helperBase": "user_current_user",
           "params": [],
           "isResource": false,
-          "controller": "DefaultController",
+          "scopePath": "/api"
+        },
+        {
+          "verb": "GET",
+          "path": "/api/users/sign_out",
+          "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex",
+          "line": 40,
+          "controller": "UserController",
+          "action": "sign_out",
+          "helperBase": "user_sign_out",
+          "params": [],
+          "isResource": false,
+          "scopePath": "/api"
+        },
+        {
+          "verb": "GET",
+          "path": "/api/users/refresh_session",
+          "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex",
+          "line": 41,
+          "controller": "UserController",
+          "action": "refresh_session",
+          "helperBase": "user_refresh_session",
+          "params": [],
+          "isResource": false,
+          "scopePath": "/api"
+        },
+        {
+          "verb": "PUT",
+          "path": "/api/users/update",
+          "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex",
+          "line": 42,
+          "controller": "UserController",
+          "action": "update",
+          "helperBase": "user_update",
+          "params": [],
+          "isResource": false,
+          "scopePath": "/api"
+        },
+        {
+          "verb": "DELETE",
+          "path": "/api/users/delete",
+          "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex",
+          "line": 43,
+          "controller": "UserController",
+          "action": "delete",
+          "helperBase": "user_delete",
+          "params": [],
+          "isResource": false,
+          "scopePath": "/api"
+        },
+        {
+          "verb": "GET",
+          "path": "/api/plan",
+          "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex",
+          "line": 45,
+          "controller": "BudgetPlanController",
           "action": "index",
+          "helperBase": "plan",
+          "params": [],
+          "isResource": false,
           "scopePath": "/api"
         },
         {
-          "path": "/",
-          "verb": "GET",
+          "verb": "FORWARD",
+          "path": "/api/swagger/",
           "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex",
-          "line": 26,
+          "line": 49,
+          "forwardTo": "PhoenixSwagger.Plug.SwaggerUI",
           "helperBase": "root",
           "params": [],
           "isResource": false,
-          "controller": "RedirectController",
-          "action": "permanent_redirect",
-          "scopePath": "/"
+          "scopePath": "/api/swagger"
+        },
+        {
+          "verb": "FORWARD",
+          "path": "/dev/mailbox",
+          "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex",
+          "line": 74,
+          "forwardTo": "Plug.Swoosh.MailboxPreview",
+          "helperBase": "mailbox",
+          "params": [],
+          "isResource": false,
+          "scopePath": "/dev"
         }
       ],
       "fileHashes": {
         "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/router.ex": "a83e9f3d3fa893d2210a9a7879995cc2fd48a7fd",
-        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex": "a83e9f3d3fa893d2210a9a7879995cc2fd48a7fd"
+        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex": "f70ba310fe0366938b0964ad2b6f44f4f082c928"
       },
       "workspaceRoot": "/home/kvato/projects/kane_iranai_api"
     },
     "controllers": {
       "rendersByFile": [
         [
-          "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/controllers/fallback_controller.ex",
+          "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/controllers/default_controller.ex",
           []
+        ],
+        [
+          "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/budget_plan_controller.ex",
+          [
+            {
+              "controllerModule": "KaneIranaiApiWeb.BudgetPlanController",
+              "controllerFile": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/budget_plan_controller.ex",
+              "action": "index",
+              "templateName": "index",
+              "assigns": [
+                "budget_plans"
+              ],
+              "assignsWithTypes": [
+                {
+                  "name": "budget_plans",
+                  "variableName": "budget_plans"
+                }
+              ],
+              "line": 12
+            }
+          ]
         ],
         [
           "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/redirect_controller.ex",
           []
         ],
         [
+          "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/controllers/fallback_controller.ex",
+          [
+            {
+              "controllerModule": "KaneIranaiApiWeb.FallbackController",
+              "controllerFile": "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/controllers/fallback_controller.ex",
+              "action": "call",
+              "templateName": "changeset: changeset",
+              "assigns": [],
+              "assignsWithTypes": [],
+              "actionBody": "  def call(conn, {:error, :not_found}) do\n    conn\n    |> put_status(:not_found)\n    |> put_view(html: KaneIranaiApiWeb.ErrorHTML, json: KaneIranaiApiWeb.ErrorJSON)\n    |> render(:\"404\")\n  end",
+              "line": 14
+            }
+          ]
+        ],
+        [
           "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/controllers/redirect_controller.ex",
           []
         ],
         [
-          "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/controllers/default_controller.ex",
+          "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/default_controller.ex",
           []
         ],
         [
@@ -1598,10 +1703,48 @@
               "assignsWithTypes": [
                 {
                   "name": "users",
-                  "variableName": "users"
+                  "variableName": "users",
+                  "typeInfo": {
+                    "kind": "list",
+                    "innerType": {
+                      "kind": "struct",
+                      "module": "Users.User"
+                    }
+                  }
                 }
               ],
+              "actionBody": "  def index(conn, _params) do\n    users = Users.list_users()\n    render(conn, :index, users: users)\n  end",
               "line": 14
+            },
+            {
+              "controllerModule": "KaneIranaiApiWeb.UserController",
+              "controllerFile": "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/controllers/user_controller.ex",
+              "action": "authorize_user",
+              "templateName": "%{user: user, token: token}",
+              "assigns": [],
+              "assignsWithTypes": [],
+              "actionBody": "  defp authorize_user(conn, email, password) do\n    case Guardian.authenticate(email, password) do\n      {:ok, user, token} ->\n        conn\n        |> Plug.Conn.put_session(:user_id, user.id)\n        |> put_status(:ok)\n        |> render(:user_token, %{user: user, token: token})\n      {:error, :unathorized} -> raise ErrorResponse.Unathorized, message: \"Email or password incorrect!\"\n    end\n  end",
+              "line": 34
+            },
+            {
+              "controllerModule": "KaneIranaiApiWeb.UserController",
+              "controllerFile": "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/controllers/user_controller.ex",
+              "action": "sign_out",
+              "templateName": "%{user: user, token: nil}",
+              "assigns": [],
+              "assignsWithTypes": [],
+              "actionBody": "  def sign_out(conn, %{}) do\n    user = conn.assigns[:user]\n    token = Guardian.Plug.current_token(conn)\n    Guardian.revoke(token)\n    conn\n    |> Plug.Conn.clear_session()\n    |> put_status(:ok)\n    |> render(\"user_token.json\", %{user: user, token: nil})\n  end",
+              "line": 46
+            },
+            {
+              "controllerModule": "KaneIranaiApiWeb.UserController",
+              "controllerFile": "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/controllers/user_controller.ex",
+              "action": "refresh_session",
+              "templateName": "%{user: user, token: token}",
+              "assigns": [],
+              "assignsWithTypes": [],
+              "actionBody": "  def refresh_session(conn, %{}) do\n    current_token = Guardian.Plug.current_token(conn)\n    {:ok, user, token} = Guardian.authenticate(current_token)\n\n    conn\n    |> Plug.Conn.put_session(:user_id, user.id)\n    |> put_status(:ok)\n    |> render(\"user_token.json\", %{user: user, token: token})\n  end",
+              "line": 57
             },
             {
               "controllerModule": "KaneIranaiApiWeb.UserController",
@@ -1614,10 +1757,26 @@
               "assignsWithTypes": [
                 {
                   "name": "user",
-                  "variableName": "user"
+                  "variableName": "user",
+                  "typeInfo": {
+                    "kind": "struct",
+                    "module": "Users.User"
+                  }
                 }
               ],
+              "actionBody": "  def show(conn, %{\"id\" => id}) do\n    user = Users.get_user!(id)\n    render(conn, :show, user: user)\n  end",
               "line": 62
+            },
+            {
+              "controllerModule": "KaneIranaiApiWeb.UserController",
+              "controllerFile": "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/controllers/user_controller.ex",
+              "action": "current_user",
+              "templateName": "user: conn.assigns",
+              "templateFormat": "user",
+              "assigns": [],
+              "assignsWithTypes": [],
+              "actionBody": "  def current_user(conn, %{}) do\n    conn\n    |> put_status(:ok)\n    |> render(:show, user: conn.assigns.user)\n  end",
+              "line": 68
             },
             {
               "controllerModule": "KaneIranaiApiWeb.UserController",
@@ -1633,16 +1792,13 @@
                   "variableName": "user"
                 }
               ],
+              "actionBody": "  def update(conn, %{\"current_password\" => current_password, \"user\" => user_params}) do\n    case Guardian.validate_password(conn.assigns.user, current_password) do\n      true ->\n        {:ok, %User{} = user} = Users.update_user(conn.assigns.user, user_params)\n        render(conn, :show, user: user)\n      false -> raise ErrorResponse.Unathorized, message: \"Password incorrect\"\n    end\n  end",
               "line": 76
             }
           ]
         ],
         [
           "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/fallback_controller.ex",
-          []
-        ],
-        [
-          "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/default_controller.ex",
           []
         ],
         [
@@ -1701,13 +1857,14 @@
       ],
       "templateSummaries": [],
       "fileHashes": {
-        "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/controllers/fallback_controller.ex": "26b5b622768ed9e59f1090e5430293f3dfc4ef63",
-        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/redirect_controller.ex": "14f87dc26652cbfd233f8a11e42215bafe343214",
-        "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/controllers/redirect_controller.ex": "14f87dc26652cbfd233f8a11e42215bafe343214",
         "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/controllers/default_controller.ex": "7d2386312d7635f901ddd3b4eb7f3b8f84ad5070",
+        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/budget_plan_controller.ex": "8aa3c736267a00f1d511bb08c33216a8e57f244c",
+        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/redirect_controller.ex": "14f87dc26652cbfd233f8a11e42215bafe343214",
+        "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/controllers/fallback_controller.ex": "26b5b622768ed9e59f1090e5430293f3dfc4ef63",
+        "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/controllers/redirect_controller.ex": "14f87dc26652cbfd233f8a11e42215bafe343214",
+        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/default_controller.ex": "7d2386312d7635f901ddd3b4eb7f3b8f84ad5070",
         "/home/kvato/projects/kane_iranai_api/.kilo/worktrees/plume-troodon/lib/kane_iranai_api_web/controllers/user_controller.ex": "7c5b48795cf0134c8f51fbae5787889d9d753fe8",
         "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/fallback_controller.ex": "26b5b622768ed9e59f1090e5430293f3dfc4ef63",
-        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/default_controller.ex": "7d2386312d7635f901ddd3b4eb7f3b8f84ad5070",
         "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/user_controller.ex": "7c5b48795cf0134c8f51fbae5787889d9d753fe8"
       },
       "workspaceRoot": "/home/kvato/projects/kane_iranai_api"
