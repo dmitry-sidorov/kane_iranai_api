@@ -11,7 +11,7 @@ defmodule KaneIranaiApi.MixProject do
       aliases: aliases(),
       deps: deps(),
       listeners: [Phoenix.CodeReloader],
-      compilers: Mix.compilers ++ [:phoenix_swagger],
+      compilers: Mix.compilers() ++ [:phoenix_swagger]
     ]
   end
 
@@ -40,11 +40,22 @@ defmodule KaneIranaiApi.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:igniter, "~> 0.6", only: [:dev, :test]},
+      {:inertia, "~> 3.0"},
       {:phoenix, "~> 1.8.5"},
       {:phoenix_ecto, "~> 4.5"},
       {:ecto_sql, "~> 3.13"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_live_dashboard, "~> 0.8.3"},
+      {:esbuild, "~> 0.10", runtime: Mix.env() == :dev},
+      {:tailwind, "~> 0.5", runtime: Mix.env() == :dev},
+      {:heroicons,
+       github: "tailwindlabs/heroicons",
+       tag: "v2.1.1",
+       sparse: "optimized",
+       app: false,
+       compile: false,
+       depth: 1},
       {:swoosh, "~> 1.16"},
       {:req, "~> 0.5"},
       {:telemetry_metrics, "~> 1.0"},
@@ -73,11 +84,21 @@ defmodule KaneIranaiApi.MixProject do
   defp aliases do
     [
       seed: ["run priv/repo/seeds.exs"],
-      setup: ["deps.get", "ecto.setup"],
+      setup: ["deps.get", "ecto.setup", "assets.setup", "assets.build"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      precommit: ["compile --warnings-as-errors", "deps.unlock --unused", "format", "test"]
+      precommit: ["compile --warnings-as-errors", "deps.unlock --unused", "format", "test"],
+      "assets.setup": [
+        "esbuild.install --if-missing",
+        "tailwind.install --if-missing"
+      ],
+      "assets.build": ["esbuild default", "tailwind default"],
+      "assets.deploy": [
+        "esbuild default --minify",
+        "tailwind default --minify",
+        "phx.digest"
+      ]
     ]
   end
 end

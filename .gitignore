@@ -26,3 +26,10 @@ erl_crash.dump
 # Ignore package tarball (built via "mix hex.build").
 kane_iranai_api-*.tar
 .elixir_lc/
+
+# Ignore assets that are produced by build tools.
+/priv/static/assets/
+
+# In case you use Node.js/npm, you want to ignore these.
+npm-debug.log
+/assets/node_modules/

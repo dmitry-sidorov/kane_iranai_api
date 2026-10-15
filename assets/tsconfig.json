@@ -1,0 +1,20 @@
+// This file is needed on most editors to enable the intelligent autocompletion
+// of JavaScript API methods. You can safely delete it if you don't need it.
+//
+// Note: This file assumes a basic esbuild setup without node_modules.
+// We include a generic paths alias to deps to mimic how esbuild resolves
+// assets.
+// If you have a package.json in your project, you should remove the
+// paths configuration and instead add any relevant dependencies to the
+// dependencies section of your package.json.
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "*": ["../deps/*"]
+    },
+    "allowJs": true,
+    "noEmit": true
+  },
+  "include": ["js/**/*"]
+}
