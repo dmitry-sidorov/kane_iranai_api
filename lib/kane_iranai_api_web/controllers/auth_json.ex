@@ -9,7 +9,7 @@ defmodule KaneIranaiApiWeb.AuthJSON do
     }
   end
 
-  def user_token(%{user: user, token: token}) do
+  def auth_token(%{user: user, token: token}) do
     %{
       id: user.id,
       email: user.email,

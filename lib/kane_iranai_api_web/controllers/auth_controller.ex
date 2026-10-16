@@ -15,7 +15,7 @@ defmodule KaneIranaiApiWeb.AuthController do
         conn
         |> Plug.Conn.put_session(:user_id, user.id)
         |> put_status(:ok)
-        |> render(:user_token, %{user: user, token: token})
+        |> render(:auth_token, %{user: user, token: token})
       {:error, :unathorized} -> raise ErrorResponse.Unathorized, message: "Email or password incorrect!"
     end
   end
