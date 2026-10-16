@@ -3,6 +3,7 @@ defmodule KaneIranaiApiWeb.UserController do
   import KaneIranaiApiWeb.Auth.AuthorizedPlug
 
   alias KaneIranaiApi.Users
+  alias KaneIranaiApiWeb.AuthController
   alias KaneIranaiApi.Users.User
   alias KaneIranaiApiWeb.Auth.{ErrorResponse, Guardian}
 
@@ -16,56 +17,14 @@ defmodule KaneIranaiApiWeb.UserController do
 
   def create(conn, %{"user" => user_params}) do
     case Users.create_user(user_params, :with_categories) do
-      {:ok, %User{} = user} -> authorize_user(conn, user.email, user_params["hash_password"])
+      {:ok, %User{} = user} -> AuthController.authorize_user(conn, user.email, user_params["hash_password"])
       error -> error
     end
-  end
-
-  def sign_in(conn, %{"email" => email, "password" => password}) do
-    authorize_user(conn, email, password)
-  end
-
-  defp authorize_user(conn, email, password) do
-    case Guardian.authenticate(email, password) do
-      {:ok, user, token} ->
-        conn
-        |> Plug.Conn.put_session(:user_id, user.id)
-        |> put_status(:ok)
-        |> render(:user_token, %{user: user, token: token})
-      {:error, :unathorized} -> raise ErrorResponse.Unathorized, message: "Email or password incorrect!"
-    end
-  end
-
-  def sign_out(conn, %{}) do
-    user = conn.assigns[:user]
-    token = Guardian.Plug.current_token(conn)
-    Guardian.revoke(token)
-    conn
-    |> Plug.Conn.clear_session()
-    |> put_status(:ok)
-    |> render("user_token.json", %{user: user, token: nil})
-  end
-
-
-  def refresh_session(conn, %{}) do
-    current_token = Guardian.Plug.current_token(conn)
-    {:ok, user, token} = Guardian.authenticate(current_token)
-
-    conn
-    |> Plug.Conn.put_session(:user_id, user.id)
-    |> put_status(:ok)
-    |> render("user_token.json", %{user: user, token: token})
   end
 
   def show(conn, %{"id" => id}) do
     user = Users.get_user!(id)
     render(conn, :show, user: user)
-  end
-
-  def current_user(conn, %{}) do
-    conn
-    |> put_status(:ok)
-    |> render(:show, user: conn.assigns.user)
   end
 
   # TODO: fix update endpoint

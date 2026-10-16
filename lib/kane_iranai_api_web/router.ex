@@ -30,19 +30,20 @@ defmodule KaneIranaiApiWeb.Router do
     pipe_through :api
     get "/" , DefaultController, :index
     post "/users/create", UserController, :create
-    post "/users/sign_in", UserController, :sign_in
+    post "/auth/login", AuthController, :sign_in
   end
 
   scope "/api", KaneIranaiApiWeb do
     pipe_through [:api, :auth]
-    get "/users/by_id/:id", UserController, :show
-    get "/users/current_user", UserController, :current_user
-    get "/users/sign_out", UserController, :sign_out
-    get "/users/refresh_session", UserController, :refresh_session
+    get "/auth/current_user", AuthController, :current_user
+    get "/auth/refresh_session", AuthController, :refresh_session
+    get "/auth/logout", AuthController, :sign_out
+
+    get "/users/:id", UserController, :show
     put "/users/update", UserController, :update
     delete "/users/delete", UserController, :delete
 
-    get "/plans", BudgetPlanController, :index
+    get "/budget-plans", BudgetPlanController, :index
   end
 
   scope "/api/swagger" do
