@@ -7,6 +7,7 @@ defmodule KaneIranaiApi.BudgetPlans do
   alias KaneIranaiApi.Repo
 
   alias KaneIranaiApi.BudgetPlans.BudgetPlan
+  alias KaneIranaiApi.Users.User
 
   @doc """
   Returns the list of budget_plans.
@@ -18,7 +19,9 @@ defmodule KaneIranaiApi.BudgetPlans do
 
   """
   def list_budget_plans do
-    Repo.all(BudgetPlan)
+    BudgetPlan
+    |> Repo.all()
+    |> Repo.preload([:user])
   end
 
   @doc """
@@ -49,9 +52,10 @@ defmodule KaneIranaiApi.BudgetPlans do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_budget_plan(attrs) do
+  def create_budget_plan(%User{} = user, attrs) do
     %BudgetPlan{}
     |> BudgetPlan.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:user, user)
     |> Repo.insert()
   end
 

@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "timestamp": 1792157203752,
+  "timestamp": 1792575251285,
   "workspaceRoot": "/home/kvato/projects/kane_iranai_api",
   "registries": {
     "components": {
@@ -1138,12 +1138,12 @@
         },
         {
           "verb": "POST",
-          "path": "/api/users/sign_in",
+          "path": "/api/auth/login",
           "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex",
           "line": 33,
-          "controller": "UserController",
+          "controller": "AuthController",
           "action": "sign_in",
-          "helperBase": "user_sign_in",
+          "helperBase": "auth_login",
           "params": [],
           "isResource": false,
           "pipeline": "api",
@@ -1151,12 +1151,48 @@
         },
         {
           "verb": "GET",
-          "path": "/api/users/by_id/:id",
+          "path": "/api/auth/current_user",
           "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex",
           "line": 38,
+          "controller": "AuthController",
+          "action": "current_user",
+          "helperBase": "auth_current_user",
+          "params": [],
+          "isResource": false,
+          "scopePath": "/api"
+        },
+        {
+          "verb": "GET",
+          "path": "/api/auth/refresh_session",
+          "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex",
+          "line": 39,
+          "controller": "AuthController",
+          "action": "refresh_session",
+          "helperBase": "auth_refresh_session",
+          "params": [],
+          "isResource": false,
+          "scopePath": "/api"
+        },
+        {
+          "verb": "POST",
+          "path": "/api/auth/logout",
+          "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex",
+          "line": 40,
+          "controller": "AuthController",
+          "action": "sign_out",
+          "helperBase": "auth_logout",
+          "params": [],
+          "isResource": false,
+          "scopePath": "/api"
+        },
+        {
+          "verb": "GET",
+          "path": "/api/users/:id",
+          "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex",
+          "line": 42,
           "controller": "UserController",
           "action": "show",
-          "helperBase": "user_by_id",
+          "helperBase": "user",
           "params": [
             "id"
           ],
@@ -1164,46 +1200,10 @@
           "scopePath": "/api"
         },
         {
-          "verb": "GET",
-          "path": "/api/users/current_user",
-          "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex",
-          "line": 39,
-          "controller": "UserController",
-          "action": "current_user",
-          "helperBase": "user_current_user",
-          "params": [],
-          "isResource": false,
-          "scopePath": "/api"
-        },
-        {
-          "verb": "GET",
-          "path": "/api/users/sign_out",
-          "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex",
-          "line": 40,
-          "controller": "UserController",
-          "action": "sign_out",
-          "helperBase": "user_sign_out",
-          "params": [],
-          "isResource": false,
-          "scopePath": "/api"
-        },
-        {
-          "verb": "GET",
-          "path": "/api/users/refresh_session",
-          "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex",
-          "line": 41,
-          "controller": "UserController",
-          "action": "refresh_session",
-          "helperBase": "user_refresh_session",
-          "params": [],
-          "isResource": false,
-          "scopePath": "/api"
-        },
-        {
           "verb": "PUT",
           "path": "/api/users/update",
           "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex",
-          "line": 42,
+          "line": 43,
           "controller": "UserController",
           "action": "update",
           "helperBase": "user_update",
@@ -1215,7 +1215,7 @@
           "verb": "DELETE",
           "path": "/api/users/delete",
           "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex",
-          "line": 43,
+          "line": 44,
           "controller": "UserController",
           "action": "delete",
           "helperBase": "user_delete",
@@ -1225,12 +1225,12 @@
         },
         {
           "verb": "GET",
-          "path": "/api/plans",
+          "path": "/api/budget-plans",
           "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex",
-          "line": 45,
+          "line": 46,
           "controller": "BudgetPlanController",
           "action": "index",
-          "helperBase": "plan",
+          "helperBase": "budget_plan",
           "params": [],
           "isResource": false,
           "scopePath": "/api"
@@ -1239,7 +1239,7 @@
           "verb": "FORWARD",
           "path": "/api/swagger/",
           "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex",
-          "line": 49,
+          "line": 50,
           "forwardTo": "PhoenixSwagger.Plug.SwaggerUI",
           "helperBase": "root",
           "params": [],
@@ -1250,7 +1250,7 @@
           "verb": "FORWARD",
           "path": "/dev/mailbox",
           "filePath": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex",
-          "line": 74,
+          "line": 75,
           "forwardTo": "Plug.Swoosh.MailboxPreview",
           "helperBase": "mailbox",
           "params": [],
@@ -1259,12 +1259,58 @@
         }
       ],
       "fileHashes": {
-        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex": "e6581931846b03553cf8cef24bcf1f337439bb71"
+        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/router.ex": "2758998944391b09efdd87a992688018e078ac8c"
       },
       "workspaceRoot": "/home/kvato/projects/kane_iranai_api"
     },
     "controllers": {
       "rendersByFile": [
+        [
+          "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/auth_controller.ex",
+          [
+            {
+              "controllerModule": "KaneIranaiApiWeb.AuthController",
+              "controllerFile": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/auth_controller.ex",
+              "action": "authorize_user",
+              "templateName": "%{user: user, token: token}",
+              "assigns": [],
+              "assignsWithTypes": [],
+              "actionBody": "  def authorize_user(conn, email, password) do\n    case Guardian.authenticate(email, password) do\n      {:ok, user, token} ->\n        conn\n        |> Plug.Conn.put_session(:user_id, user.id)\n        |> put_status(:ok)\n        |> render(:auth_token, %{user: user, token: token})\n      {:error, :unathorized} -> raise ErrorResponse.Unathorized, message: \"Email or password incorrect!\"\n    end\n  end",
+              "line": 18
+            },
+            {
+              "controllerModule": "KaneIranaiApiWeb.AuthController",
+              "controllerFile": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/auth_controller.ex",
+              "action": "sign_out",
+              "templateName": "%{user: user, token: nil}",
+              "assigns": [],
+              "assignsWithTypes": [],
+              "actionBody": "  def sign_out(conn, %{}) do\n    user = conn.assigns[:user]\n    token = Guardian.Plug.current_token(conn)\n    Guardian.revoke(token)\n    conn\n    |> Plug.Conn.clear_session()\n    |> put_status(:ok)\n    |> render(\"auth_token.json\", %{user: user, token: nil})\n  end",
+              "line": 30
+            },
+            {
+              "controllerModule": "KaneIranaiApiWeb.AuthController",
+              "controllerFile": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/auth_controller.ex",
+              "action": "refresh_session",
+              "templateName": "%{user: user, token: token}",
+              "assigns": [],
+              "assignsWithTypes": [],
+              "actionBody": "  def refresh_session(conn, %{}) do\n    current_token = Guardian.Plug.current_token(conn)\n    {:ok, user, token} = Guardian.authenticate(current_token)\n\n    conn\n    |> Plug.Conn.put_session(:user_id, user.id)\n    |> put_status(:ok)\n    |> render(\"auth_token.json\", %{user: user, token: token})\n  end",
+              "line": 41
+            },
+            {
+              "controllerModule": "KaneIranaiApiWeb.AuthController",
+              "controllerFile": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/auth_controller.ex",
+              "action": "current_user",
+              "templateName": "user: conn.assigns",
+              "templateFormat": "user",
+              "assigns": [],
+              "assignsWithTypes": [],
+              "actionBody": "  def current_user(conn, %{}) do\n    conn\n    |> put_status(:ok)\n    |> render(:current_user, user: conn.assigns.user)\n  end",
+              "line": 47
+            }
+          ]
+        ],
         [
           "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/budget_plan_controller.ex",
           [
@@ -1342,37 +1388,7 @@
                 }
               ],
               "actionBody": "  def index(conn, _params) do\n    users = Users.list_users()\n    render(conn, :index, users: users)\n  end",
-              "line": 14
-            },
-            {
-              "controllerModule": "KaneIranaiApiWeb.UserController",
-              "controllerFile": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/user_controller.ex",
-              "action": "authorize_user",
-              "templateName": "%{user: user, token: token}",
-              "assigns": [],
-              "assignsWithTypes": [],
-              "actionBody": "  defp authorize_user(conn, email, password) do\n    case Guardian.authenticate(email, password) do\n      {:ok, user, token} ->\n        conn\n        |> Plug.Conn.put_session(:user_id, user.id)\n        |> put_status(:ok)\n        |> render(:user_token, %{user: user, token: token})\n      {:error, :unathorized} -> raise ErrorResponse.Unathorized, message: \"Email or password incorrect!\"\n    end\n  end",
-              "line": 34
-            },
-            {
-              "controllerModule": "KaneIranaiApiWeb.UserController",
-              "controllerFile": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/user_controller.ex",
-              "action": "sign_out",
-              "templateName": "%{user: user, token: nil}",
-              "assigns": [],
-              "assignsWithTypes": [],
-              "actionBody": "  def sign_out(conn, %{}) do\n    user = conn.assigns[:user]\n    token = Guardian.Plug.current_token(conn)\n    Guardian.revoke(token)\n    conn\n    |> Plug.Conn.clear_session()\n    |> put_status(:ok)\n    |> render(\"user_token.json\", %{user: user, token: nil})\n  end",
-              "line": 46
-            },
-            {
-              "controllerModule": "KaneIranaiApiWeb.UserController",
-              "controllerFile": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/user_controller.ex",
-              "action": "refresh_session",
-              "templateName": "%{user: user, token: token}",
-              "assigns": [],
-              "assignsWithTypes": [],
-              "actionBody": "  def refresh_session(conn, %{}) do\n    current_token = Guardian.Plug.current_token(conn)\n    {:ok, user, token} = Guardian.authenticate(current_token)\n\n    conn\n    |> Plug.Conn.put_session(:user_id, user.id)\n    |> put_status(:ok)\n    |> render(\"user_token.json\", %{user: user, token: token})\n  end",
-              "line": 57
+              "line": 15
             },
             {
               "controllerModule": "KaneIranaiApiWeb.UserController",
@@ -1393,18 +1409,7 @@
                 }
               ],
               "actionBody": "  def show(conn, %{\"id\" => id}) do\n    user = Users.get_user!(id)\n    render(conn, :show, user: user)\n  end",
-              "line": 62
-            },
-            {
-              "controllerModule": "KaneIranaiApiWeb.UserController",
-              "controllerFile": "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/user_controller.ex",
-              "action": "current_user",
-              "templateName": "user: conn.assigns",
-              "templateFormat": "user",
-              "assigns": [],
-              "assignsWithTypes": [],
-              "actionBody": "  def current_user(conn, %{}) do\n    conn\n    |> put_status(:ok)\n    |> render(:show, user: conn.assigns.user)\n  end",
-              "line": 68
+              "line": 27
             },
             {
               "controllerModule": "KaneIranaiApiWeb.UserController",
@@ -1421,18 +1426,19 @@
                 }
               ],
               "actionBody": "  def update(conn, %{\"current_password\" => current_password, \"user\" => user_params}) do\n    case Guardian.validate_password(conn.assigns.user, current_password) do\n      true ->\n        {:ok, %User{} = user} = Users.update_user(conn.assigns.user, user_params)\n        render(conn, :show, user: user)\n      false -> raise ErrorResponse.Unathorized, message: \"Password incorrect\"\n    end\n  end",
-              "line": 76
+              "line": 35
             }
           ]
         ]
       ],
       "templateSummaries": [],
       "fileHashes": {
+        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/auth_controller.ex": "908bc8b640f394f59e5fe0df3c5aa29bdd2a2a91",
         "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/budget_plan_controller.ex": "8aa3c736267a00f1d511bb08c33216a8e57f244c",
         "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/default_controller.ex": "7d2386312d7635f901ddd3b4eb7f3b8f84ad5070",
         "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/fallback_controller.ex": "26b5b622768ed9e59f1090e5430293f3dfc4ef63",
         "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/redirect_controller.ex": "14f87dc26652cbfd233f8a11e42215bafe343214",
-        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/user_controller.ex": "7c5b48795cf0134c8f51fbae5787889d9d753fe8"
+        "/home/kvato/projects/kane_iranai_api/lib/kane_iranai_api_web/controllers/user_controller.ex": "1a6a92546251ff212a4938fa621ba03cd654f9ed"
       },
       "workspaceRoot": "/home/kvato/projects/kane_iranai_api"
     },

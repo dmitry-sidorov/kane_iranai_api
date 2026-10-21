@@ -7,6 +7,7 @@ defmodule KaneIranaiApi.BudgetPlansTest do
     alias KaneIranaiApi.BudgetPlans.BudgetPlan
 
     import KaneIranaiApi.BudgetPlansFixtures
+    import KaneIranaiApi.UsersFixtures
 
     @invalid_attrs %{description: nil, start_date: nil, period_in_days: nil}
 
@@ -22,15 +23,18 @@ defmodule KaneIranaiApi.BudgetPlansTest do
 
     test "create_budget_plan/1 with valid data creates a budget_plan" do
       valid_attrs = %{description: "some description", start_date: ~N[2026-10-05 18:53:00], period_in_days: 42}
+      {:ok, user} = user_fixture()
 
-      assert {:ok, %BudgetPlan{} = budget_plan} = BudgetPlans.create_budget_plan(valid_attrs)
+      assert {:ok, %BudgetPlan{} = budget_plan} = BudgetPlans.create_budget_plan(user, valid_attrs)
       assert budget_plan.description == "some description"
       assert budget_plan.start_date == ~N[2026-10-05 18:53:00]
       assert budget_plan.period_in_days == 42
     end
 
     test "create_budget_plan/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = BudgetPlans.create_budget_plan(@invalid_attrs)
+      {:ok, user} = user_fixture()
+
+      assert {:error, %Ecto.Changeset{}} = BudgetPlans.create_budget_plan(user, @invalid_attrs)
     end
 
     test "update_budget_plan/2 with valid data updates the budget_plan" do
