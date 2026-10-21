@@ -37,7 +37,7 @@ defmodule KaneIranaiApi.BudgetPlans do
     BudgetPlan
     |> where([budget_plan], budget_plan.user_id == ^user.id)
     |> Repo.all()
-    |> Repo.preload([:user])
+    |> Repo.preload([:user, :planned_operations])
   end
 
 

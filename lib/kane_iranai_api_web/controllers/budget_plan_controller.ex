@@ -1,14 +1,15 @@
 defmodule KaneIranaiApiWeb.BudgetPlanController do
   use KaneIranaiApiWeb, :controller
-  # import KaneIranaiApiWeb.Auth.AuthorizedPlug
+  import KaneIranaiApiWeb.Auth.AuthorizedPlug
 
   alias KaneIranaiApi.BudgetPlans
 
   action_fallback KaneIranaiApiWeb.FallbackController
-  # plug :is_authorized_user when action in [:index, :show, :update, :delete]
+  # plug :is_authorized_user when action in [:index, :create, :show, :update, :delete]
 
   def index(conn, _params) do
-    budget_plans = BudgetPlans.list_budget_plans()
+    conn |> dbg()
+    budget_plans = BudgetPlans.list_budget_plans_by_user(conn.assigns.user)
     render(conn, :index, budget_plans: budget_plans)
   end
 

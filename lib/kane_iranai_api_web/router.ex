@@ -43,7 +43,7 @@ defmodule KaneIranaiApiWeb.Router do
     put "/users/update", UserController, :update
     delete "/users/delete", UserController, :delete
 
-    get "/budget-plans", BudgetPlanController, :index
+    get "/budget_plans", BudgetPlanController, :index
   end
 
   scope "/api/swagger" do
