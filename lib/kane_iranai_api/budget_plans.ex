@@ -25,6 +25,23 @@ defmodule KaneIranaiApi.BudgetPlans do
   end
 
   @doc """
+  Returns the list of budget_plans.
+
+  ## Examples
+
+      iex> list_budget_plans()
+      [%BudgetPlan{}, ...]
+
+  """
+  def list_budget_plans_by_user(%User{} = user) do
+    BudgetPlan
+    |> where([budget_plan], budget_plan.user_id == ^user.id)
+    |> Repo.all()
+    |> Repo.preload([:user])
+  end
+
+
+  @doc """
   Gets a single budget_plan.
 
   Raises `Ecto.NoResultsError` if the Budget plan does not exist.
