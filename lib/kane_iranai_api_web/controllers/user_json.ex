@@ -33,4 +33,8 @@ defmodule KaneIranaiApiWeb.UserJSON do
       token: token
     }
   end
+
+  def auth_token(%{user: user, token: token}) do
+    user_token(%{user: user, token: token})
+  end
 end
