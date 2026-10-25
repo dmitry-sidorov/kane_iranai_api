@@ -11,8 +11,8 @@ defmodule KaneIranaiApiWeb.BudgetPlanJSON do
   @doc """
   Renders a single user.
   """
-  def show(%{user: user}) do
-    %{data: data(user)}
+  def show(%{budget_plan: budget_plan}) do
+    %{data: data(budget_plan)}
   end
 
   defp data(%BudgetPlan{} = plan) do

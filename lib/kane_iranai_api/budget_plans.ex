@@ -74,6 +74,8 @@ defmodule KaneIranaiApi.BudgetPlans do
     |> BudgetPlan.changeset(attrs)
     |> Ecto.Changeset.put_assoc(:user, user)
     |> Repo.insert()
+    |> Repo.preload([:planned_operations]) #TODO: fix preload
+    |> dbg()
   end
 
   @doc """

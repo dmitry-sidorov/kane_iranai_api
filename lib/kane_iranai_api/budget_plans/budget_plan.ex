@@ -8,7 +8,7 @@ defmodule KaneIranaiApi.BudgetPlans.BudgetPlan do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "budget_plans" do
-    field :start_date, :naive_datetime
+    field :start_date, :date
     field :period_in_days, :integer
     field :description, :string
     belongs_to :user, User

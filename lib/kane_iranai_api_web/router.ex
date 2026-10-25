@@ -11,6 +11,11 @@ defmodule KaneIranaiApiWeb.Router do
     conn |> json(%{errors: message}) |> halt()
   end
 
+  def handle_errors(conn, error) do
+    error |> dbg()
+    conn |> json(%{unknown_error: error}) |> halt()
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
     plug :fetch_session
@@ -44,6 +49,7 @@ defmodule KaneIranaiApiWeb.Router do
     delete "/users/delete", UserController, :delete
 
     get "/budget_plans", BudgetPlanController, :index
+    post "/budget_plans", BudgetPlanController, :create
   end
 
   scope "/api/swagger" do
