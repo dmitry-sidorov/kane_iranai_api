@@ -13,13 +13,13 @@ defmodule KaneIranaiApi.Repo.Migrations.CreatePlannedOperations do
       add :amount, :integer
       add :status, :planned_operation_status
       add :type, :planned_operation_type
-      add :plan_id, references(:budget_plans, on_delete: :nothing, type: :binary_id)
+      add :budget_plan_id, references(:budget_plans, on_delete: :nothing, type: :binary_id)
       add :operation_category_id, references(:operation_categories, on_delete: :nothing, type: :binary_id)
 
       timestamps(type: :utc_datetime)
     end
 
-    create index(:planned_operations, [:plan_id])
+    create index(:planned_operations, [:budget_plan_id])
     create index(:planned_operations, [:operation_category_id])
   end
 end

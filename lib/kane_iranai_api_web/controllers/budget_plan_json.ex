@@ -5,14 +5,14 @@ defmodule KaneIranaiApiWeb.BudgetPlanJSON do
   Renders a list of budget plans.
   """
   def index(%{budget_plans: plans}) do
-    %{data: for(plan <- plans, do: data(plan))}
+    %{budget_plans: for(plan <- plans, do: data(plan))}
   end
 
   @doc """
   Renders a single user.
   """
   def show(%{budget_plan: budget_plan}) do
-    %{data: data(budget_plan)}
+    %{budget_plans: data(budget_plan)}
   end
 
   defp data(%BudgetPlan{} = plan) do
