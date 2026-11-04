@@ -7,6 +7,10 @@ defmodule KaneIranaiApiWeb.Router do
     conn |> json(%{errors: message}) |> halt()
   end
 
+  def handle_errors(conn, %{reason: %Ecto.NoResultsError{}}) do
+    conn |> json(%{ecto_error: "Entity not found"}) |> halt()
+  end
+
   def handle_errors(conn, %{reason: %{message: message}}) do
     conn |> json(%{errors: message}) |> halt()
   end
@@ -48,6 +52,7 @@ defmodule KaneIranaiApiWeb.Router do
     put "/users/update", UserController, :update
     delete "/users/delete", UserController, :delete
 
+    get "/budget_plans/:id", BudgetPlanController, :show
     get "/budget_plans", BudgetPlanController, :index
     post "/budget_plans", BudgetPlanController, :create
   end

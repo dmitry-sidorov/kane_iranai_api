@@ -55,7 +55,10 @@ defmodule KaneIranaiApi.BudgetPlans do
       ** (Ecto.NoResultsError)
 
   """
-  def get_budget_plan!(id), do: Repo.get!(BudgetPlan, id)
+  def get_budget_plan!(id) do
+    Repo.get!(BudgetPlan, id)
+    |> Repo.preload([:user, :planned_operations])
+  end
 
   @doc """
   Creates a budget_plan.

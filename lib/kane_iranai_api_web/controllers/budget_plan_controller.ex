@@ -15,7 +15,6 @@ defmodule KaneIranaiApiWeb.BudgetPlanController do
 
   def create(conn, _params) do
     user = conn.assigns.user
-    conn.params |> dbg()
     budget_params = %{
       start_date: Date.from_iso8601!(conn.params["start_date"]),
       description: conn.params["description"],
@@ -29,9 +28,9 @@ defmodule KaneIranaiApiWeb.BudgetPlanController do
   end
 
 
-  @spec show(any(), any()) :: nil
-  def show(conn, _params) do
-
+  def show(conn, %{"id" => id}) do
+    budget_plan = BudgetPlans.get_budget_plan!(id)
+    render(conn, :show, budget_plan: budget_plan)
   end
 
 
