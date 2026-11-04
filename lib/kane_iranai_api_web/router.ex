@@ -55,6 +55,8 @@ defmodule KaneIranaiApiWeb.Router do
     get "/budget_plans/:id", BudgetPlanController, :show
     get "/budget_plans", BudgetPlanController, :index
     post "/budget_plans", BudgetPlanController, :create
+    put "/budget_plans", BudgetPlanController, :update
+    delete "/budget_plans", BudgetPlanController, :delete
   end
 
   scope "/api/swagger" do

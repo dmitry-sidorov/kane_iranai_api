@@ -1,12 +1,10 @@
 defmodule KaneIranaiApiWeb.BudgetPlanController do
   use KaneIranaiApiWeb, :controller
-  import KaneIranaiApiWeb.Auth.AuthorizedPlug
 
   alias KaneIranaiApi.BudgetPlans
   alias KaneIranaiApi.BudgetPlans.BudgetPlan
 
   action_fallback KaneIranaiApiWeb.FallbackController
-  # plug :is_authorized_user when action in [:index, :create, :show, :update, :delete]
 
   def index(conn, _params) do
     budget_plans = BudgetPlans.list_budget_plans_by_user(conn.assigns.user)
@@ -33,13 +31,15 @@ defmodule KaneIranaiApiWeb.BudgetPlanController do
     render(conn, :show, budget_plan: budget_plan)
   end
 
-
-
-  def update(conn, _params) do
-
+  def update(conn, %{"id" => id, "payload" => payload}) do
+    budget_plan = BudgetPlans.get_budget_plan!(id)
+    {:ok, updated_budget_plan} = BudgetPlans.update_budget_plan(budget_plan, payload)
+    render(conn, :show, budget_plan: updated_budget_plan)
   end
 
-  def delete(conn, _params) do
-
+  def delete(conn, %{"id" => id}) do
+    budget_plan = BudgetPlans.get_budget_plan!(id)
+    {:ok, _} = BudgetPlans.delete_budget_plan(budget_plan)
+    send_resp(conn, :no_content, "Budget plans has been deleted successfully")
   end
 end
