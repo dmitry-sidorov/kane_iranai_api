@@ -25,6 +25,16 @@ defmodule KaneIranaiApi.UserOperationCategories do
     |> Repo.preload([:user, :operation_category])
   end
 
+
+  @doc """
+  Returns the list of user operation_categories for given user.
+  """
+  def list_user_operation_categories_by_user(%User{} = user) do
+    UserOperationCategory
+    |> where([category], category.user_id == ^user.id)
+    |> Repo.all()
+  end
+
   @doc """
   Gets a single user_operation_category.
 

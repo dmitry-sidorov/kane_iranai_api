@@ -7,6 +7,8 @@ defmodule KaneIranaiApi.PlannedOperations do
   alias KaneIranaiApi.Repo
 
   alias KaneIranaiApi.PlannedOperations.PlannedOperation
+  alias KaneIranaiApi.BudgetPlans.BudgetPlan
+  alias KaneIranaiApi.UserOperationCategories.UserOperationCategory
 
   @doc """
   Returns the list of planned_operations.
@@ -49,9 +51,11 @@ defmodule KaneIranaiApi.PlannedOperations do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_planned_operation(attrs) do
+  def create_planned_operation(%BudgetPlan{} = budget_plan, %UserOperationCategory{} = operation_category, attrs) do
     %PlannedOperation{}
     |> PlannedOperation.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:budget_plan, budget_plan)
+    |> Ecto.Changeset.put_assoc(:operation_category, operation_category)
     |> Repo.insert()
   end
 

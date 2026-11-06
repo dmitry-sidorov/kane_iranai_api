@@ -7,6 +7,7 @@ defmodule KaneIranaiApi.OperationCategories do
   alias KaneIranaiApi.Repo
 
   alias KaneIranaiApi.OperationCategories.OperationCategory
+  alias KaneIranaiApi.Users.User
 
   @doc """
   Returns the list of operation_categories.
@@ -19,6 +20,7 @@ defmodule KaneIranaiApi.OperationCategories do
   """
   def list_operation_categories do
     Repo.all(OperationCategory)
+    |> Repo.preload([:users])
   end
 
   def list_operation_categories(:public = type) do
