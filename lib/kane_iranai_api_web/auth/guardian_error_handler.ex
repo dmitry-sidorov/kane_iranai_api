@@ -1,4 +1,7 @@
 defmodule KaneIranaiApiWeb.Auth.GuardianErrorHandler do
+  @moduledoc """
+  Error handler for Guardian authentication.
+  """
   import Plug.Conn
   @behaviour Guardian.Plug.ErrorHandler
 

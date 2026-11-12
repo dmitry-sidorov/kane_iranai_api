@@ -1,4 +1,7 @@
 defmodule KaneIranaiApiWeb.Auth.SetUser do
+  @moduledoc """
+  Middleware to set the current user from Guardian.
+  """
   import Plug.Conn
   alias KaneIranaiApiWeb.Auth.ErrorResponse
   alias KaneIranaiApiWeb.Auth.Guardian

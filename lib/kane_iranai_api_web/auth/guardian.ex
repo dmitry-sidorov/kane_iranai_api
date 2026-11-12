@@ -1,4 +1,7 @@
 defmodule KaneIranaiApiWeb.Auth.Guardian do
+  @moduledoc """
+  Authentication and authorization using Guardian.
+  """
   use Guardian, otp_app: :kane_iranai_api
   alias KaneIranaiApi.Users
   alias KaneIranaiApiWeb.Auth.ErrorResponse

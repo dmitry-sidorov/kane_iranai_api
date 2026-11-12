@@ -33,6 +33,7 @@ defmodule KaneIranaiApi.UserOperationCategories do
     UserOperationCategory
     |> where([category], category.user_id == ^user.id)
     |> Repo.all()
+    |> Repo.preload([:operation_category])
   end
 
   @doc """

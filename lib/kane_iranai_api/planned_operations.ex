@@ -51,12 +51,10 @@ defmodule KaneIranaiApi.PlannedOperations do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_planned_operation(%BudgetPlan{} = budget_plan, %UserOperationCategory{} = operation_category, attrs) do
-    %PlannedOperation{}
-    |> PlannedOperation.changeset(attrs)
-    |> Ecto.Changeset.put_assoc(:budget_plan, budget_plan)
-    |> Ecto.Changeset.put_assoc(:operation_category, operation_category)
-    |> Repo.insert()
+  def create_planned_operation(%BudgetPlan{} = budget_plan, %UserOperationCategory{} = user_operation_category, attrs) do
+    %PlannedOperation{budget_plan_id: budget_plan.id, operation_category_id: user_operation_category.id}
+      |> PlannedOperation.changeset(attrs)
+      |> Repo.insert()
   end
 
   @doc """

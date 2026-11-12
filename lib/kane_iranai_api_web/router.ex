@@ -16,7 +16,6 @@ defmodule KaneIranaiApiWeb.Router do
   end
 
   def handle_errors(conn, error) do
-    error |> dbg()
     conn |> json(%{unknown_error: error}) |> halt()
   end
 

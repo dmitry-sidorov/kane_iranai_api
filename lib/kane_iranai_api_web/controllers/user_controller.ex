@@ -8,7 +8,7 @@ defmodule KaneIranaiApiWeb.UserController do
   alias KaneIranaiApiWeb.Auth.{ErrorResponse, Guardian}
 
   action_fallback KaneIranaiApiWeb.FallbackController
-  plug :is_authorized_user when action in [:show, :update, :delete]
+  plug :authorized_user? when action in [:show, :update, :delete]
 
   def index(conn, _params) do
     users = Users.list_users()

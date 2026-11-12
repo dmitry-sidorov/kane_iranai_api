@@ -1,4 +1,7 @@
 defmodule KaneIranaiApiWeb.Auth.Pipeline do
+  @moduledoc """
+  Authentication pipeline using Guardian.
+  """
   use Guardian.Plug.Pipeline, otp_app: :kane_iranai_api,
   module: KaneIranaiApiWeb.Auth.Guardian,
   error_handler: KaneIranaiApiWeb.Auth.GuardianErrorHandler

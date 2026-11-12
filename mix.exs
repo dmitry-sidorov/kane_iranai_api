@@ -59,6 +59,7 @@ defmodule KaneIranaiApi.MixProject do
       {:phoenix_swagger, "~> 0.8"},
       {:poison, "~> 6.0"},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:ecto_enum_migration, "~> 0.4.0"},
       {:stream_data, "~> 1.0", only: :test}
     ]
@@ -77,7 +78,8 @@ defmodule KaneIranaiApi.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.reset --quiet", "ecto.migrate --quiet", "test"],
-      precommit: ["compile --warnings-as-errors", "deps.unlock --unused", "format", "test"]
+      precommit: ["compile --warnings-as-errors", "deps.unlock --unused", "format", "test"],
+      lint: ["dialyzer"]
     ]
   end
 end
