@@ -7,7 +7,6 @@ defmodule KaneIranaiApi.OperationCategories do
   alias KaneIranaiApi.Repo
 
   alias KaneIranaiApi.OperationCategories.OperationCategory
-  alias KaneIranaiApi.Users.User
 
   @doc """
   Returns the list of operation_categories.
