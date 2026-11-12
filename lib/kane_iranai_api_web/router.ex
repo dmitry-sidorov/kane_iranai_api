@@ -31,12 +31,12 @@ defmodule KaneIranaiApiWeb.Router do
 
   scope "/", KaneIranaiApiWeb do
     pipe_through :api
-    get "/" , RedirectController, :permanent_redirect
+    get "/", RedirectController, :permanent_redirect
   end
 
   scope "/api", KaneIranaiApiWeb do
     pipe_through :api
-    get "/" , DefaultController, :index
+    get "/", DefaultController, :index
     post "/users/create", UserController, :create
     post "/auth/login", AuthController, :sign_in
   end
@@ -63,14 +63,28 @@ defmodule KaneIranaiApiWeb.Router do
   end
 
   scope "/api/swagger" do
-    forward "/", PhoenixSwagger.Plug.SwaggerUI, otp_app: :kane_iranai_api, swagger_file: "swagger.json"
+    forward "/", PhoenixSwagger.Plug.SwaggerUI,
+      otp_app: :kane_iranai_api,
+      swagger_file: "swagger.json"
   end
 
   def swagger_info do
     %{
       info: %{
         version: "#{Mix.Project.config()[:version]}",
-        title: "Kane Iranai API"
+        title: "Kane Iranai API",
+        description:
+          "HTTP API for Kane Iranai. Authenticated routes require an Authorization header: Bearer {token}."
+      },
+      consumes: ["application/json"],
+      produces: ["application/json"],
+      securityDefinitions: %{
+        Bearer: %{
+          type: "apiKey",
+          name: "Authorization",
+          in: "header",
+          description: "Guardian access token. Value format: Bearer {token}"
+        }
       }
     }
   end

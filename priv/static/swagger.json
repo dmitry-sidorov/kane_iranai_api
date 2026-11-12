@@ -1,10 +1,1281 @@
 {
+  "securityDefinitions": {
+    "Bearer": {
+      "description": "Guardian access token. Value format: Bearer {token}",
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
   "swagger": "2.0",
-  "paths": {},
-  "definitions": {},
+  "paths": {
+    "/api/users/{id}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Show user",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "404": {
+            "schema": {
+              "$ref": "#/definitions/NotFoundError"
+            },
+            "description": "Not found"
+          },
+          "403": {
+            "schema": {
+              "$ref": "#/definitions/ErrorMessage"
+            },
+            "description": "Forbidden"
+          },
+          "401": {
+            "schema": {
+              "$ref": "#/definitions/AuthError"
+            },
+            "description": "Unauthorized"
+          },
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/UserResponse"
+            },
+            "description": "User"
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "name": "id",
+            "in": "path",
+            "format": "uuid",
+            "description": "User ID"
+          }
+        ],
+        "operationId": "KaneIranaiApiWeb.UserController.show",
+        "description": "Returns the user. The authenticated user can only read their own record."
+      }
+    },
+    "/api/users/update": {
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Update user",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "401": {
+            "schema": {
+              "$ref": "#/definitions/ErrorMessage"
+            },
+            "description": "Unauthorized or password incorrect"
+          },
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/UserResponse"
+            },
+            "description": "Updated user"
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/UserUpdateRequest"
+            },
+            "required": true,
+            "name": "body",
+            "in": "body",
+            "description": "Update payload"
+          }
+        ],
+        "operationId": "KaneIranaiApiWeb.UserController.update",
+        "description": "Updates the authenticated user. Requires the current password.",
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/users/delete": {
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Delete user",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "404": {
+            "schema": {
+              "$ref": "#/definitions/NotFoundError"
+            },
+            "description": "Not found"
+          },
+          "401": {
+            "schema": {
+              "$ref": "#/definitions/AuthError"
+            },
+            "description": "Unauthorized"
+          },
+          "204": {
+            "description": "Deleted"
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/UserDeleteRequest"
+            },
+            "required": true,
+            "name": "body",
+            "in": "body",
+            "description": "Delete payload"
+          }
+        ],
+        "operationId": "KaneIranaiApiWeb.UserController.delete",
+        "description": "Deletes the user identified in the request body.",
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/users/create": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Create user",
+        "responses": {
+          "422": {
+            "schema": {
+              "$ref": "#/definitions/ChangesetError"
+            },
+            "description": "Validation error"
+          },
+          "401": {
+            "schema": {
+              "$ref": "#/definitions/ErrorMessage"
+            },
+            "description": "Unauthorized"
+          },
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/AuthToken"
+            },
+            "description": "Created and authenticated"
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/UserCreateRequest"
+            },
+            "required": true,
+            "name": "body",
+            "in": "body",
+            "description": "User registration payload"
+          }
+        ],
+        "operationId": "KaneIranaiApiWeb.UserController.create",
+        "description": "Creates a user with default categories and returns an access token.",
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/planned_operations": {
+      "post": {
+        "tags": [
+          "Planned Operations"
+        ],
+        "summary": "Create planned operation",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "404": {
+            "schema": {
+              "$ref": "#/definitions/NotFoundError"
+            },
+            "description": "Budget plan or operation category not found"
+          },
+          "401": {
+            "schema": {
+              "$ref": "#/definitions/AuthError"
+            },
+            "description": "Unauthorized"
+          },
+          "201": {
+            "schema": {
+              "$ref": "#/definitions/PlannedOperationResponse"
+            },
+            "description": "Created"
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/PlannedOperationCreateRequest"
+            },
+            "required": true,
+            "name": "body",
+            "in": "body",
+            "description": "Planned operation"
+          }
+        ],
+        "operationId": "KaneIranaiApiWeb.PlannedOperationController.create",
+        "description": "Creates a planned operation when the budget plan and operation category belong to the authenticated user.",
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/operation_categories": {
+      "get": {
+        "tags": [
+          "Operation Categories"
+        ],
+        "summary": "List operation categories",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "401": {
+            "schema": {
+              "$ref": "#/definitions/AuthError"
+            },
+            "description": "Unauthorized"
+          },
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/OperationCategoryList"
+            },
+            "description": "Operation categories"
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "operationId": "KaneIranaiApiWeb.OperationCategoryController.index",
+        "description": "Lists operation categories linked to the authenticated user."
+      }
+    },
+    "/api/budget_plans/{id}": {
+      "get": {
+        "tags": [
+          "Budget Plans"
+        ],
+        "summary": "Show budget plan",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "404": {
+            "schema": {
+              "$ref": "#/definitions/NotFoundError"
+            },
+            "description": "Not found"
+          },
+          "401": {
+            "schema": {
+              "$ref": "#/definitions/AuthError"
+            },
+            "description": "Unauthorized"
+          },
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/BudgetPlanResponse"
+            },
+            "description": "Budget plan"
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "name": "id",
+            "in": "path",
+            "format": "uuid",
+            "description": "Budget plan ID"
+          }
+        ],
+        "operationId": "KaneIranaiApiWeb.BudgetPlanController.show",
+        "description": ""
+      }
+    },
+    "/api/budget_plans": {
+      "put": {
+        "tags": [
+          "Budget Plans"
+        ],
+        "summary": "Update budget plan",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "404": {
+            "schema": {
+              "$ref": "#/definitions/NotFoundError"
+            },
+            "description": "Not found"
+          },
+          "401": {
+            "schema": {
+              "$ref": "#/definitions/AuthError"
+            },
+            "description": "Unauthorized"
+          },
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/BudgetPlanResponse"
+            },
+            "description": "Updated budget plan"
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/BudgetPlanUpdateRequest"
+            },
+            "required": true,
+            "name": "body",
+            "in": "body",
+            "description": "Update payload"
+          }
+        ],
+        "operationId": "KaneIranaiApiWeb.BudgetPlanController.update",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ]
+      },
+      "post": {
+        "tags": [
+          "Budget Plans"
+        ],
+        "summary": "Create budget plan",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "422": {
+            "schema": {
+              "$ref": "#/definitions/ChangesetError"
+            },
+            "description": "Validation error"
+          },
+          "401": {
+            "schema": {
+              "$ref": "#/definitions/AuthError"
+            },
+            "description": "Unauthorized"
+          },
+          "201": {
+            "schema": {
+              "$ref": "#/definitions/BudgetPlanResponse"
+            },
+            "description": "Created"
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/BudgetPlanCreateRequest"
+            },
+            "required": true,
+            "name": "body",
+            "in": "body",
+            "description": "Budget plan"
+          }
+        ],
+        "operationId": "KaneIranaiApiWeb.BudgetPlanController.create",
+        "description": "Creates a budget plan for the authenticated user.",
+        "consumes": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "tags": [
+          "Budget Plans"
+        ],
+        "summary": "List budget plans",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "401": {
+            "schema": {
+              "$ref": "#/definitions/AuthError"
+            },
+            "description": "Unauthorized"
+          },
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/BudgetPlanList"
+            },
+            "description": "Budget plans"
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "operationId": "KaneIranaiApiWeb.BudgetPlanController.index",
+        "description": "Lists budget plans belonging to the authenticated user."
+      },
+      "delete": {
+        "tags": [
+          "Budget Plans"
+        ],
+        "summary": "Delete budget plan",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "404": {
+            "schema": {
+              "$ref": "#/definitions/NotFoundError"
+            },
+            "description": "Not found"
+          },
+          "401": {
+            "schema": {
+              "$ref": "#/definitions/AuthError"
+            },
+            "description": "Unauthorized"
+          },
+          "204": {
+            "description": "Deleted"
+          }
+        },
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "name": "id",
+            "in": "query",
+            "format": "uuid",
+            "description": "Budget plan ID"
+          }
+        ],
+        "operationId": "KaneIranaiApiWeb.BudgetPlanController.delete",
+        "description": ""
+      }
+    },
+    "/api/auth/refresh_session": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Refresh session",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "404": {
+            "schema": {
+              "$ref": "#/definitions/ErrorMessage"
+            },
+            "description": "Token subject not found"
+          },
+          "401": {
+            "schema": {
+              "$ref": "#/definitions/AuthError"
+            },
+            "description": "Unauthorized"
+          },
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/AuthToken"
+            },
+            "description": "Refreshed token"
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "operationId": "KaneIranaiApiWeb.AuthController.refresh_session",
+        "description": "Revokes the current access token and returns a new one."
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Sign out",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "401": {
+            "schema": {
+              "$ref": "#/definitions/AuthError"
+            },
+            "description": "Unauthorized"
+          },
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/AuthToken"
+            },
+            "description": "Signed out. Token is null."
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "operationId": "KaneIranaiApiWeb.AuthController.sign_out",
+        "description": "Revokes the current access token and clears the session."
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Sign in",
+        "responses": {
+          "401": {
+            "schema": {
+              "$ref": "#/definitions/ErrorMessage"
+            },
+            "description": "Email or password incorrect"
+          },
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/AuthToken"
+            },
+            "description": "Authenticated"
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/LoginRequest"
+            },
+            "required": true,
+            "name": "body",
+            "in": "body",
+            "description": "Credentials"
+          }
+        ],
+        "operationId": "KaneIranaiApiWeb.AuthController.sign_in",
+        "description": "Authenticates by email and password and returns an access token.",
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/api/auth/current_user": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Current user",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "401": {
+            "schema": {
+              "$ref": "#/definitions/AuthError"
+            },
+            "description": "Unauthorized"
+          },
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/CurrentUser"
+            },
+            "description": "Current user"
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "operationId": "KaneIranaiApiWeb.AuthController.current_user",
+        "description": "Returns the user loaded from the access token."
+      }
+    },
+    "/api": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "summary": "API status",
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "string"
+            },
+            "description": "Service is alive"
+          }
+        },
+        "produces": [
+          "text/plain"
+        ],
+        "parameters": [],
+        "operationId": "KaneIranaiApiWeb.DefaultController.index",
+        "description": "Returns a plain-text status banner with the environment and version."
+      }
+    },
+    "/": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Redirect to the API root",
+        "responses": {
+          "302": {
+            "description": "Redirect to /api"
+          }
+        },
+        "parameters": [],
+        "operationId": "KaneIranaiApiWeb.RedirectController.permanent_redirect",
+        "description": "Redirects / to /api."
+      }
+    }
+  },
+  "definitions": {
+    "PlannedOperationCreateRequest": {
+      "type": "object",
+      "title": "Create planned operation request",
+      "required": [
+        "type",
+        "status",
+        "amount",
+        "operation_category_id",
+        "budget_plan_id"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "increase",
+            "decrease"
+          ],
+          "description": "Type"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "canceled",
+            "draft",
+            "pending",
+            "resolved"
+          ],
+          "description": "Status"
+        },
+        "operation_category_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Operation category ID. Must belong to the current user."
+        },
+        "budget_plan_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Budget plan ID. Must belong to the current user."
+        },
+        "amount": {
+          "type": "integer",
+          "description": "Amount"
+        }
+      }
+    },
+    "PlannedOperationResponse": {
+      "type": "object",
+      "title": "Planned operation response",
+      "required": [
+        "planned_operation"
+      ],
+      "properties": {
+        "planned_operation": {
+          "description": "Planned operation",
+          "$ref": "#/definitions/PlannedOperation"
+        }
+      }
+    },
+    "OperationCategoryList": {
+      "type": "object",
+      "title": "Operation category list",
+      "required": [
+        "operation_categories"
+      ],
+      "properties": {
+        "operation_categories": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OperationCategory"
+          },
+          "description": "Categories linked to the current user"
+        }
+      }
+    },
+    "BudgetPlanUpdateRequest": {
+      "type": "object",
+      "title": "Update budget plan request",
+      "required": [
+        "payload",
+        "id"
+      ],
+      "properties": {
+        "payload": {
+          "description": "Fields to update",
+          "$ref": "#/definitions/BudgetPlanPayload"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Budget plan ID"
+        }
+      }
+    },
+    "BudgetPlanPayload": {
+      "type": "object",
+      "title": "Budget plan payload",
+      "properties": {
+        "start_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Start date"
+        },
+        "period_in_days": {
+          "type": "integer",
+          "description": "Period length in days"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description"
+        }
+      }
+    },
+    "BudgetPlanCreateRequest": {
+      "type": "object",
+      "title": "Create budget plan request",
+      "required": [
+        "description",
+        "period_in_days",
+        "start_date"
+      ],
+      "properties": {
+        "start_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Start date"
+        },
+        "period_in_days": {
+          "type": "integer",
+          "description": "Period length in days"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description"
+        }
+      }
+    },
+    "BudgetPlanList": {
+      "type": "object",
+      "title": "Budget plan list",
+      "required": [
+        "budget_plans"
+      ],
+      "properties": {
+        "budget_plans": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BudgetPlan"
+          },
+          "description": "Budget plans"
+        }
+      }
+    },
+    "BudgetPlanResponse": {
+      "type": "object",
+      "title": "Budget plan response",
+      "required": [
+        "budget_plan"
+      ],
+      "properties": {
+        "budget_plan": {
+          "description": "Budget plan",
+          "$ref": "#/definitions/BudgetPlan"
+        }
+      }
+    },
+    "UserDeleteRequest": {
+      "type": "object",
+      "title": "Delete user request",
+      "required": [
+        "user"
+      ],
+      "properties": {
+        "user": {
+          "description": "User to delete",
+          "$ref": "#/definitions/UserDeleteParams"
+        }
+      }
+    },
+    "UserDeleteParams": {
+      "type": "object",
+      "title": "User delete params",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "User ID"
+        }
+      }
+    },
+    "UserUpdateRequest": {
+      "type": "object",
+      "title": "Update user request",
+      "required": [
+        "user",
+        "current_password"
+      ],
+      "properties": {
+        "user": {
+          "description": "Fields to update",
+          "$ref": "#/definitions/UserUpdateParams"
+        },
+        "current_password": {
+          "type": "string",
+          "description": "Current password"
+        }
+      }
+    },
+    "UserUpdateParams": {
+      "type": "object",
+      "title": "User update params",
+      "properties": {
+        "username": {
+          "type": "string",
+          "description": "Username"
+        },
+        "last_name": {
+          "type": "string",
+          "description": "Last name"
+        },
+        "hash_password": {
+          "type": "string",
+          "description": "New plain password"
+        },
+        "first_name": {
+          "type": "string",
+          "description": "First name"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email"
+        }
+      }
+    },
+    "UserCreateRequest": {
+      "type": "object",
+      "title": "Create user request",
+      "required": [
+        "user"
+      ],
+      "properties": {
+        "user": {
+          "description": "User attributes",
+          "$ref": "#/definitions/UserParams"
+        }
+      }
+    },
+    "UserParams": {
+      "type": "object",
+      "title": "User params",
+      "required": [
+        "username",
+        "hash_password",
+        "email"
+      ],
+      "properties": {
+        "username": {
+          "type": "string",
+          "description": "Username"
+        },
+        "last_name": {
+          "type": "string",
+          "description": "Last name"
+        },
+        "hash_password": {
+          "type": "string",
+          "description": "Plain password. It is hashed before storage."
+        },
+        "first_name": {
+          "type": "string",
+          "description": "First name"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email"
+        }
+      }
+    },
+    "UserResponse": {
+      "type": "object",
+      "title": "User response",
+      "required": [
+        "data"
+      ],
+      "properties": {
+        "data": {
+          "description": "User",
+          "$ref": "#/definitions/User"
+        }
+      }
+    },
+    "ChangesetError": {
+      "type": "object",
+      "title": "Changeset error",
+      "required": [
+        "errors"
+      ],
+      "properties": {
+        "errors": {
+          "type": "object",
+          "description": "Field errors"
+        }
+      }
+    },
+    "NotFoundError": {
+      "type": "object",
+      "title": "Not found",
+      "required": [
+        "ecto_error"
+      ],
+      "properties": {
+        "ecto_error": {
+          "type": "string",
+          "description": "Entity not found"
+        }
+      }
+    },
+    "AuthError": {
+      "type": "object",
+      "title": "Authentication error",
+      "required": [
+        "error"
+      ],
+      "properties": {
+        "error": {
+          "type": "string",
+          "description": "Guardian error type"
+        }
+      }
+    },
+    "LoginRequest": {
+      "type": "object",
+      "title": "Login request",
+      "required": [
+        "password",
+        "email"
+      ],
+      "properties": {
+        "password": {
+          "type": "string",
+          "description": "Password"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email"
+        }
+      }
+    },
+    "CurrentUser": {
+      "type": "object",
+      "title": "Current user",
+      "required": [
+        "username",
+        "email",
+        "id"
+      ],
+      "properties": {
+        "username": {
+          "type": "string",
+          "description": "Username"
+        },
+        "last_name": {
+          "type": "string",
+          "description": "Last name"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "User ID"
+        },
+        "first_name": {
+          "type": "string",
+          "description": "First name"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email"
+        }
+      }
+    },
+    "AuthToken": {
+      "type": "object",
+      "title": "Auth token",
+      "required": [
+        "email",
+        "id"
+      ],
+      "properties": {
+        "token": {
+          "type": "string",
+          "description": "Access token. Null after logout."
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "User ID"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email"
+        }
+      }
+    },
+    "ErrorMessage": {
+      "type": "object",
+      "title": "Error message",
+      "required": [
+        "errors"
+      ],
+      "properties": {
+        "errors": {
+          "type": "string",
+          "description": "Error message"
+        }
+      }
+    },
+    "OperationCategory": {
+      "type": "object",
+      "title": "Operation category",
+      "required": [
+        "title",
+        "id"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Title"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Operation category ID"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description"
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "title": "User",
+      "required": [
+        "username",
+        "email",
+        "id"
+      ],
+      "properties": {
+        "username": {
+          "type": "string",
+          "description": "Username"
+        },
+        "last_name": {
+          "type": "string",
+          "description": "Last name"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "User ID"
+        },
+        "hash_password": {
+          "type": "string",
+          "description": "Stored password hash"
+        },
+        "first_name": {
+          "type": "string",
+          "description": "First name"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email"
+        }
+      }
+    },
+    "BudgetPlan": {
+      "type": "object",
+      "title": "Budget plan",
+      "required": [
+        "description",
+        "period_in_days",
+        "start_date",
+        "id"
+      ],
+      "properties": {
+        "start_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Start date"
+        },
+        "planned_operations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PlannedOperation"
+          },
+          "description": "Planned operations"
+        },
+        "period_in_days": {
+          "type": "integer",
+          "description": "Period length in days"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Budget plan ID"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description"
+        }
+      }
+    },
+    "PlannedOperation": {
+      "type": "object",
+      "title": "Planned operation",
+      "required": [
+        "operation_category_id",
+        "budget_plan_id",
+        "type",
+        "status",
+        "amount",
+        "id"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "increase",
+            "decrease"
+          ],
+          "description": "Type"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "canceled",
+            "draft",
+            "pending",
+            "resolved"
+          ],
+          "description": "Status"
+        },
+        "operation_category_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Operation category ID"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Planned operation ID"
+        },
+        "budget_plan_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Budget plan ID"
+        },
+        "amount": {
+          "type": "integer",
+          "description": "Amount"
+        }
+      }
+    }
+  },
   "host": "localhost:4000",
   "info": {
     "title": "Kane Iranai API",
+    "description": "HTTP API for Kane Iranai. Authenticated routes require an Authorization header: Bearer {token}.",
     "version": "0.1.0"
   }
 }
