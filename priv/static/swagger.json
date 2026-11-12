@@ -1,18 +1,4 @@
 {
-  "securityDefinitions": {
-    "Bearer": {
-      "description": "Guardian access token. Value format: Bearer {token}",
-      "type": "apiKey",
-      "name": "Authorization",
-      "in": "header"
-    }
-  },
-  "produces": [
-    "application/json"
-  ],
-  "consumes": [
-    "application/json"
-  ],
   "swagger": "2.0",
   "paths": {
     "/api/users/{id}": {
@@ -700,61 +686,22 @@
     }
   },
   "definitions": {
-    "PlannedOperationCreateRequest": {
+    "BudgetPlanPayload": {
       "type": "object",
-      "title": "Create planned operation request",
-      "required": [
-        "type",
-        "status",
-        "amount",
-        "operation_category_id",
-        "budget_plan_id"
-      ],
+      "title": "Budget plan payload",
       "properties": {
-        "type": {
+        "start_date": {
           "type": "string",
-          "enum": [
-            "increase",
-            "decrease"
-          ],
-          "description": "Type"
+          "format": "date",
+          "description": "Start date"
         },
-        "status": {
-          "type": "string",
-          "enum": [
-            "canceled",
-            "draft",
-            "pending",
-            "resolved"
-          ],
-          "description": "Status"
-        },
-        "operation_category_id": {
-          "type": "string",
-          "format": "uuid",
-          "description": "Operation category ID. Must belong to the current user."
-        },
-        "budget_plan_id": {
-          "type": "string",
-          "format": "uuid",
-          "description": "Budget plan ID. Must belong to the current user."
-        },
-        "amount": {
+        "period_in_days": {
           "type": "integer",
-          "description": "Amount"
-        }
-      }
-    },
-    "PlannedOperationResponse": {
-      "type": "object",
-      "title": "Planned operation response",
-      "required": [
-        "planned_operation"
-      ],
-      "properties": {
-        "planned_operation": {
-          "description": "Planned operation",
-          "$ref": "#/definitions/PlannedOperation"
+          "description": "Period length in days"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description"
         }
       }
     },
@@ -774,41 +721,55 @@
         }
       }
     },
-    "BudgetPlanUpdateRequest": {
+    "LoginRequest": {
       "type": "object",
-      "title": "Update budget plan request",
+      "title": "Login request",
       "required": [
-        "payload",
+        "password",
+        "email"
+      ],
+      "properties": {
+        "password": {
+          "type": "string",
+          "description": "Password"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email"
+        }
+      }
+    },
+    "CurrentUser": {
+      "type": "object",
+      "title": "Current user",
+      "required": [
+        "username",
+        "email",
         "id"
       ],
       "properties": {
-        "payload": {
-          "description": "Fields to update",
-          "$ref": "#/definitions/BudgetPlanPayload"
+        "username": {
+          "type": "string",
+          "description": "Username"
+        },
+        "last_name": {
+          "type": "string",
+          "description": "Last name"
         },
         "id": {
           "type": "string",
           "format": "uuid",
-          "description": "Budget plan ID"
-        }
-      }
-    },
-    "BudgetPlanPayload": {
-      "type": "object",
-      "title": "Budget plan payload",
-      "properties": {
-        "start_date": {
-          "type": "string",
-          "format": "date",
-          "description": "Start date"
+          "description": "User ID"
         },
-        "period_in_days": {
-          "type": "integer",
-          "description": "Period length in days"
-        },
-        "description": {
+        "first_name": {
           "type": "string",
-          "description": "Description"
+          "description": "First name"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email"
         }
       }
     },
@@ -862,6 +823,75 @@
         "budget_plan": {
           "description": "Budget plan",
           "$ref": "#/definitions/BudgetPlan"
+        }
+      }
+    },
+    "BudgetPlanUpdateRequest": {
+      "type": "object",
+      "title": "Update budget plan request",
+      "required": [
+        "payload",
+        "id"
+      ],
+      "properties": {
+        "payload": {
+          "description": "Fields to update",
+          "$ref": "#/definitions/BudgetPlanPayload"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Budget plan ID"
+        }
+      }
+    },
+    "ChangesetError": {
+      "type": "object",
+      "title": "Changeset error",
+      "required": [
+        "errors"
+      ],
+      "properties": {
+        "errors": {
+          "type": "object",
+          "description": "Field errors"
+        }
+      }
+    },
+    "ErrorMessage": {
+      "type": "object",
+      "title": "Error message",
+      "required": [
+        "errors"
+      ],
+      "properties": {
+        "errors": {
+          "type": "string",
+          "description": "Error message"
+        }
+      }
+    },
+    "AuthToken": {
+      "type": "object",
+      "title": "Auth token",
+      "required": [
+        "email",
+        "id"
+      ],
+      "properties": {
+        "token": {
+          "type": "string",
+          "description": "Access token. Null after logout."
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "User ID"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email"
         }
       }
     },
@@ -995,19 +1025,6 @@
         }
       }
     },
-    "ChangesetError": {
-      "type": "object",
-      "title": "Changeset error",
-      "required": [
-        "errors"
-      ],
-      "properties": {
-        "errors": {
-          "type": "object",
-          "description": "Field errors"
-        }
-      }
-    },
     "NotFoundError": {
       "type": "object",
       "title": "Not found",
@@ -1034,92 +1051,61 @@
         }
       }
     },
-    "LoginRequest": {
+    "PlannedOperationCreateRequest": {
       "type": "object",
-      "title": "Login request",
+      "title": "Create planned operation request",
       "required": [
-        "password",
-        "email"
+        "type",
+        "status",
+        "amount",
+        "operation_category_id",
+        "budget_plan_id"
       ],
       "properties": {
-        "password": {
+        "type": {
           "type": "string",
-          "description": "Password"
+          "enum": [
+            "increase",
+            "decrease"
+          ],
+          "description": "Type"
         },
-        "email": {
+        "status": {
           "type": "string",
-          "format": "email",
-          "description": "Email"
-        }
-      }
-    },
-    "CurrentUser": {
-      "type": "object",
-      "title": "Current user",
-      "required": [
-        "username",
-        "email",
-        "id"
-      ],
-      "properties": {
-        "username": {
-          "type": "string",
-          "description": "Username"
+          "enum": [
+            "canceled",
+            "draft",
+            "pending",
+            "resolved"
+          ],
+          "description": "Status"
         },
-        "last_name": {
-          "type": "string",
-          "description": "Last name"
-        },
-        "id": {
+        "operation_category_id": {
           "type": "string",
           "format": "uuid",
-          "description": "User ID"
+          "description": "Operation category ID. Must belong to the current user."
         },
-        "first_name": {
-          "type": "string",
-          "description": "First name"
-        },
-        "email": {
-          "type": "string",
-          "format": "email",
-          "description": "Email"
-        }
-      }
-    },
-    "AuthToken": {
-      "type": "object",
-      "title": "Auth token",
-      "required": [
-        "email",
-        "id"
-      ],
-      "properties": {
-        "token": {
-          "type": "string",
-          "description": "Access token. Null after logout."
-        },
-        "id": {
+        "budget_plan_id": {
           "type": "string",
           "format": "uuid",
-          "description": "User ID"
+          "description": "Budget plan ID. Must belong to the current user."
         },
-        "email": {
-          "type": "string",
-          "format": "email",
-          "description": "Email"
+        "amount": {
+          "type": "integer",
+          "description": "Amount"
         }
       }
     },
-    "ErrorMessage": {
+    "PlannedOperationResponse": {
       "type": "object",
-      "title": "Error message",
+      "title": "Planned operation response",
       "required": [
-        "errors"
+        "planned_operation"
       ],
       "properties": {
-        "errors": {
-          "type": "string",
-          "description": "Error message"
+        "planned_operation": {
+          "description": "Planned operation",
+          "$ref": "#/definitions/PlannedOperation"
         }
       }
     },
@@ -1143,6 +1129,57 @@
         "description": {
           "type": "string",
           "description": "Description"
+        }
+      }
+    },
+    "PlannedOperation": {
+      "type": "object",
+      "title": "Planned operation",
+      "required": [
+        "operation_category_id",
+        "budget_plan_id",
+        "type",
+        "status",
+        "amount",
+        "id"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "increase",
+            "decrease"
+          ],
+          "description": "Type"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "canceled",
+            "draft",
+            "pending",
+            "resolved"
+          ],
+          "description": "Status"
+        },
+        "operation_category_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Operation category ID"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Planned operation ID"
+        },
+        "budget_plan_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Budget plan ID"
+        },
+        "amount": {
+          "type": "integer",
+          "description": "Amount"
         }
       }
     },
@@ -1219,63 +1256,11 @@
           "description": "Description"
         }
       }
-    },
-    "PlannedOperation": {
-      "type": "object",
-      "title": "Planned operation",
-      "required": [
-        "operation_category_id",
-        "budget_plan_id",
-        "type",
-        "status",
-        "amount",
-        "id"
-      ],
-      "properties": {
-        "type": {
-          "type": "string",
-          "enum": [
-            "increase",
-            "decrease"
-          ],
-          "description": "Type"
-        },
-        "status": {
-          "type": "string",
-          "enum": [
-            "canceled",
-            "draft",
-            "pending",
-            "resolved"
-          ],
-          "description": "Status"
-        },
-        "operation_category_id": {
-          "type": "string",
-          "format": "uuid",
-          "description": "Operation category ID"
-        },
-        "id": {
-          "type": "string",
-          "format": "uuid",
-          "description": "Planned operation ID"
-        },
-        "budget_plan_id": {
-          "type": "string",
-          "format": "uuid",
-          "description": "Budget plan ID"
-        },
-        "amount": {
-          "type": "integer",
-          "description": "Amount"
-        }
-      }
     }
   },
   "host": "localhost:4000",
   "info": {
     "title": "Kane Iranai API",
-    "description": "HTTP API for Kane Iranai. Authenticated routes require an Authorization header: Bearer {token}.",
     "version": "0.1.0"
   }
 }
