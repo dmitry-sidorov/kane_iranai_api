@@ -11,12 +11,12 @@ defmodule KaneIranaiApiWeb.BudgetPlanController do
     render(conn, :index, budget_plans: budget_plans)
   end
 
-  def create(conn, _params) do
+  def create(conn, params) do
     user = conn.assigns.user
     budget_params = %{
-      start_date: Date.from_iso8601!(conn.params["start_date"]),
-      description: conn.params["description"],
-      period_in_days: conn.params["period_in_days"],
+      start_date: Date.from_iso8601!(params["start_date"]),
+      description: params["description"],
+      period_in_days: params["period_in_days"],
     }
     with {:ok, %BudgetPlan{} = budget_plan} <- BudgetPlans.create_budget_plan(user, budget_params) do
       conn
