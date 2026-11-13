@@ -1,4 +1,7 @@
 defmodule KaneIranaiApiWeb.Swagger.Auth do
+  @moduledoc """
+  Swagger definition for Auth endpoints.
+  """
   defmacro __using__(_opts) do
     quote do
       use PhoenixSwagger

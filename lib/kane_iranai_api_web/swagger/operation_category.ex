@@ -1,4 +1,7 @@
 defmodule KaneIranaiApiWeb.Swagger.OperationCategory do
+  @moduledoc """
+  Swagger definition for OperationCategory endpoints.
+  """
   defmacro __using__(_opts) do
     quote do
       use PhoenixSwagger

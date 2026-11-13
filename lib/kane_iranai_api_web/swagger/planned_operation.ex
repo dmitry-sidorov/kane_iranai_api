@@ -1,4 +1,7 @@
 defmodule KaneIranaiApiWeb.Swagger.PlannedOperation do
+  @moduledoc """
+  Swagger definition for PlannedOperation endpoints.
+  """
   defmacro __using__(_opts) do
     quote do
       use PhoenixSwagger

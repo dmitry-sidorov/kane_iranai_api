@@ -28,11 +28,11 @@ defmodule KaneIranaiApiWeb.PlannedOperationController do
       amount: params["amount"],
       status: params["status"],
       type: params["type"]
-    } |> dbg()
+    }
 
     budget_plan = BudgetPlans.get_budget_plan!(budget_plan_id)
     user_operation_category = OperationCategories.get_operation_category!(operation_category_id)
-    operation_category_belongs_to_user? = user_operation_category.users |> Enum.any?(fn op_user -> op_user.id == user.id end) |> dbg()
+    operation_category_belongs_to_user? = user_operation_category.users |> Enum.any?(fn op_user -> op_user.id == user.id end)
 
     if budget_plan.user.id == user.id && operation_category_belongs_to_user? do
       {:ok, %PlannedOperation{} = planned_operation} =

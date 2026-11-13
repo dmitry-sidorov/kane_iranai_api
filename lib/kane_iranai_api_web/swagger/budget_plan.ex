@@ -1,4 +1,7 @@
 defmodule KaneIranaiApiWeb.Swagger.BudgetPlan do
+  @moduledoc """
+  Swagger definition for BudgetPlan endpoints.
+  """
   defmacro __using__(_opts) do
     quote do
       use PhoenixSwagger
