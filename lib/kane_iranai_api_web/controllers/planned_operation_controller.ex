@@ -9,6 +9,15 @@ defmodule KaneIranaiApiWeb.PlannedOperationController do
 
   action_fallback KaneIranaiApiWeb.FallbackController
 
+  def index(conn, %{"budget_plan_id" => budget_plan_id}) do
+    budget_plan = BudgetPlans.get_budget_plan!(budget_plan_id)
+    user = conn.assigns.user
+    if budget_plan.user.id == user.id do
+      planned_operations = PlannedOperations.list_planned_operations_by_budget_plan(user)
+      render(conn, :index, planned_operations: planned_operations)
+    end
+  end
+
   def create(conn, params) do
     user = conn.assigns.user
     budget_plan_id = params["budget_plan_id"]

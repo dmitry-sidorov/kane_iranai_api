@@ -1,4 +1,5 @@
 {
+  "swagger": "2.0",
   "securityDefinitions": {
     "Bearer": {
       "description": "Guardian access token. Value format: Bearer {token}",
@@ -13,7 +14,6 @@
   "consumes": [
     "application/json"
   ],
-  "swagger": "2.0",
   "paths": {
     "/api/users/{id}": {
       "get": {
@@ -700,19 +700,6 @@
     }
   },
   "definitions": {
-    "PlannedOperationResponse": {
-      "type": "object",
-      "title": "Planned operation response",
-      "required": [
-        "planned_operation"
-      ],
-      "properties": {
-        "planned_operation": {
-          "description": "Planned operation",
-          "$ref": "#/definitions/PlannedOperation"
-        }
-      }
-    },
     "PlannedOperationCreateRequest": {
       "type": "object",
       "title": "Create planned operation request",
@@ -758,6 +745,19 @@
         }
       }
     },
+    "PlannedOperationResponse": {
+      "type": "object",
+      "title": "Planned operation response",
+      "required": [
+        "planned_operation"
+      ],
+      "properties": {
+        "planned_operation": {
+          "description": "Planned operation",
+          "$ref": "#/definitions/PlannedOperation"
+        }
+      }
+    },
     "OperationCategoryList": {
       "type": "object",
       "title": "Operation category list",
@@ -771,29 +771,6 @@
             "$ref": "#/definitions/OperationCategory"
           },
           "description": "Categories linked to the current user"
-        }
-      }
-    },
-    "OperationCategory": {
-      "type": "object",
-      "title": "Operation category",
-      "required": [
-        "title",
-        "id"
-      ],
-      "properties": {
-        "title": {
-          "type": "string",
-          "description": "Title"
-        },
-        "id": {
-          "type": "string",
-          "format": "uuid",
-          "description": "Operation category ID"
-        },
-        "description": {
-          "type": "string",
-          "description": "Description"
         }
       }
     },
@@ -816,32 +793,22 @@
         }
       }
     },
-    "BudgetPlanResponse": {
+    "BudgetPlanPayload": {
       "type": "object",
-      "title": "Budget plan response",
-      "required": [
-        "budget_plan"
-      ],
+      "title": "Budget plan payload",
       "properties": {
-        "budget_plan": {
-          "description": "Budget plan",
-          "$ref": "#/definitions/BudgetPlan"
-        }
-      }
-    },
-    "BudgetPlanList": {
-      "type": "object",
-      "title": "Budget plan list",
-      "required": [
-        "budget_plans"
-      ],
-      "properties": {
-        "budget_plans": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/BudgetPlan"
-          },
-          "description": "Budget plans"
+        "start_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Start date"
+        },
+        "period_in_days": {
+          "type": "integer",
+          "description": "Period length in days"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description"
         }
       }
     },
@@ -869,55 +836,103 @@
         }
       }
     },
-    "BudgetPlanPayload": {
+    "BudgetPlanList": {
       "type": "object",
-      "title": "Budget plan payload",
+      "title": "Budget plan list",
+      "required": [
+        "budget_plans"
+      ],
       "properties": {
-        "start_date": {
-          "type": "string",
-          "format": "date",
-          "description": "Start date"
-        },
-        "period_in_days": {
-          "type": "integer",
-          "description": "Period length in days"
-        },
-        "description": {
-          "type": "string",
-          "description": "Description"
+        "budget_plans": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BudgetPlan"
+          },
+          "description": "Budget plans"
         }
       }
     },
-    "BudgetPlan": {
+    "BudgetPlanResponse": {
       "type": "object",
-      "title": "Budget plan",
+      "title": "Budget plan response",
       "required": [
-        "description",
-        "period_in_days",
-        "start_date",
+        "budget_plan"
+      ],
+      "properties": {
+        "budget_plan": {
+          "description": "Budget plan",
+          "$ref": "#/definitions/BudgetPlan"
+        }
+      }
+    },
+    "LoginRequest": {
+      "type": "object",
+      "title": "Login request",
+      "required": [
+        "password",
+        "email"
+      ],
+      "properties": {
+        "password": {
+          "type": "string",
+          "description": "Password"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email"
+        }
+      }
+    },
+    "CurrentUser": {
+      "type": "object",
+      "title": "Current user",
+      "required": [
+        "username",
+        "email",
         "id"
       ],
       "properties": {
-        "start_date": {
+        "username": {
           "type": "string",
-          "format": "date",
-          "description": "Start date"
+          "description": "Username"
         },
-        "planned_operations": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/PlannedOperation"
-          },
-          "description": "Planned operations"
-        },
-        "period_in_days": {
-          "type": "integer",
-          "description": "Period length in days"
+        "last_name": {
+          "type": "string",
+          "description": "Last name"
         },
         "id": {
           "type": "string",
           "format": "uuid",
-          "description": "Budget plan ID"
+          "description": "User ID"
+        },
+        "first_name": {
+          "type": "string",
+          "description": "First name"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email"
+        }
+      }
+    },
+    "OperationCategory": {
+      "type": "object",
+      "title": "Operation category",
+      "required": [
+        "title",
+        "id"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Title"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Operation category ID"
         },
         "description": {
           "type": "string",
@@ -976,55 +991,40 @@
         }
       }
     },
-    "LoginRequest": {
+    "BudgetPlan": {
       "type": "object",
-      "title": "Login request",
+      "title": "Budget plan",
       "required": [
-        "password",
-        "email"
-      ],
-      "properties": {
-        "password": {
-          "type": "string",
-          "description": "Password"
-        },
-        "email": {
-          "type": "string",
-          "format": "email",
-          "description": "Email"
-        }
-      }
-    },
-    "CurrentUser": {
-      "type": "object",
-      "title": "Current user",
-      "required": [
-        "username",
-        "email",
+        "description",
+        "period_in_days",
+        "start_date",
         "id"
       ],
       "properties": {
-        "username": {
+        "start_date": {
           "type": "string",
-          "description": "Username"
+          "format": "date",
+          "description": "Start date"
         },
-        "last_name": {
-          "type": "string",
-          "description": "Last name"
+        "planned_operations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PlannedOperation"
+          },
+          "description": "Planned operations"
+        },
+        "period_in_days": {
+          "type": "integer",
+          "description": "Period length in days"
         },
         "id": {
           "type": "string",
           "format": "uuid",
-          "description": "User ID"
+          "description": "Budget plan ID"
         },
-        "first_name": {
+        "description": {
           "type": "string",
-          "description": "First name"
-        },
-        "email": {
-          "type": "string",
-          "format": "email",
-          "description": "Email"
+          "description": "Description"
         }
       }
     },
@@ -1104,6 +1104,33 @@
         }
       }
     },
+    "UserDeleteRequest": {
+      "type": "object",
+      "title": "Delete user request",
+      "required": [
+        "user"
+      ],
+      "properties": {
+        "user": {
+          "description": "User to delete",
+          "$ref": "#/definitions/UserDeleteParams"
+        }
+      }
+    },
+    "UserDeleteParams": {
+      "type": "object",
+      "title": "User delete params",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "User ID"
+        }
+      }
+    },
     "UserUpdateRequest": {
       "type": "object",
       "title": "Update user request",
@@ -1119,59 +1146,6 @@
         "current_password": {
           "type": "string",
           "description": "Current password"
-        }
-      }
-    },
-    "UserResponse": {
-      "type": "object",
-      "title": "User response",
-      "required": [
-        "data"
-      ],
-      "properties": {
-        "data": {
-          "description": "User",
-          "$ref": "#/definitions/User"
-        }
-      }
-    },
-    "UserDeleteRequest": {
-      "type": "object",
-      "title": "Delete user request",
-      "required": [
-        "user"
-      ],
-      "properties": {
-        "user": {
-          "description": "User to delete",
-          "$ref": "#/definitions/UserDeleteParams"
-        }
-      }
-    },
-    "UserCreateRequest": {
-      "type": "object",
-      "title": "Create user request",
-      "required": [
-        "user"
-      ],
-      "properties": {
-        "user": {
-          "description": "User attributes",
-          "$ref": "#/definitions/UserParams"
-        }
-      }
-    },
-    "UserDeleteParams": {
-      "type": "object",
-      "title": "User delete params",
-      "required": [
-        "id"
-      ],
-      "properties": {
-        "id": {
-          "type": "string",
-          "format": "uuid",
-          "description": "User ID"
         }
       }
     },
@@ -1199,6 +1173,19 @@
           "type": "string",
           "format": "email",
           "description": "Email"
+        }
+      }
+    },
+    "UserCreateRequest": {
+      "type": "object",
+      "title": "Create user request",
+      "required": [
+        "user"
+      ],
+      "properties": {
+        "user": {
+          "description": "User attributes",
+          "$ref": "#/definitions/UserParams"
         }
       }
     },
@@ -1231,6 +1218,19 @@
           "type": "string",
           "format": "email",
           "description": "Email"
+        }
+      }
+    },
+    "UserResponse": {
+      "type": "object",
+      "title": "User response",
+      "required": [
+        "data"
+      ],
+      "properties": {
+        "data": {
+          "description": "User",
+          "$ref": "#/definitions/User"
         }
       }
     },

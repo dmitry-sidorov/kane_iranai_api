@@ -2,6 +2,13 @@ defmodule KaneIranaiApiWeb.PlannedOperationJSON do
   alias KaneIranaiApi.PlannedOperations.PlannedOperation
 
   @doc """
+  Renders a list of planned operations.
+  """
+  def index(%{planned_operations: planned_operations}) do
+    %{data: for(planned_operation <- planned_operations, do: data(planned_operation))}
+  end
+
+  @doc """
   Renders a planned operation.
   """
   def show(%{planned_operation: planned_operation}) do

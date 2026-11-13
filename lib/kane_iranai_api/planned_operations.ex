@@ -24,6 +24,15 @@ defmodule KaneIranaiApi.PlannedOperations do
   end
 
   @doc """
+  Returns the list of planned_operations for given budget plan.
+  """
+  def list_planned_operations_by_budget_plan(%BudgetPlan{} = budget_plan) do
+    PlannedOperation
+    |> where([operation], operation.budget_plan_id == ^budget_plan.id)
+    |> Repo.all()
+  end
+
+  @doc """
   Gets a single planned_operation.
 
   Raises `Ecto.NoResultsError` if the Planned operation does not exist.
