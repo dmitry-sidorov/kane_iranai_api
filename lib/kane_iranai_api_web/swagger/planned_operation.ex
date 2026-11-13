@@ -83,7 +83,7 @@ defmodule KaneIranaiApiWeb.Swagger.PlannedOperation do
         tag("Planned Operations")
         produces("application/json")
         security([%{Bearer: []}])
-        parameter(:budget_plan_id , :path, :string, "Budget plan ID", required: true, format: :uuid)
+        parameter(:budget_plan_id, :path, :string, "Budget plan ID", required: true, format: :uuid)
         response(200, "Planned operations", :PlannedOperationList)
         response(401, "Unauthorized", :AuthError)
         response(404, "Budget plan not found", :NotFoundError)

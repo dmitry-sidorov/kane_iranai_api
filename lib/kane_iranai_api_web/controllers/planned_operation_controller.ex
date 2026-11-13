@@ -9,7 +9,7 @@ defmodule KaneIranaiApiWeb.PlannedOperationController do
 
   action_fallback KaneIranaiApiWeb.FallbackController
 
-  def index(conn, %{"budget_plan_id " => budget_plan_id}) do
+  def index(conn, %{"budget_plan_id" => budget_plan_id}) do
     budget_plan = BudgetPlans.get_budget_plan!(budget_plan_id) |> dbg()
     user = conn.assigns.user |> dbg()
 
