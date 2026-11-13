@@ -48,7 +48,11 @@ defmodule KaneIranaiApi.OperationCategories do
       ** (Ecto.NoResultsError)
 
   """
-  def get_operation_category!(id), do: Repo.get!(OperationCategory, id)
+  def get_operation_category!(id) do
+    OperationCategory
+    |> Repo.get!(id)
+    |> Repo.preload([:users])
+  end
 
   @doc """
   Creates a operation_category.

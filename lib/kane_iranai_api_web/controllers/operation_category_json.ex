@@ -12,7 +12,8 @@ defmodule KaneIranaiApiWeb.OperationCategoryJSON do
     %{
       id: user_operation_category.operation_category.id,
       title: user_operation_category.operation_category.title,
-      description: user_operation_category.operation_category.description,
+      purpose: user_operation_category.operation_category.purpose,
+      type: user_operation_category.operation_category.type,
     }
   end
 end
