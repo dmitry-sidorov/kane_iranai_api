@@ -59,7 +59,7 @@ defmodule KaneIranaiApiWeb.Router do
 
     get "/operation_categories", OperationCategoryController, :index
 
-    get "/planned_operations", PlannedOperationController, :index
+    get "/planned_operations/:budget_plan_id", PlannedOperationController, :index
     post "/planned_operations", PlannedOperationController, :create
   end
 

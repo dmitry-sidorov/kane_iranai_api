@@ -27,6 +27,16 @@ defmodule KaneIranaiApiWeb.Swagger.PlannedOperation do
                 )
               end
             end,
+          PlannedOperationList:
+            swagger_schema do
+              title("Planned operation list")
+
+              properties do
+                planned_operations(PhoenixSwagger.Schema.array(:PlannedOperation), "Planned operations",
+                  required: true
+                )
+              end
+            end,
           PlannedOperationResponse:
             swagger_schema do
               title("Planned operation response")
@@ -65,6 +75,18 @@ defmodule KaneIranaiApiWeb.Swagger.PlannedOperation do
               end
             end
         }
+      end
+
+      swagger_path :index do
+        summary("List planned operations")
+        description("Lists planned operations belonging to given budget plan and the authenticated user.")
+        tag("Planned Operations")
+        produces("application/json")
+        security([%{Bearer: []}])
+        parameter(:budget_plan_id , :path, :string, "Budget plan ID", required: true, format: :uuid)
+        response(200, "Planned operations", :PlannedOperationList)
+        response(401, "Unauthorized", :AuthError)
+        response(404, "Budget plan not found", :NotFoundError)
       end
 
       swagger_path :create do

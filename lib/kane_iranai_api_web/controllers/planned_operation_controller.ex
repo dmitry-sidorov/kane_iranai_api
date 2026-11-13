@@ -9,11 +9,12 @@ defmodule KaneIranaiApiWeb.PlannedOperationController do
 
   action_fallback KaneIranaiApiWeb.FallbackController
 
-  def index(conn, %{"budget_plan_id" => budget_plan_id}) do
-    budget_plan = BudgetPlans.get_budget_plan!(budget_plan_id)
-    user = conn.assigns.user
+  def index(conn, %{"budget_plan_id " => budget_plan_id}) do
+    budget_plan = BudgetPlans.get_budget_plan!(budget_plan_id) |> dbg()
+    user = conn.assigns.user |> dbg()
+
     if budget_plan.user.id == user.id do
-      planned_operations = PlannedOperations.list_planned_operations_by_budget_plan(user)
+      planned_operations = PlannedOperations.list_planned_operations_by_budget_plan(budget_plan)
       render(conn, :index, planned_operations: planned_operations)
     end
   end

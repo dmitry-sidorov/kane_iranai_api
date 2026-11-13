@@ -5,7 +5,7 @@ defmodule KaneIranaiApiWeb.PlannedOperationJSON do
   Renders a list of planned operations.
   """
   def index(%{planned_operations: planned_operations}) do
-    %{data: for(planned_operation <- planned_operations, do: data(planned_operation))}
+    %{planned_operations: for(planned_operation <- planned_operations, do: data(planned_operation))}
   end
 
   @doc """
