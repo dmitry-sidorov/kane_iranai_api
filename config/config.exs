@@ -51,8 +51,7 @@ config :guardian, Guardian.DB,
 config :kane_iranai_api, :phoenix_swagger,
   swagger_files: %{
     "priv/static/swagger.json" => [
-      router: KaneIranaiApiWeb.Router,     # phoenix routes will be converted to swagger paths
-      endpoint: KaneIranaiApiWeb.Endpoint  # (optional) endpoint config used to set host, port and https schemes.
+      router: KaneIranaiApiWeb.Router
     ]
   }
 

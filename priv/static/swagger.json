@@ -1,4 +1,18 @@
 {
+  "securityDefinitions": {
+    "Bearer": {
+      "description": "Guardian access token. Value format: Bearer {token}",
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
   "swagger": "2.0",
   "paths": {
     "/api/users/{id}": {
@@ -686,368 +700,16 @@
     }
   },
   "definitions": {
-    "BudgetPlanPayload": {
+    "PlannedOperationResponse": {
       "type": "object",
-      "title": "Budget plan payload",
-      "properties": {
-        "start_date": {
-          "type": "string",
-          "format": "date",
-          "description": "Start date"
-        },
-        "period_in_days": {
-          "type": "integer",
-          "description": "Period length in days"
-        },
-        "description": {
-          "type": "string",
-          "description": "Description"
-        }
-      }
-    },
-    "OperationCategoryList": {
-      "type": "object",
-      "title": "Operation category list",
+      "title": "Planned operation response",
       "required": [
-        "operation_categories"
+        "planned_operation"
       ],
       "properties": {
-        "operation_categories": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/OperationCategory"
-          },
-          "description": "Categories linked to the current user"
-        }
-      }
-    },
-    "LoginRequest": {
-      "type": "object",
-      "title": "Login request",
-      "required": [
-        "password",
-        "email"
-      ],
-      "properties": {
-        "password": {
-          "type": "string",
-          "description": "Password"
-        },
-        "email": {
-          "type": "string",
-          "format": "email",
-          "description": "Email"
-        }
-      }
-    },
-    "CurrentUser": {
-      "type": "object",
-      "title": "Current user",
-      "required": [
-        "username",
-        "email",
-        "id"
-      ],
-      "properties": {
-        "username": {
-          "type": "string",
-          "description": "Username"
-        },
-        "last_name": {
-          "type": "string",
-          "description": "Last name"
-        },
-        "id": {
-          "type": "string",
-          "format": "uuid",
-          "description": "User ID"
-        },
-        "first_name": {
-          "type": "string",
-          "description": "First name"
-        },
-        "email": {
-          "type": "string",
-          "format": "email",
-          "description": "Email"
-        }
-      }
-    },
-    "BudgetPlanCreateRequest": {
-      "type": "object",
-      "title": "Create budget plan request",
-      "required": [
-        "description",
-        "period_in_days",
-        "start_date"
-      ],
-      "properties": {
-        "start_date": {
-          "type": "string",
-          "format": "date",
-          "description": "Start date"
-        },
-        "period_in_days": {
-          "type": "integer",
-          "description": "Period length in days"
-        },
-        "description": {
-          "type": "string",
-          "description": "Description"
-        }
-      }
-    },
-    "BudgetPlanList": {
-      "type": "object",
-      "title": "Budget plan list",
-      "required": [
-        "budget_plans"
-      ],
-      "properties": {
-        "budget_plans": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/BudgetPlan"
-          },
-          "description": "Budget plans"
-        }
-      }
-    },
-    "BudgetPlanResponse": {
-      "type": "object",
-      "title": "Budget plan response",
-      "required": [
-        "budget_plan"
-      ],
-      "properties": {
-        "budget_plan": {
-          "description": "Budget plan",
-          "$ref": "#/definitions/BudgetPlan"
-        }
-      }
-    },
-    "BudgetPlanUpdateRequest": {
-      "type": "object",
-      "title": "Update budget plan request",
-      "required": [
-        "payload",
-        "id"
-      ],
-      "properties": {
-        "payload": {
-          "description": "Fields to update",
-          "$ref": "#/definitions/BudgetPlanPayload"
-        },
-        "id": {
-          "type": "string",
-          "format": "uuid",
-          "description": "Budget plan ID"
-        }
-      }
-    },
-    "ChangesetError": {
-      "type": "object",
-      "title": "Changeset error",
-      "required": [
-        "errors"
-      ],
-      "properties": {
-        "errors": {
-          "type": "object",
-          "description": "Field errors"
-        }
-      }
-    },
-    "ErrorMessage": {
-      "type": "object",
-      "title": "Error message",
-      "required": [
-        "errors"
-      ],
-      "properties": {
-        "errors": {
-          "type": "string",
-          "description": "Error message"
-        }
-      }
-    },
-    "AuthToken": {
-      "type": "object",
-      "title": "Auth token",
-      "required": [
-        "email",
-        "id"
-      ],
-      "properties": {
-        "token": {
-          "type": "string",
-          "description": "Access token. Null after logout."
-        },
-        "id": {
-          "type": "string",
-          "format": "uuid",
-          "description": "User ID"
-        },
-        "email": {
-          "type": "string",
-          "format": "email",
-          "description": "Email"
-        }
-      }
-    },
-    "UserDeleteRequest": {
-      "type": "object",
-      "title": "Delete user request",
-      "required": [
-        "user"
-      ],
-      "properties": {
-        "user": {
-          "description": "User to delete",
-          "$ref": "#/definitions/UserDeleteParams"
-        }
-      }
-    },
-    "UserDeleteParams": {
-      "type": "object",
-      "title": "User delete params",
-      "required": [
-        "id"
-      ],
-      "properties": {
-        "id": {
-          "type": "string",
-          "format": "uuid",
-          "description": "User ID"
-        }
-      }
-    },
-    "UserUpdateRequest": {
-      "type": "object",
-      "title": "Update user request",
-      "required": [
-        "user",
-        "current_password"
-      ],
-      "properties": {
-        "user": {
-          "description": "Fields to update",
-          "$ref": "#/definitions/UserUpdateParams"
-        },
-        "current_password": {
-          "type": "string",
-          "description": "Current password"
-        }
-      }
-    },
-    "UserUpdateParams": {
-      "type": "object",
-      "title": "User update params",
-      "properties": {
-        "username": {
-          "type": "string",
-          "description": "Username"
-        },
-        "last_name": {
-          "type": "string",
-          "description": "Last name"
-        },
-        "hash_password": {
-          "type": "string",
-          "description": "New plain password"
-        },
-        "first_name": {
-          "type": "string",
-          "description": "First name"
-        },
-        "email": {
-          "type": "string",
-          "format": "email",
-          "description": "Email"
-        }
-      }
-    },
-    "UserCreateRequest": {
-      "type": "object",
-      "title": "Create user request",
-      "required": [
-        "user"
-      ],
-      "properties": {
-        "user": {
-          "description": "User attributes",
-          "$ref": "#/definitions/UserParams"
-        }
-      }
-    },
-    "UserParams": {
-      "type": "object",
-      "title": "User params",
-      "required": [
-        "username",
-        "hash_password",
-        "email"
-      ],
-      "properties": {
-        "username": {
-          "type": "string",
-          "description": "Username"
-        },
-        "last_name": {
-          "type": "string",
-          "description": "Last name"
-        },
-        "hash_password": {
-          "type": "string",
-          "description": "Plain password. It is hashed before storage."
-        },
-        "first_name": {
-          "type": "string",
-          "description": "First name"
-        },
-        "email": {
-          "type": "string",
-          "format": "email",
-          "description": "Email"
-        }
-      }
-    },
-    "UserResponse": {
-      "type": "object",
-      "title": "User response",
-      "required": [
-        "data"
-      ],
-      "properties": {
-        "data": {
-          "description": "User",
-          "$ref": "#/definitions/User"
-        }
-      }
-    },
-    "NotFoundError": {
-      "type": "object",
-      "title": "Not found",
-      "required": [
-        "ecto_error"
-      ],
-      "properties": {
-        "ecto_error": {
-          "type": "string",
-          "description": "Entity not found"
-        }
-      }
-    },
-    "AuthError": {
-      "type": "object",
-      "title": "Authentication error",
-      "required": [
-        "error"
-      ],
-      "properties": {
-        "error": {
-          "type": "string",
-          "description": "Guardian error type"
+        "planned_operation": {
+          "description": "Planned operation",
+          "$ref": "#/definitions/PlannedOperation"
         }
       }
     },
@@ -1096,16 +758,19 @@
         }
       }
     },
-    "PlannedOperationResponse": {
+    "OperationCategoryList": {
       "type": "object",
-      "title": "Planned operation response",
+      "title": "Operation category list",
       "required": [
-        "planned_operation"
+        "operation_categories"
       ],
       "properties": {
-        "planned_operation": {
-          "description": "Planned operation",
-          "$ref": "#/definitions/PlannedOperation"
+        "operation_categories": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OperationCategory"
+          },
+          "description": "Categories linked to the current user"
         }
       }
     },
@@ -1125,6 +790,134 @@
           "type": "string",
           "format": "uuid",
           "description": "Operation category ID"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description"
+        }
+      }
+    },
+    "BudgetPlanUpdateRequest": {
+      "type": "object",
+      "title": "Update budget plan request",
+      "required": [
+        "payload",
+        "id"
+      ],
+      "properties": {
+        "payload": {
+          "description": "Fields to update",
+          "$ref": "#/definitions/BudgetPlanPayload"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Budget plan ID"
+        }
+      }
+    },
+    "BudgetPlanResponse": {
+      "type": "object",
+      "title": "Budget plan response",
+      "required": [
+        "budget_plan"
+      ],
+      "properties": {
+        "budget_plan": {
+          "description": "Budget plan",
+          "$ref": "#/definitions/BudgetPlan"
+        }
+      }
+    },
+    "BudgetPlanList": {
+      "type": "object",
+      "title": "Budget plan list",
+      "required": [
+        "budget_plans"
+      ],
+      "properties": {
+        "budget_plans": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BudgetPlan"
+          },
+          "description": "Budget plans"
+        }
+      }
+    },
+    "BudgetPlanCreateRequest": {
+      "type": "object",
+      "title": "Create budget plan request",
+      "required": [
+        "description",
+        "period_in_days",
+        "start_date"
+      ],
+      "properties": {
+        "start_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Start date"
+        },
+        "period_in_days": {
+          "type": "integer",
+          "description": "Period length in days"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description"
+        }
+      }
+    },
+    "BudgetPlanPayload": {
+      "type": "object",
+      "title": "Budget plan payload",
+      "properties": {
+        "start_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Start date"
+        },
+        "period_in_days": {
+          "type": "integer",
+          "description": "Period length in days"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description"
+        }
+      }
+    },
+    "BudgetPlan": {
+      "type": "object",
+      "title": "Budget plan",
+      "required": [
+        "description",
+        "period_in_days",
+        "start_date",
+        "id"
+      ],
+      "properties": {
+        "start_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Start date"
+        },
+        "planned_operations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PlannedOperation"
+          },
+          "description": "Planned operations"
+        },
+        "period_in_days": {
+          "type": "integer",
+          "description": "Period length in days"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Budget plan ID"
         },
         "description": {
           "type": "string",
@@ -1183,6 +976,264 @@
         }
       }
     },
+    "LoginRequest": {
+      "type": "object",
+      "title": "Login request",
+      "required": [
+        "password",
+        "email"
+      ],
+      "properties": {
+        "password": {
+          "type": "string",
+          "description": "Password"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email"
+        }
+      }
+    },
+    "CurrentUser": {
+      "type": "object",
+      "title": "Current user",
+      "required": [
+        "username",
+        "email",
+        "id"
+      ],
+      "properties": {
+        "username": {
+          "type": "string",
+          "description": "Username"
+        },
+        "last_name": {
+          "type": "string",
+          "description": "Last name"
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "User ID"
+        },
+        "first_name": {
+          "type": "string",
+          "description": "First name"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email"
+        }
+      }
+    },
+    "NotFoundError": {
+      "type": "object",
+      "title": "Not found",
+      "required": [
+        "ecto_error"
+      ],
+      "properties": {
+        "ecto_error": {
+          "type": "string",
+          "description": "Entity not found"
+        }
+      }
+    },
+    "AuthError": {
+      "type": "object",
+      "title": "Authentication error",
+      "required": [
+        "error"
+      ],
+      "properties": {
+        "error": {
+          "type": "string",
+          "description": "Guardian error type"
+        }
+      }
+    },
+    "ChangesetError": {
+      "type": "object",
+      "title": "Changeset error",
+      "required": [
+        "errors"
+      ],
+      "properties": {
+        "errors": {
+          "type": "object",
+          "description": "Field errors"
+        }
+      }
+    },
+    "ErrorMessage": {
+      "type": "object",
+      "title": "Error message",
+      "required": [
+        "errors"
+      ],
+      "properties": {
+        "errors": {
+          "type": "string",
+          "description": "Error message"
+        }
+      }
+    },
+    "AuthToken": {
+      "type": "object",
+      "title": "Auth token",
+      "required": [
+        "email",
+        "id"
+      ],
+      "properties": {
+        "token": {
+          "type": "string",
+          "description": "Access token. Null after logout."
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "User ID"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email"
+        }
+      }
+    },
+    "UserUpdateRequest": {
+      "type": "object",
+      "title": "Update user request",
+      "required": [
+        "user",
+        "current_password"
+      ],
+      "properties": {
+        "user": {
+          "description": "Fields to update",
+          "$ref": "#/definitions/UserUpdateParams"
+        },
+        "current_password": {
+          "type": "string",
+          "description": "Current password"
+        }
+      }
+    },
+    "UserResponse": {
+      "type": "object",
+      "title": "User response",
+      "required": [
+        "data"
+      ],
+      "properties": {
+        "data": {
+          "description": "User",
+          "$ref": "#/definitions/User"
+        }
+      }
+    },
+    "UserDeleteRequest": {
+      "type": "object",
+      "title": "Delete user request",
+      "required": [
+        "user"
+      ],
+      "properties": {
+        "user": {
+          "description": "User to delete",
+          "$ref": "#/definitions/UserDeleteParams"
+        }
+      }
+    },
+    "UserCreateRequest": {
+      "type": "object",
+      "title": "Create user request",
+      "required": [
+        "user"
+      ],
+      "properties": {
+        "user": {
+          "description": "User attributes",
+          "$ref": "#/definitions/UserParams"
+        }
+      }
+    },
+    "UserDeleteParams": {
+      "type": "object",
+      "title": "User delete params",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "User ID"
+        }
+      }
+    },
+    "UserUpdateParams": {
+      "type": "object",
+      "title": "User update params",
+      "properties": {
+        "username": {
+          "type": "string",
+          "description": "Username"
+        },
+        "last_name": {
+          "type": "string",
+          "description": "Last name"
+        },
+        "hash_password": {
+          "type": "string",
+          "description": "New plain password"
+        },
+        "first_name": {
+          "type": "string",
+          "description": "First name"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email"
+        }
+      }
+    },
+    "UserParams": {
+      "type": "object",
+      "title": "User params",
+      "required": [
+        "username",
+        "hash_password",
+        "email"
+      ],
+      "properties": {
+        "username": {
+          "type": "string",
+          "description": "Username"
+        },
+        "last_name": {
+          "type": "string",
+          "description": "Last name"
+        },
+        "hash_password": {
+          "type": "string",
+          "description": "Plain password. It is hashed before storage."
+        },
+        "first_name": {
+          "type": "string",
+          "description": "First name"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email"
+        }
+      }
+    },
     "User": {
       "type": "object",
       "title": "User",
@@ -1219,48 +1270,11 @@
           "description": "Email"
         }
       }
-    },
-    "BudgetPlan": {
-      "type": "object",
-      "title": "Budget plan",
-      "required": [
-        "description",
-        "period_in_days",
-        "start_date",
-        "id"
-      ],
-      "properties": {
-        "start_date": {
-          "type": "string",
-          "format": "date",
-          "description": "Start date"
-        },
-        "planned_operations": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/PlannedOperation"
-          },
-          "description": "Planned operations"
-        },
-        "period_in_days": {
-          "type": "integer",
-          "description": "Period length in days"
-        },
-        "id": {
-          "type": "string",
-          "format": "uuid",
-          "description": "Budget plan ID"
-        },
-        "description": {
-          "type": "string",
-          "description": "Description"
-        }
-      }
     }
   },
-  "host": "localhost:4000",
   "info": {
     "title": "Kane Iranai API",
+    "description": "HTTP API for Kane Iranai. Authenticated routes require an Authorization header: Bearer {token}.",
     "version": "0.1.0"
   }
 }
